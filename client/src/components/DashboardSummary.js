@@ -1,0 +1,76 @@
+import React from 'react';
+
+import { Row, Col, Card, CardBlock } from 'reactstrap';
+
+export default ({ data }) => {
+  return (
+    <Row>
+      <Col xs="12" sm="6" lg="3">
+        <Card className="text-white bg-primary">
+          <CardBlock
+            className="card-body pb-0"
+            style={{
+              height: '100px',
+            }}
+          >
+            <span className="fa fa-graduation-cap fa-4x float-right" />
+            <h4 className="mb-0">
+              {data.searching ? <i className="fa fa-spinner fa-spin" /> : data.totalStudents}{' '}
+            </h4>{' '}
+            <p> Total Students </p>
+          </CardBlock>
+        </Card>
+      </Col>
+      <Col xs="12" sm="6" lg="3">
+        <Card className="text-white bg-info">
+          <CardBlock
+            className="card-body pb-0"
+            style={{
+              height: '100px',
+            }}
+          >
+            <span className="fa fa-pencil-square fa-4x float-right" />
+            <h4 className="mb-0">
+              <h4 className="mb-0">
+                {data.searching ? <i className="fa fa-spinner fa-spin" /> : data.pendingReg}{' '}
+              </h4>
+            </h4>
+            <p> Pending Registration </p>
+          </CardBlock>
+        </Card>
+      </Col>
+      <Col xs="12" sm="6" lg="3">
+        <Card className="text-white bg-warning">
+          <CardBlock
+            className="card-body pb-0"
+            style={{
+              height: '100px',
+            }}
+          >
+            <span className="fa fa-user-circle fa-4x float-right" />
+            <h4 className="mb-0">
+              {data.searching ? <i className="fa fa-spinner fa-spin" /> : data.totalTeachers}{' '}
+            </h4>
+            <p> Total Teachers </p>
+          </CardBlock>
+        </Card>
+      </Col>
+      <Col xs="12" sm="6" lg="3">
+        <Card className="text-white bg-danger">
+          <CardBlock
+            className="card-body pb-0"
+            style={{
+              height: '100px',
+            }}
+          >
+            <span className="fa fa-envelope fa-4x float-right" />
+            <h4 className="mb-0">
+              {data.searching ? <i className="fa fa-spinner fa-spin" /> : 0}{' '}
+            </h4>
+            <p> Unread Messages </p>
+          </CardBlock>
+        </Card>
+      </Col>
+    </Row>
+  );
+};
