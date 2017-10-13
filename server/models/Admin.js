@@ -36,7 +36,7 @@ const adminSchema = new Schema({
     type: String,
     lowercase: true,
     trim: true,
-    default: 'student',
+    default: 'admin',
   },
 });
 

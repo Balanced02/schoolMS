@@ -9,7 +9,7 @@ import routes from './routes';
 const app = express();
 app.disable('x-powered-by');
 
-let db = mongoose.connect('mongodb://localhost/schoolMSdev', err => {
+mongoose.connect('mongodb://schoolms:schoolms@ds051630.mlab.com:51630/schoolms', err => {
   if (err) {
     console.error(err);
     process.exit(1);
