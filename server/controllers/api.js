@@ -1,3 +1,4 @@
+import regeneratorRuntime from 'regenerator-runtime';
 import Notice from '../models/Notice';
 import Student from '../models/Student';
 import Teacher from '../models/Teacher';

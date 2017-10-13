@@ -46,9 +46,6 @@ _mongoose2.default.connect('mongodb://schoolms:schoolms@ds051630.mlab.com:51630/
   console.log('Database Connected Successfully!');
 });
 
-//View Engine Setup
-app.set('view engine', 'html');
-
 app.use((0, _morgan2.default)('dev', {
   skip: function skip() {
     return app.get('env') === 'test';
