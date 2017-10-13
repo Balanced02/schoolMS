@@ -21,7 +21,6 @@ import {
 } from './controllers/api';
 
 const router = Router();
-const admin = Router();
 const api = Router();
 
 const MongoStore = connectMongo(session);
@@ -51,7 +50,7 @@ passport.deserializeUser(Admin.deserializeUser());
 
 router.use('/api', api);
 
-admin.use(express.static(path.join(__dirname, '../client/build')));
+router.use(express.static(path.join(__dirname, '../client/build')));
 
 // Auth
 api.get('/me', AuthMe);
