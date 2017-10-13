@@ -49,10 +49,9 @@ passport.use(new LocalStrategy(Admin.authenticate()));
 passport.serializeUser(Admin.serializeUser());
 passport.deserializeUser(Admin.deserializeUser());
 
-router.get('/', admin);
-admin.use(express.static(path.join(__dirname, '../client/build')));
-
 router.use('/api', api);
+
+admin.use(express.static(path.join(__dirname, '../client/build')));
 
 // Auth
 api.get('/me', AuthMe);
