@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { Row, Col, Card } from 'reactstrap';
+import { connect } from 'react-redux';
+
 import NoticeBoard from '../../components/NoticeBoard';
 import Calendar from '../../components/Calendar';
 import DashboardSummary from '../../components/DashboardSummary';
 import NoticeBoardModal from '../../components/NoticeBoardModal';
 import { callApi } from '../../utils';
+import { showError, showInfo } from '../../actions/feedback';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -70,9 +73,18 @@ class Dashboard extends Component {
             searching: false,
             notices: summary.noticeBoard,
           },
+          selectedDays: summary.noticeBoard.map(notice => notice.date),
         });
       })
       .catch(err => console.log(err));
+  }
+
+  createNotice() {
+    callApi('/createNotice', this.state.notice, 'POST')
+      .then(data => this.props.dispatch(showInfo('New Notice Added')))
+      .catch(err => this.props.dispatch(showError('Error Creating Notice')));
+    this.toggle();
+    this.getSummary();
   }
 
   componentWillMount() {
@@ -86,11 +98,15 @@ class Dashboard extends Component {
         <DashboardSummary data={summary} />
         <Card>
           <Row>
-            <Col sm={12} md={5} style={{ float: 'right' }}>
-              <Calendar select={day => this.handleDayClick(day)} selectedDays={selectedDays} />
-            </Col>
-            <Col sm={12} md={7}>
-              <NoticeBoard data={notices} />
+            <div>
+              <Col>
+                <Calendar select={day => this.handleDayClick(day)} selectedDays={selectedDays} />
+              </Col>
+            </div>
+            <Col>
+              <div style={{ alignSelf: 'stretch', flex: 1 }}>
+                <NoticeBoard data={notices} />
+              </div>
             </Col>
           </Row>
           <NoticeBoardModal
@@ -98,6 +114,7 @@ class Dashboard extends Component {
             toggle={() => this.toggle()}
             data={notice}
             edit={e => this.editNotice(e)}
+            submit={() => this.createNotice()}
           />
         </Card>
       </div>
@@ -105,4 +122,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default connect()(Dashboard);

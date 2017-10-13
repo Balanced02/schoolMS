@@ -1,27 +1,34 @@
 import mongoose from 'mongoose';
 import uuid from 'uuid/v4';
 
-let noticeSchema = new mongoose.Schema({
+let courseSchema = new mongoose.Schema({
   id: {
     type: String,
     default: uuid,
     unique: true,
   },
-  date: {
-    type: Date,
-    required: true,
-    default: Date.now,
-  },
-  body: {
+  courseName: {
     type: String,
     required: true,
     trim: true,
   },
+  courseCode: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  minAttendance: {
+    type: String,
+    trim: true,
+  },
+  description: {
+    type: String,
+    trim: true,
+  },
   created: {
     type: Date,
-    required: true,
     default: Date.now,
   },
 });
 
-export default mongoose.model('Notice', noticeSchema);
+export default mongoose.model('Course', courseSchema);

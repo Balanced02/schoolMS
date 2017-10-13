@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 import { CardHeader, Table } from 'reactstrap';
 
@@ -16,12 +17,12 @@ export default ({ data }) => {
         <tbody>
           {data.searching ? (
             <i className="fa fa-spinner fa-spin fa-2x" />
-          ) : !data.notice ? (
+          ) : !data.searching && !data.notices.length ? (
             <h4 style={{ textAlign: 'center', marginTop: 20 }}>No Notices found</h4>
           ) : (
             data.notices.map((notice, i) => (
               <tr key={i}>
-                <td> {notice.date} </td>
+                <td> {moment(notice.date).format('Do MMM')} </td>
                 <td> {notice.body} </td>
               </tr>
             ))

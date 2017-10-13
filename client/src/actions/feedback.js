@@ -2,6 +2,8 @@ export const SHOW_ERROR = 'SHOW_ERROR';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const SHOW_INFO = 'SHOW_INFO';
 export const CLEAR_INFO = 'CLEAR_INFO';
+export const SHOW_LOADING = 'SHOW_LOADING';
+export const STOP_LOADING = 'STOP_LOADING';
 
 export const showError = error => {
   let id = Date.now();
@@ -13,7 +15,7 @@ export const showError = error => {
     });
     setTimeout(() => {
       dispatch(clearError(id));
-    }, 5000);
+    }, 10000);
   };
 };
 
@@ -34,7 +36,7 @@ export const showInfo = info => {
     });
     setTimeout(() => {
       dispatch(clearInfo(id));
-    }, 5000);
+    }, 10000);
   };
 };
 
@@ -42,5 +44,17 @@ export const clearInfo = id => {
   return {
     type: CLEAR_INFO,
     id,
+  };
+};
+
+export const startLoading = () => {
+  return {
+    type: SHOW_LOADING,
+  };
+};
+
+export const stopLoading = () => {
+  return {
+    type: STOP_LOADING,
   };
 };

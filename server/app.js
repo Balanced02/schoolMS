@@ -9,7 +9,7 @@ import routes from './routes';
 const app = express();
 app.disable('x-powered-by');
 
-let db = mongoose.connect(process.env.DB_URI || 'mongodb://localhost/schoolMSdev', err => {
+let db = mongoose.connect('mongodb://localhost/schoolMSdev', err => {
   if (err) {
     console.error(err);
     process.exit(1);

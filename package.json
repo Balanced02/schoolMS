@@ -16,8 +16,7 @@
   "scripts": {
     "prestart": "npm run -s build",
     "start": "concurrently \"node dist/index.js\" \"cd client && npm run build\" ",
-    "dev":
-      "concurrently \"nodemon server/index.js --exec babel-node\" \"cd client && npm run dev\"",
+    "dev": "concurrently \"nodemon server/index.js --exec babel-node\" \"cd client && npm run dev\"",
     "clean": "rimraf dist",
     "build": "npm run clean && mkdir -p dist && babel server -s -D -d dist",
     "test": "jest --watch",
@@ -61,6 +60,9 @@
     "morgan": "^1.7.0",
     "node-fetch": "^1.7.2",
     "nodemon": "^1.11.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.2.1",
     "react": "^15.6.1",
     "react-day-picker": "^6.1.1",
     "react-redux": "^5.0.6",
@@ -92,7 +94,10 @@
     ]
   },
   "eslintConfig": {
-    "plugins": ["import", "jest"],
+    "plugins": [
+      "import",
+      "jest"
+    ],
     "parserOptions": {
       "ecmaVersion": 2017,
       "sourceType": "module"
@@ -101,7 +106,9 @@
       "node": true,
       "jest": true
     },
-    "extends": ["eslint:recommended"],
+    "extends": [
+      "eslint:recommended"
+    ],
     "rules": {
       "jest/no-focused-tests": 2,
       "jest/no-identical-title": 2
