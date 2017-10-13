@@ -21,7 +21,6 @@ import {
 } from './controllers/api';
 
 const router = Router();
-const admin = Router();
 const api = Router();
 
 const MongoStore = connectMongo(session);
@@ -49,7 +48,7 @@ passport.use(new LocalStrategy(Admin.authenticate()));
 passport.serializeUser(Admin.serializeUser());
 passport.deserializeUser(Admin.deserializeUser());
 
-admin.use(express.static(path.join(__dirname, '../client/build')));
+router.use(express.static(path.join(__dirname, '../client/build')));
 
 router.use('/api', api);
 

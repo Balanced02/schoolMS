@@ -47,7 +47,6 @@ var _api = require('./controllers/api');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _express.Router)();
-var admin = (0, _express.Router)();
 var api = (0, _express.Router)();
 
 var MongoStore = (0, _connectMongo2.default)(_expressSession2.default);
@@ -73,7 +72,7 @@ _passport2.default.use(new LocalStrategy(_Admin2.default.authenticate()));
 _passport2.default.serializeUser(_Admin2.default.serializeUser());
 _passport2.default.deserializeUser(_Admin2.default.deserializeUser());
 
-admin.use(_express2.default.static(_path2.default.join(__dirname, '../client/build')));
+router.use(_express2.default.static(_path2.default.join(__dirname, '../client/build')));
 
 router.use('/api', api);
 
