@@ -13,11 +13,11 @@ const adminSchema = new Schema({
     required: true,
     default: uuid,
   },
-  number: {
+  phoneNumber: {
     type: String,
     required: true,
   },
-  name: {
+  fullName: {
     type: String,
     trim: true,
     required: true,
@@ -36,7 +36,18 @@ const adminSchema = new Schema({
     type: String,
     lowercase: true,
     trim: true,
-    default: 'admin',
+    required: true,
+  },
+  dob: {
+    type: Date,
+  },
+  gender: {
+    type: String,
+    trim: true,
+  },
+  address: {
+    type: String,
+    required: true,
   },
 });
 

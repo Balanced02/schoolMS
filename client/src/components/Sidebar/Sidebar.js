@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { Badge, Nav, NavItem, NavLink as RsNavLink } from 'reactstrap';
 import isExternal from 'is-url-external';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
+
 import nav from './_nav';
 
 import { callApi } from '../../utils/index';
@@ -12,10 +14,11 @@ import SidebarHeader from './../SidebarHeader';
 import SidebarMinimizer from './../SidebarMinimizer';
 
 class Sidebar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      user: {},
+      ready: this.props.authenticated,
+      user: this.props.user.userType ? this.props.user : this.props.user._doc,
       nav: nav.items,
     };
   }
@@ -129,7 +132,9 @@ class Sidebar extends Component {
         <SidebarHeader />
         <SidebarForm />
         <nav className="sidebar-nav">
-          <Nav>{navList(this.state.nav)}</Nav>
+          <Nav>
+            {navList(this.state.nav.filter(nav => nav.category.includes(this.state.user.userType)))}
+          </Nav>
         </nav>
         <SidebarFooter />
         <SidebarMinimizer />
@@ -138,4 +143,11 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+const mapStateToProps = state => {
+  return {
+    authenticated: state.auth.authenticated,
+    user: state.auth.user || {},
+  };
+};
+
+export default connect(mapStateToProps)(Sidebar);

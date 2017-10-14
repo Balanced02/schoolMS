@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
-import { Card, Col, Row } from 'reactstrap';
+import {
+  Card,
+  Col,
+  Row,
+  Content,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  CardTitle,
+  CardText,
+} from 'reactstrap';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
@@ -8,6 +21,8 @@ import AddCourse from '../../components/AddCourse';
 import CourseList from '../../components/CourseList';
 import PopOver from '../../components/PopOver';
 import ViewCourseModal from '../../components/ViewCourseModal';
+import AddClass from '../../components/AddClass';
+import ViewClasses from '../../components/ViewClasses';
 
 class Course extends Component {
   constructor(props) {
@@ -30,6 +45,12 @@ class Course extends Component {
       modalOpen: false,
       modalTarget: 0,
       modal: {},
+      activeTab: '1',
+      classInfo: {},
+      classes: {
+        classes: [],
+        searching: false,
+      },
     };
   }
 
@@ -107,6 +128,14 @@ class Course extends Component {
     });
   }
 
+  selectClass(data) {
+    this.setState({
+      classInfo: {
+        ...data,
+      },
+    });
+  }
+
   toggle(course, i) {
     console.log('toggling');
     this.setState({
@@ -135,30 +164,108 @@ class Course extends Component {
     this.getAllCourses();
   }
 
+  tabToggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab,
+      });
+    }
+  }
+
   render() {
-    const { course, courseList, popoverOpen, target, modal, modalOpen, popoverData } = this.state;
+    const {
+      course,
+      courseList,
+      popoverOpen,
+      target,
+      modal,
+      modalOpen,
+      popoverData,
+      activeTab,
+      classInfo,
+      classes,
+    } = this.state;
     return (
       <Card className="container" style={{ padding: 10 }}>
-        <Row>
-          <Col md={6}>
-            <AddCourse data={course} edit={e => this.edit(e)} submit={() => this.createCourse()} />
-          </Col>
-          <Col md={6}>
-            <CourseList
-              data={courseList}
-              select={data => this.select(data)}
-              toggle={(course, i) => this.toggle(course, i)}
-              toggleModal={course => this.toggleModal(course)}
-            />
-            <PopOver
-              data={popoverData}
-              isOpen={popoverOpen}
-              target={target}
-              toggle={() => this.toggle()}
-            />
-          </Col>
-        </Row>
-        <ViewCourseModal data={modal} open={modalOpen} toggle={() => this.toggleModal()} />
+        <div>
+          <Nav tabs>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: activeTab === '1' })}
+                onClick={() => {
+                  this.tabToggle('1');
+                }}
+              >
+                Course
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: activeTab === '2' })}
+                onClick={() => {
+                  this.tabToggle('2');
+                }}
+              >
+                Class
+              </NavLink>
+            </NavItem>
+          </Nav>
+
+          <TabContent activeTab={activeTab}>
+            <TabPane tabId="1">
+              <Row>
+                <Col sm="12">
+                  <Row>
+                    <Col md={6}>
+                      <AddCourse
+                        data={course}
+                        edit={e => this.edit(e)}
+                        submit={() => this.createCourse()}
+                      />
+                    </Col>
+                    <Col md={6}>
+                      <CourseList
+                        data={courseList}
+                        select={data => this.select(data)}
+                        toggle={(course, i) => this.toggle(course, i)}
+                        toggleModal={course => this.toggleModal(course)}
+                      />
+                      <PopOver
+                        data={popoverData}
+                        isOpen={popoverOpen}
+                        target={target}
+                        toggle={() => this.toggle()}
+                      />
+                    </Col>
+                  </Row>
+                  <ViewCourseModal
+                    data={modal}
+                    open={modalOpen}
+                    toggle={() => this.toggleModal()}
+                  />
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane tabId="2">
+              <Row>
+                <Col md={6}>
+                  <AddClass
+                    data={course}
+                    edit={e => this.edit(e)}
+                    submit={() => this.createCourse()}
+                  />
+                </Col>
+                <Col md={6}>
+                  <ViewClasses
+                    data={classes}
+                    select={data => this.selectClass(data)}
+                    toggleModal={course => this.toggleModal(course)}
+                  />
+                </Col>
+              </Row>
+            </TabPane>
+          </TabContent>
+        </div>
       </Card>
     );
   }

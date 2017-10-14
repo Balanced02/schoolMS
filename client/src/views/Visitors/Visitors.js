@@ -58,20 +58,26 @@ class Visitor extends Component {
   }
 
   render() {
+    const { searching, visitor, visitors, modalOpen } = this.state;
     return (
       <Card className="container">
         <Button color="link" onClick={() => this.toggleModal()}>
           New Visitor
         </Button>
-        {this.state.visitors.length ? (
-          <VisitorsList visitors={this.state.visitors} />
-        ) : (
+        {searching ? (
+          <i
+            className="fa fa-spinner fa-spin fa-2x"
+            style={{ textAlign: 'center', marginTop: 20 }}
+          />
+        ) : !searching && !visitors.length ? (
           <h4 style={{ textAlign: 'center', fontSize: 30, margin: 20 }}>No Visitors Yet</h4>
+        ) : (
+          <VisitorsList visitors={this.state.visitors} />
         )}
-        {this.state.modalOpen ? (
+        {modalOpen ? (
           <NewVisitor
-            data={this.state.visitor}
-            open={this.state.modalOpen}
+            data={visitor}
+            open={modalOpen}
             confirm={() => this.confirm()}
             toggle={() => this.toggleModal()}
             edit={e => this.update(e)}

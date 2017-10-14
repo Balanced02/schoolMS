@@ -8,6 +8,7 @@ export const Register = (req, res) => {
   // console.log(req.body.number);
   Admin.register(newUser, req.body.password, (err, user) => {
     if (err) {
+      console.log(err);
       return res.status(400).json({
         message: err.message,
       });

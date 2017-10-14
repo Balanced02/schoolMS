@@ -18,6 +18,7 @@ import Staff from '../../views/Staff';
 import Department from '../../views/Department';
 import Course from '../../views/Course';
 import Visitor from '../../views/Visitors';
+import AddEmployee from '../../views/AddEmployee';
 
 class Full extends Component {
   constructor(props) {
@@ -54,27 +55,50 @@ class Full extends Component {
 
   render() {
     return this.state.ready ? (
-      <div className="app">
-        <Header user={this.state.user} />
-        <div className="app-body">
-          <Sidebar {...this.props} />
-          <main className="main">
-            <Breadcrumb />
-            <Container fluid>
-              <Switch>
-                <Route path="/dashboard" name="Dashboard" component={Dashboard} />
-                <Route path="/staff" name="Staff" component={Staff} />
-                <Route path="/department" name="Department" component={Department} />
-                <Route path="/visitors" name="Department" component={Visitor} />
-                <Route path="/addCourse" name="Course" component={Course} />
-                <Redirect from="/" to="/dashboard" />
-              </Switch>
-            </Container>
-          </main>
-          <Aside />
+      this.state.user.userType === 'admin' ? (
+        <div className="app">
+          <Header user={this.state.user} />
+          <div className="app-body">
+            <Sidebar {...this.props} />
+            <main className="main">
+              <Breadcrumb />
+              <Container fluid>
+                <Switch>
+                  <Route path="/dashboard" name="Dashboard" component={Dashboard} />
+                  <Route path="/staff" name="Staff" component={Staff} />
+                  <Route path="/department" name="Department" component={Department} />
+                  <Route path="/visitors" name="Department" component={Visitor} />
+                  <Route path="/addCourse" name="Course" component={Course} />
+                  <Route path="/addEmployee" name="Add Employee" component={AddEmployee} />
+                  <Redirect from="/" to="/dashboard" />
+                </Switch>
+              </Container>
+            </main>
+            <Aside />
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      ) : this.state.user.userType === 'teacher' ? (
+        <div className="app">
+          <Header user={this.state.user} />
+          <div className="app-body">
+            <Sidebar {...this.props} />
+            <main className="main">
+              <Breadcrumb />
+              <Container fluid>
+                <Switch>
+                  <Route path="/dashboard" name="Dashboard" component={Dashboard} />
+                  <Redirect from="/" to="/dashboard" />
+                </Switch>
+              </Container>
+            </main>
+            <Aside />
+          </div>
+          <Footer />
+        </div>
+      ) : (
+        <i />
+      )
     ) : !this.state.redirect ? (
       <PageLoading />
     ) : (

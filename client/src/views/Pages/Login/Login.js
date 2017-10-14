@@ -83,15 +83,14 @@ class Login extends Component {
                 >
                   <CardBlock className="card-body text-center">
                     <div>
-                      <h2>Sign up</h2>
-                      <p>
-                        If you're a Staff, Kindly click the Register Button to create an account
-                      </p>
-                      <Link to="/register">
+                      <h4>School Management System</h4>
+                      <h5> - schms</h5>
+                      <p>Full School Management System</p>
+                      <a href="http://www.thehashhub.com">
                         <Button color="primary" className="mt-3" active>
-                          Register Now!
+                          Contact Us
                         </Button>
-                      </Link>
+                      </a>
                     </div>
                   </CardBlock>
                 </Card>

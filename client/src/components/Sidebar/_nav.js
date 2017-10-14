@@ -4,39 +4,33 @@ export default {
       name: 'Dashboard',
       url: '/dashboard',
       icon: 'fa fa-line-chart fa-2x',
+      category: 'admin teacher',
       badge: {
         variant: 'info',
         text: 'NEW',
       },
     },
     {
-      name: 'Academic',
+      name: 'Academics',
       url: '/academic',
       icon: 'fa fa-graduation-cap fa-2x',
+      category: 'admin teacher',
       children: [
         {
-          name: 'Course',
+          name: 'Student',
           url: '/course',
           icon: 'fa fa-folder-open fa-2x',
+          category: 'admin',
           children: [
             {
-              name: 'Add & Edit Course',
+              name: 'Class/Course',
               url: '/addCourse',
+              category: 'admin',
             },
             {
               name: 'Course Materials',
               url: '/courseMaterials',
-            },
-          ],
-        },
-        {
-          name: 'Subjects',
-          url: '/subjects',
-          icon: 'fa fa-folder fa-2x',
-          children: [
-            {
-              name: 'Asign Subjects',
-              url: '/assignSubjects',
+              category: 'admin teacher',
             },
           ],
         },
@@ -46,40 +40,49 @@ export default {
       name: 'HR/Payroll',
       url: '/academic',
       icon: 'fa fa-eye fa-2x',
+      category: 'admin',
       children: [
         {
           name: 'Employee Management',
           url: '/academic',
+          category: 'admin',
           children: [
             {
               name: 'Add Department',
               url: '/department',
+              category: 'admin',
             },
             {
               name: 'Add Employee',
-              url: '/assessment',
+              url: '/addEmployee',
+              category: 'admin',
             },
             {
               name: 'Employee List',
               url: '/staff',
+              category: 'admin',
             },
           ],
         },
         {
           name: 'Leave Management',
           url: '/academic',
+          category: 'admin teacher',
           children: [
             {
               name: 'Leave Category',
               url: '/academic',
+              category: 'admin',
             },
             {
               name: 'Leave Application',
               url: '/academic',
+              category: 'admin teacher',
             },
             {
               name: 'Leave Approvals',
               url: '/academic',
+              category: 'admin',
             },
           ],
         },
@@ -88,11 +91,13 @@ export default {
     {
       name: 'Visitors',
       url: '/visitors',
+      category: 'admin teacher',
       icon: 'fa fa-male fa-2x',
     },
     {
       name: 'Settings',
       url: '/adminSettings',
+      category: 'admin',
       icon: 'fa fa-sliders fa-2x',
       children: [
         {
@@ -106,6 +111,10 @@ export default {
         {
           name: 'Fees Allocation',
           url: '/course',
+        },
+        {
+          name: 'Assign Course',
+          url: '/assignCourse',
         },
       ],
     },
