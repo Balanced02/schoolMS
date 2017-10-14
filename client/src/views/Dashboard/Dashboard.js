@@ -28,7 +28,7 @@ class Dashboard extends Component {
         searching: true,
         totalStudents: '',
         pendingReg: '',
-        totalTeachers: '',
+        totalStaff: '',
       },
     };
   }
@@ -66,7 +66,7 @@ class Dashboard extends Component {
             ...this.state.summary,
             totalStudents: summary.totalStudents,
             pendingReg: summary.pendingReg,
-            totalTeachers: summary.totalTeachers,
+            totalStaff: summary.totalStaff,
             searching: false,
           },
           notices: {

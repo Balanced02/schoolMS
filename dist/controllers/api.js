@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.AllCourse = exports.CreateNotice = undefined;
+exports.GetTeachers = exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.AllCourse = exports.CreateNotice = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -21,9 +21,9 @@ var _Student = require('../models/Student');
 
 var _Student2 = _interopRequireDefault(_Student);
 
-var _Teacher = require('../models/Teacher');
+var _Admin = require('../models/Admin');
 
-var _Teacher2 = _interopRequireDefault(_Teacher);
+var _Admin2 = _interopRequireDefault(_Admin);
 
 var _Course = require('../models/Course');
 
@@ -83,7 +83,7 @@ var AllCourse = exports.AllCourse = function () {
 
             res.status(500).json({
               message: 'Error fetching courses',
-              error: err.message
+              error: _context.t0.message
             });
 
           case 13:
@@ -101,7 +101,7 @@ var AllCourse = exports.AllCourse = function () {
 
 var SummaryData = exports.SummaryData = function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee2(req, res) {
-    var _ref5, _ref6, totalStudents, pendingReg, totalTeachers, noticeBoard;
+    var _ref5, _ref6, totalStudents, pendingReg, totalStaff, noticeBoard;
 
     return _regeneratorRuntime2.default.wrap(function _callee2$(_context2) {
       while (1) {
@@ -110,19 +110,19 @@ var SummaryData = exports.SummaryData = function () {
             console.log('Getting Summary');
             _context2.prev = 1;
             _context2.next = 4;
-            return Promise.all([_Student2.default.find().count(), _Student2.default.find({ accepted: true }).count(), _Teacher2.default.find().count(), _Notice2.default.find().sort('date')]);
+            return Promise.all([_Student2.default.find().count(), _Student2.default.find({ accepted: true }).count(), _Admin2.default.find().count(), _Notice2.default.find().sort('-created')]);
 
           case 4:
             _ref5 = _context2.sent;
             _ref6 = _slicedToArray(_ref5, 4);
             totalStudents = _ref6[0];
             pendingReg = _ref6[1];
-            totalTeachers = _ref6[2];
+            totalStaff = _ref6[2];
             noticeBoard = _ref6[3];
             return _context2.abrupt('return', res.json({
               totalStudents: totalStudents,
               pendingReg: pendingReg,
-              totalTeachers: totalTeachers,
+              totalStaff: totalStaff,
               noticeBoard: noticeBoard
             }));
 
@@ -273,4 +273,18 @@ var GetVisitors = exports.GetVisitors = function () {
     return _ref7.apply(this, arguments);
   };
 }();
+
+var GetTeachers = exports.GetTeachers = function GetTeachers(req, res) {
+  _Admin2.default.find({ userType: 'teacher' }).sort('-created').then(function (data) {
+    return res.json({
+      data: data
+    });
+  }).catch(function (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Error fetching courses',
+      error: err.message
+    });
+  });
+};
 //# sourceMappingURL=api.js.map

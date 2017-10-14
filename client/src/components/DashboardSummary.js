@@ -47,11 +47,11 @@ export default ({ data }) => {
               height: '100px',
             }}
           >
-            <span className="fa fa-user-circle fa-4x float-right" />
+            <span className="fa fa-users fa-4x float-right" />
             <h4 className="mb-0">
-              {data.searching ? <i className="fa fa-spinner fa-spin" /> : data.totalTeachers}{' '}
+              {data.searching ? <i className="fa fa-spinner fa-spin" /> : data.totalStaff}{' '}
             </h4>
-            <p> Total Teachers </p>
+            <p> Total Employees </p>
           </CardBlock>
         </Card>
       </Col>

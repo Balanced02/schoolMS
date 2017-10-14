@@ -93,6 +93,7 @@ api.post('/updateCourse', _api.UpdateCourse);
 api.get('/allCourse', _api.AllCourse);
 api.post('/newVisitor', _api.VisitorData);
 api.get('/allVisitors', _api.GetVisitors);
+api.get('/allTeachers', _api.GetTeachers);
 
 exports.default = router;
 //# sourceMappingURL=routes.js.map

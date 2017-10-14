@@ -46,11 +46,16 @@ class Course extends Component {
       modalTarget: 0,
       modal: {},
       activeTab: '1',
-      classInfo: {},
+      classInfo: {
+        classTitle: '',
+        maxStudents: '',
+        teacher: '',
+      },
       classes: {
         classes: [],
         searching: false,
       },
+      teachers: [],
     };
   }
 
@@ -64,6 +69,16 @@ class Course extends Component {
     });
   }
 
+  editClass(e) {
+    let { name, value } = e.target;
+    this.setState({
+      classInfo: {
+        ...this.state.classInfo,
+        [name]: value,
+      },
+    });
+  }
+
   createCourse() {
     let { courseCode, courseName, minAttendance } = this.state.course;
     let check = [courseCode, courseName, minAttendance].every(data => data !== '');
@@ -71,6 +86,16 @@ class Course extends Component {
       this.props.dispatch(showError('Fields with * are important'));
     } else {
       this.state.course._id ? this.updateCourse() : this.newCourse();
+    }
+  }
+
+  createClass() {
+    let { classTitle, maxStudents, teacher } = this.state.classInfo;
+    let check = [classTitle, maxStudents, teacher].every(data => data !== '');
+    if (!check) {
+      this.props.dispatch(showError('Fields with * are important'));
+    } else {
+      this.props.dispatch(showInfo('Just Chill, working on this'));
     }
   }
 
@@ -162,6 +187,9 @@ class Course extends Component {
 
   componentWillMount() {
     this.getAllCourses();
+    callApi('/allTeachers')
+      .then(teacher => this.setState({ teachers: teacher.data }))
+      .catch(err => this.props.dispatch(showError('Error Loading TeacherList')));
   }
 
   tabToggle(tab) {
@@ -184,6 +212,7 @@ class Course extends Component {
       activeTab,
       classInfo,
       classes,
+      teachers,
     } = this.state;
     return (
       <Card className="container" style={{ padding: 10 }}>
@@ -250,16 +279,17 @@ class Course extends Component {
               <Row>
                 <Col md={6}>
                   <AddClass
-                    data={course}
-                    edit={e => this.edit(e)}
-                    submit={() => this.createCourse()}
+                    data={classInfo}
+                    teachers={teachers}
+                    edit={e => this.editClass(e)}
+                    submit={() => this.createClass()}
                   />
                 </Col>
                 <Col md={6}>
                   <ViewClasses
                     data={classes}
                     select={data => this.selectClass(data)}
-                    toggleModal={course => this.toggleModal(course)}
+                    toggleModal={data => this.toggleClassModal(data)}
                   />
                 </Col>
               </Row>

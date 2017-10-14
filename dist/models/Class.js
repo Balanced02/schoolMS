@@ -31,7 +31,7 @@ var classSchema = new _mongoose2.default.Schema({
   },
   students: {
     type: String,
-    required: true
+    default: '0'
   },
   teacher: {
     type: String,

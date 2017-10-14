@@ -118,5 +118,21 @@ export default {
         },
       ],
     },
+    {
+      name: 'Admissions',
+      url: '/admission',
+      icon: 'fa fa-lock fa-2x',
+      category: 'admin',
+      children: [
+        {
+          name: 'Applicants',
+          url: '/applicants',
+        },
+        {
+          name: 'Pending Applications',
+          url: '/applicants',
+        },
+      ],
+    },
   ],
 };

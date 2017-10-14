@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Schema = _mongoose2.default.Schema;
 
 var adminSchema = new Schema({
-  id: {
+  sid: {
     type: String,
     unique: true,
     trim: true,
@@ -66,6 +66,15 @@ var adminSchema = new Schema({
   },
   address: {
     type: String,
+    required: true
+  },
+  classInfo: {
+    type: String,
+    default: ''
+  },
+  created: {
+    type: Date,
+    default: Date.now,
     required: true
   }
 });

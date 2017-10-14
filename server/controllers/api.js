@@ -1,7 +1,7 @@
 import regeneratorRuntime from 'regenerator-runtime';
 import Notice from '../models/Notice';
 import Student from '../models/Student';
-import Teacher from '../models/Teacher';
+import Admin from '../models/Admin';
 import Course from '../models/Course';
 import Visitor from '../models/Visitor';
 
@@ -29,7 +29,7 @@ export const AllCourse = async (req, res) => {
       courses,
       count,
     });
-  } catch (error) {
+  } catch (err) {
     res.status(500).json({
       message: 'Error fetching courses',
       error: err.message,
@@ -40,16 +40,16 @@ export const AllCourse = async (req, res) => {
 export const SummaryData = async (req, res) => {
   console.log('Getting Summary');
   try {
-    let [totalStudents, pendingReg, totalTeachers, noticeBoard] = await Promise.all([
+    let [totalStudents, pendingReg, totalStaff, noticeBoard] = await Promise.all([
       Student.find().count(),
       Student.find({ accepted: true }).count(),
-      Teacher.find().count(),
-      Notice.find().sort('date'),
+      Admin.find().count(),
+      Notice.find().sort('-created'),
     ]);
     return res.json({
       totalStudents,
       pendingReg,
-      totalTeachers,
+      totalStaff,
       noticeBoard,
     });
   } catch (err) {
@@ -167,4 +167,21 @@ export const GetVisitors = async (req, res) => {
       error: err.message,
     });
   }
+};
+
+export const GetTeachers = (req, res) => {
+  Admin.find({ userType: 'teacher' })
+    .sort('-created')
+    .then(data =>
+      res.json({
+        data,
+      })
+    )
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error fetching courses',
+        error: err.message,
+      });
+    });
 };

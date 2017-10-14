@@ -16,7 +16,15 @@ export default ({ data }) => {
         </thead>
         <tbody>
           {data.searching ? (
-            <i className="fa fa-spinner fa-spin fa-2x" />
+            <tr>
+              <td />
+              <td>
+                <i
+                  className="fa fa-spinner fa-spin fa-2x"
+                  style={{ flex: 1, textAlign: 'center' }}
+                />
+              </td>
+            </tr>
           ) : !data.searching && !data.notices.length ? (
             <h4 style={{ textAlign: 'center', marginTop: 20 }}>No Notices found</h4>
           ) : (

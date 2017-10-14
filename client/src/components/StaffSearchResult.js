@@ -1,40 +1,52 @@
 import React from 'react';
 import moment from 'moment';
 
-import { Row, Col, Table, Badge } from 'reactstrap';
+import { Row, Col, Table } from 'reactstrap';
 
-export default () => {
+export default ({ data, searching }) => {
   return (
     <Row>
       <Col md="12" xs="12">
-        <Table hover responsive striped bordered size="lg">
+        <Table hover responsive striped size="lg">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>#</th>
               <th>Name</th>
-              <th>Role</th>
-              <th>Classes Taught</th>
+              <th>Assigned Class</th>
               <th>Gender</th>
               <th>DOB</th>
+              <th>Number</th>
+              <th>E-mail</th>
             </tr>
           </thead>
           <tbody>
-            <tr style={{ cursor: 'pointer' }}>
-              <td> LS224 </td>
-              <td> Umwevemvem Ugbenubem </td>
-              <td> Head Teacher </td>
-              <td> JSS 1, JSS 2, JSS 3 </td>
-              <td> M </td>
-              <td>13th October, 2019</td>
-            </tr>
-            <tr style={{ cursor: 'pointer' }}>
-              <td> LS225 </td>
-              <td> Olayiwola Ogbonna </td>
-              <td> Class Teacher </td>
-              <td> JSS 2, JSS 3, SSS 1 </td>
-              <td> F </td>
-              <td> 5th December, 2012 </td>
-            </tr>
+            {searching ? (
+              <tr>
+                <td />
+                <td />
+                <td />
+                <td>
+                  <i
+                    className="fa fa-spinner fa-spin fa-2x"
+                    style={{ flex: 1, textAlign: 'center', margin: 10, width: '100%' }}
+                  />
+                </td>
+              </tr>
+            ) : !searching && !data.length ? (
+              <h4 style={{ textAlign: 'center', marginTop: 20 }}>No Teachers</h4>
+            ) : (
+              data.map((staff, i) => (
+                <tr style={{ cursor: 'pointer' }}>
+                  <td> {i + 1} </td>
+                  <td> {staff.fullName} </td>
+                  <td> {staff.classInfo} </td>
+                  <td> {staff.gender === 'M' ? 'Male' : staff.gender === 'F' ? 'Female' : ''} </td>
+                  <td> {moment(staff.dob).format('MMM Do')} </td>
+                  <td> {staff.phoneNumber} </td>
+                  <td> {staff.email} </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </Table>
       </Col>

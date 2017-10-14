@@ -19,14 +19,36 @@ var _validator2 = _interopRequireDefault(_validator);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var studentSchema = new _mongoose2.default.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String },
-  hash: { type: String },
-  uid: { type: String, default: _v2.default },
-  classs: { type: String, default: '' },
-  name: { type: String, required: true },
-  phone: { type: String },
-  accepted: { type: Boolean, default: false }
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String
+  },
+  hash: {
+    type: String
+  },
+  uid: {
+    type: String,
+    default: _v2.default
+  },
+  classs: {
+    type: String,
+    default: ''
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  phone: {
+    type: String
+  },
+  accepted: {
+    type: Boolean,
+    default: false
+  }
 });
 
 exports.default = _mongoose2.default.model('Student', studentSchema);

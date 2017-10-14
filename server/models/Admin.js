@@ -6,7 +6,7 @@ import uuid from 'uuid/v4';
 const Schema = mongoose.Schema;
 
 const adminSchema = new Schema({
-  id: {
+  sid: {
     type: String,
     unique: true,
     trim: true,
@@ -47,6 +47,15 @@ const adminSchema = new Schema({
   },
   address: {
     type: String,
+    required: true,
+  },
+  classInfo: {
+    type: String,
+    default: '',
+  },
+  created: {
+    type: Date,
+    default: Date.now,
     required: true,
   },
 });

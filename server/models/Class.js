@@ -18,7 +18,7 @@ let classSchema = new mongoose.Schema({
   },
   students: {
     type: String,
-    required: true,
+    default: '0',
   },
   teacher: {
     type: String,
