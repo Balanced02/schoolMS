@@ -1,7 +1,7 @@
 import regeneratorRuntime from 'regenerator-runtime';
 import Notice from '../models/Notice';
 import Student from '../models/Student';
-import Admin from '../models/Admin';
+import Users from '../models/Users';
 import Course from '../models/Course';
 import Visitor from '../models/Visitor';
 
@@ -43,7 +43,7 @@ export const SummaryData = async (req, res) => {
     let [totalStudents, pendingReg, totalStaff, noticeBoard] = await Promise.all([
       Student.find().count(),
       Student.find({ accepted: true }).count(),
-      Admin.find().count(),
+      Users.find().count(),
       Notice.find().sort('-created'),
     ]);
     return res.json({
@@ -170,7 +170,7 @@ export const GetVisitors = async (req, res) => {
 };
 
 export const GetTeachers = (req, res) => {
-  Admin.find({ userType: 'teacher' })
+  Users.find({ userType: 'teacher' })
     .sort('-created')
     .then(data =>
       res.json({

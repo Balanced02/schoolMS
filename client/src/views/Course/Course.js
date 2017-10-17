@@ -19,7 +19,6 @@ import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
 import AddCourse from '../../components/AddCourse';
 import CourseList from '../../components/CourseList';
-import PopOver from '../../components/PopOver';
 import ViewCourseModal from '../../components/ViewCourseModal';
 import AddClass from '../../components/AddClass';
 import ViewClasses from '../../components/ViewClasses';
@@ -39,9 +38,6 @@ class Course extends Component {
         searching: true,
         count: '',
       },
-      popoverOpen: false,
-      popoverData: {},
-      target: 'Popover0',
       modalOpen: false,
       modalTarget: 0,
       modal: {},
@@ -161,19 +157,6 @@ class Course extends Component {
     });
   }
 
-  toggle(course, i) {
-    console.log('toggling');
-    this.setState({
-      popoverData: course
-        ? {
-            ...course,
-          }
-        : {},
-      popoverOpen: !this.state.popoverOpen,
-      target: i ? 'Popover' + i : 'Popover0',
-    });
-  }
-
   toggleModal(course) {
     this.setState({
       modal: course
@@ -204,11 +187,9 @@ class Course extends Component {
     const {
       course,
       courseList,
-      popoverOpen,
       target,
       modal,
       modalOpen,
-      popoverData,
       activeTab,
       classInfo,
       classes,
@@ -256,14 +237,7 @@ class Course extends Component {
                       <CourseList
                         data={courseList}
                         select={data => this.select(data)}
-                        toggle={(course, i) => this.toggle(course, i)}
                         toggleModal={course => this.toggleModal(course)}
-                      />
-                      <PopOver
-                        data={popoverData}
-                        isOpen={popoverOpen}
-                        target={target}
-                        toggle={() => this.toggle()}
                       />
                     </Col>
                   </Row>

@@ -3,7 +3,7 @@ import ViewCourseModal from './ViewCourseModal';
 
 import { CardHeader, Table } from 'reactstrap';
 
-export default ({ data, select, toggle, toggleModal }) => {
+export default ({ data, select, toggleModal }) => {
   return (
     <div className="container-fluid">
       <CardHeader>COURSE LIST</CardHeader>
@@ -47,7 +47,6 @@ export default ({ data, select, toggle, toggleModal }) => {
                     className="fa fa-trash"
                     id={'Popover' + i}
                     style={{ color: 'red', cursor: 'pointer' }}
-                    onClick={() => toggle(course, i)}
                   />{' '}
                 </td>
               </tr>

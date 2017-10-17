@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
-import { Row, Col, Card } from 'reactstrap';
+import {
+  Row,
+  Col,
+  Card,
+  Content,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  CardTitle,
+  CardText,
+} from 'reactstrap';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 
 import NoticeBoard from '../../components/NoticeBoard';
+import TimeTable from '../../components/TimeTable';
 import Calendar from '../../components/Calendar';
-import DashboardSummary from '../../components/DashboardSummary';
+import TeacherDashboardSummary from '../../components/TeacherDashboardSummary';
 import NoticeBoardModal from '../../components/NoticeBoardModal';
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
@@ -30,6 +44,7 @@ class Dashboard extends Component {
         pendingReg: '',
         totalStaff: '',
       },
+      activeTab: '1',
     };
   }
 
@@ -41,6 +56,14 @@ class Dashboard extends Component {
         date: day,
       },
     });
+  }
+
+  tabToggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab,
+      });
+    }
   }
 
   toggle() {
@@ -98,30 +121,65 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { summary, notice, notices, selectedDays, modal } = this.state;
+    const { summary, notice, notices, selectedDays, modal, activeTab } = this.state;
     return (
       <div className="animated fadeIn container">
-        <DashboardSummary data={summary} />
-        <Card>
-          <Row>
-            <div>
-              <Col>
-                <Calendar select={day => this.handleDayClick(day)} selectedDays={selectedDays} />
-              </Col>
-            </div>
-            <Col>
-              <div style={{ alignSelf: 'stretch', flex: 1 }}>
-                <NoticeBoard data={notices} />
-              </div>
-            </Col>
-          </Row>
-          <NoticeBoardModal
-            isOpen={modal}
-            toggle={() => this.toggle()}
-            data={notice}
-            edit={e => this.editNotice(e)}
-            submit={() => this.createNotice()}
-          />
+        <TeacherDashboardSummary data={summary} />
+        <Card className="container" style={{ padding: 10 }}>
+          <Nav tabs>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: activeTab === '1' })}
+                onClick={() => {
+                  this.tabToggle('1');
+                }}
+                style={{ cursor: 'pointer' }}
+              >
+                Notice
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: activeTab === '2' })}
+                onClick={() => {
+                  this.tabToggle('2');
+                }}
+                style={{ cursor: 'pointer' }}
+              >
+                Activities
+              </NavLink>
+            </NavItem>
+          </Nav>
+
+          <TabContent activeTab={activeTab}>
+            <TabPane tabId="1">
+              <Row>
+                <div>
+                  <Col style={{ justifyContent: 'center' }}>
+                    <Calendar
+                      select={day => this.handleDayClick(day)}
+                      selectedDays={selectedDays}
+                    />
+                  </Col>
+                </div>
+                <Col>
+                  <div style={{ alignSelf: 'stretch', flex: 1 }}>
+                    <NoticeBoard data={notices} />
+                  </div>
+                </Col>
+              </Row>
+              <NoticeBoardModal
+                isOpen={modal}
+                toggle={() => this.toggle()}
+                data={notice}
+                edit={e => this.editNotice(e)}
+                submit={() => this.createNotice()}
+              />
+            </TabPane>
+            <TabPane tabId="2">
+              <TimeTable />
+            </TabPane>
+          </TabContent>
         </Card>
       </div>
     );

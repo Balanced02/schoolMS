@@ -5,7 +5,7 @@ import uuid from 'uuid/v4';
 
 const Schema = mongoose.Schema;
 
-const adminSchema = new Schema({
+const usersSchema = new Schema({
   sid: {
     type: String,
     unique: true,
@@ -60,6 +60,6 @@ const adminSchema = new Schema({
   },
 });
 
-adminSchema.plugin(LocalMongoose);
+usersSchema.plugin(LocalMongoose);
 
-export default mongoose.model('Admin', adminSchema);
+export default mongoose.model('Admin', usersSchema);

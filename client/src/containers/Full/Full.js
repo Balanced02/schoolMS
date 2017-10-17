@@ -14,6 +14,7 @@ import { callApi } from '../../utils';
 import { login, logout } from '../../actions/auth';
 
 import Dashboard from '../../views/Dashboard';
+import TeacherDashboard from '../../views/TeacherDashboard';
 import Staff from '../../views/Staff';
 import Department from '../../views/Department';
 import Course from '../../views/Course';
@@ -87,7 +88,7 @@ class Full extends Component {
               <Breadcrumb />
               <Container fluid>
                 <Switch>
-                  <Route path="/dashboard" name="Dashboard" component={Dashboard} />
+                  <Route path="/dashboard" name="Dashboard" component={TeacherDashboard} />
                   <Redirect from="/" to="/dashboard" />
                 </Switch>
               </Container>

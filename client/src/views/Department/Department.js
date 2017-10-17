@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Card, Form, FormGroup, Input, Label, Button } from 'reactstrap';
+import { connect } from 'react-redux';
+
+import { callApi } from '../../utils';
+import { showError, showInfo } from '../../actions/feedback';
 
 class Department extends Component {
   constructor(props) {
@@ -7,6 +11,10 @@ class Department extends Component {
     this.state = {
       searchResults: [],
     };
+  }
+
+  addDepartment() {
+    this.props.dispatch(showInfo('Chill, working on this'));
   }
 
   render() {
@@ -21,7 +29,9 @@ class Department extends Component {
               </Label>
               <Input type="text" placeholder="Course name" />
             </FormGroup>
-            <Button color="primary">Save</Button>
+            <Button color="primary" onClick={() => this.addDepartment()}>
+              Save
+            </Button>
           </Form>
         </Card>
       </div>
@@ -29,4 +39,4 @@ class Department extends Component {
   }
 }
 
-export default Department;
+export default connect()(Department);

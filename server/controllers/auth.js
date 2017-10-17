@@ -1,22 +1,23 @@
-import Admin from '../models/Admin';
+import Users from '../models/Users';
 
 export const Register = (req, res) => {
-  let newUser = new Admin({
+  let newUser = new Users({
     ...req.body,
   });
   console.log(req.body.username);
   // console.log(req.body.number);
-  Admin.register(newUser, req.body.password, (err, user) => {
+  Users.register(newUser, req.body.password, (err, user) => {
     if (err) {
       console.log(err);
       return res.status(400).json({
         message: err.message,
       });
+    } else {
+      return res.json({
+        message: 'Registered Successfully',
+        user: { ...user },
+      });
     }
-    return res.json({
-      message: 'Registered Successfully',
-      user: { ...user },
-    });
   });
 };
 
@@ -48,7 +49,7 @@ export const AuthMe = (req, res) => {
 // Auth Middleware
 export const RedirectNoAuth = (req, res, next) => {
   if (!req.user) {
-    return res.redirect('/admin');
+    return res.redirect('/Users');
   }
   return next();
 };

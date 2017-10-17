@@ -14,23 +14,20 @@ export default {
       name: 'Academics',
       url: '/academic',
       icon: 'fa fa-graduation-cap fa-2x',
-      category: 'admin teacher',
+      category: 'admin',
       children: [
         {
           name: 'Student',
           url: '/course',
           icon: 'fa fa-folder-open fa-2x',
-          category: 'admin',
           children: [
             {
               name: 'Class/Course',
               url: '/addCourse',
-              category: 'admin',
             },
             {
               name: 'Course Materials',
               url: '/courseMaterials',
-              category: 'admin teacher',
             },
           ],
         },
@@ -131,6 +128,22 @@ export default {
         {
           name: 'Pending Applications',
           url: '/applicants',
+        },
+      ],
+    },
+    {
+      name: 'Students',
+      url: '/students',
+      icon: 'fa fa-users fa-2x',
+      category: 'teacher',
+      children: [
+        {
+          name: 'Assignment/Test',
+          url: '/assignment',
+        },
+        {
+          name: 'Attendance',
+          url: '/attendance',
         },
       ],
     },

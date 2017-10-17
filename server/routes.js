@@ -7,7 +7,7 @@ import passportLocal from 'passport-local';
 import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 
-import Admin from './models/Admin';
+import Users from './models/Users';
 
 import { Register, Login, Logout, RedirectNoAuth, AuthMe } from './controllers/auth';
 import {
@@ -45,9 +45,9 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 const LocalStrategy = passportLocal.Strategy;
-passport.use(new LocalStrategy(Admin.authenticate()));
-passport.serializeUser(Admin.serializeUser());
-passport.deserializeUser(Admin.deserializeUser());
+passport.use(new LocalStrategy(Users.authenticate()));
+passport.serializeUser(Users.serializeUser());
+passport.deserializeUser(Users.deserializeUser());
 
 router.use('/api', api);
 
