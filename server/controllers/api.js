@@ -4,6 +4,8 @@ import Student from '../models/Student';
 import Users from '../models/Users';
 import Course from '../models/Course';
 import Visitor from '../models/Visitor';
+import Teacher from '../models/Teacher';
+import ClassDetails from '../models/ClassDetails';
 
 export const CreateNotice = (req, res) => {
   let { date, body } = req.body;
@@ -170,17 +172,35 @@ export const GetVisitors = async (req, res) => {
 };
 
 export const GetTeachers = (req, res) => {
-  Users.find({ userType: 'teacher' })
-    .sort('-created')
-    .then(data =>
+  Teacher.find()
+    .then(data => {
+      // console.log(data);
       res.json({
         data,
-      })
-    )
+      });
+    })
     .catch(err => {
       console.log(err);
       res.status(500).json({
-        message: 'Error fetching courses',
+        message: 'Error Loading Teacher Details',
+        error: err.message,
+      });
+    });
+};
+
+export const AllClass = (req, res) => {
+  ClassDetails.find()
+    .sort('classTitle')
+    .then(data => {
+      console.log(data);
+      res.json({
+        data,
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error fetching class information',
         error: err.message,
       });
     });

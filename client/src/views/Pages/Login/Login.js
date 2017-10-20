@@ -86,11 +86,11 @@ class Login extends Component {
                       <h4>School Management System</h4>
                       <h5> - schms</h5>
                       <p>Full School Management System</p>
-                      <a href="http://www.thehashhub.com">
+                      <Link to="/register">
                         <Button color="primary" className="mt-3" active>
                           Contact Us
                         </Button>
-                      </a>
+                      </Link>
                     </div>
                   </CardBlock>
                 </Card>

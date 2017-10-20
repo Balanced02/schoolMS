@@ -26,4 +26,4 @@ let classSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('Class', classSchema);
+export default mongoose.model('ClassDetails', classSchema);

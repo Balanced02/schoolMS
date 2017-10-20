@@ -20,6 +20,7 @@ import Department from '../../views/Department';
 import Course from '../../views/Course';
 import Visitor from '../../views/Visitors';
 import AddEmployee from '../../views/AddEmployee';
+import NewIntake from '../../views/NewIntake';
 
 class Full extends Component {
   constructor(props) {
@@ -71,6 +72,7 @@ class Full extends Component {
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route path="/addCourse" name="Course" component={Course} />
                   <Route path="/addEmployee" name="Add Employee" component={AddEmployee} />
+                  <Route path="/newIntake" name="New Intake" component={NewIntake} />
                   <Redirect from="/" to="/dashboard" />
                 </Switch>
               </Container>

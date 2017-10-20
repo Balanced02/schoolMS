@@ -129,6 +129,10 @@ export default {
           name: 'Pending Applications',
           url: '/applicants',
         },
+        {
+          name: 'New Intake',
+          url: '/newIntake',
+        },
       ],
     },
     {

@@ -91,8 +91,30 @@ class Course extends Component {
     if (!check) {
       this.props.dispatch(showError('Fields with * are important'));
     } else {
-      this.props.dispatch(showInfo('Just Chill, working on this'));
+      this.state.classInfo._id ? this.updateClass() : this.newClass();
     }
+  }
+
+  updateClass() {
+    callApi('/updateCourse', this.state.classInfo, 'POST')
+      .then(data => {
+        this.props.dispatch(showInfo('Update Successful'));
+        this.setState({
+          classInfo: {},
+        });
+      })
+      .catch(err => this.props.dispatch(showError('Error, please retry after some time')));
+  }
+
+  newClass() {
+    callApi('/createClass', this.state.classInfo, 'POST')
+      .then(data => {
+        this.props.dispatch(showInfo('Added Successfully'));
+        this.setState({
+          classInfo: {},
+        });
+      })
+      .catch(err => this.props.dispatch(showError('Error, please retry after some time')));
   }
 
   newCourse() {
@@ -168,11 +190,30 @@ class Course extends Component {
     });
   }
 
-  componentWillMount() {
+  getClasses() {
+    callApi('/allClass')
+      .then(data =>
+        this.setState({
+          classes: {
+            classes: data.data,
+            searching: false,
+          },
+        })
+      )
+      .catch(err => this.props.dispatch(showError('Error Loading Class List')));
+  }
+
+  getSummary() {
     this.getAllCourses();
+    this.clearCourseState();
+    this.getClasses();
     callApi('/allTeachers')
-      .then(teacher => this.setState({ teachers: teacher.data }))
+      .then(data => this.setState({ teachers: data.data }))
       .catch(err => this.props.dispatch(showError('Error Loading TeacherList')));
+  }
+
+  componentWillMount() {
+    this.getSummary();
   }
 
   tabToggle(tab) {

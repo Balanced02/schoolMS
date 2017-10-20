@@ -19,6 +19,7 @@ import {
   VisitorData,
   GetVisitors,
   GetTeachers,
+  AllClass,
 } from './controllers/api';
 
 const router = Router();
@@ -71,5 +72,6 @@ api.get('/allCourse', AllCourse);
 api.post('/newVisitor', VisitorData);
 api.get('/allVisitors', GetVisitors);
 api.get('/allTeachers', GetTeachers);
+api.get('/allClass', AllClass);
 
 export default router;
