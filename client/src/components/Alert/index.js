@@ -11,7 +11,7 @@ const AlertComponent = ({ dispatch, errors, infos }) => {
         display: 'flex',
         justifyContent: 'center',
         width: '100%',
-        position: 'absolute',
+        position: 'fixed',
         bottom: 0,
         zIndex: 2,
       }}

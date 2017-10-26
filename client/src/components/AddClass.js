@@ -6,7 +6,7 @@ export default ({ data, edit, submit, teachers }) => {
   return (
     <Form>
       <FormGroup>
-        <Label for="className">
+        <Label for="classTitle">
           Class
           <span style={{ color: 'red' }}> *</span>
         </Label>
@@ -32,15 +32,15 @@ export default ({ data, edit, submit, teachers }) => {
         />
       </FormGroup>
       <FormGroup>
-        <Label for="courseName">
+        <Label for="teacher">
           Class Teacher
           <span style={{ color: 'red' }}> *</span>
         </Label>
         <Input
           type="select"
           name="teacher"
-          placeholder="Course name"
-          value={data.courseName}
+          placeholder="Class Teacher"
+          value={data.teacher}
           onChange={edit}
         >
           <option selected disabled>

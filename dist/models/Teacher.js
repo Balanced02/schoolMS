@@ -12,7 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Schema = _mongoose2.default.Schema;
 
-var adminSchema = new Schema({
+var teacherSchema = new Schema({
   sid: {
     type: String,
     unique: true,
@@ -38,6 +38,12 @@ var adminSchema = new Schema({
     trim: true,
     default: 'noemail@mail.com'
   },
+  userType: {
+    type: String,
+    lowercase: true,
+    trim: true,
+    required: true
+  },
   dob: {
     type: Date
   },
@@ -48,8 +54,17 @@ var adminSchema = new Schema({
   address: {
     type: String,
     required: true
+  },
+  classInfo: {
+    type: String,
+    default: ''
+  },
+  created: {
+    type: Date,
+    default: Date.now,
+    required: true
   }
 });
 
-exports.default = _mongoose2.default.model('Admin', adminSchema);
-//# sourceMappingURL=Admin.js.map
+exports.default = _mongoose2.default.model('Teacher', teacherSchema);
+//# sourceMappingURL=Teacher.js.map

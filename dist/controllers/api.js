@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GetTeachers = exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.AllCourse = exports.CreateNotice = undefined;
+exports.UpdateClass = exports.AddClass = exports.AllClass = exports.GetTeachers = exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.AllCourse = exports.CreateNotice = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -21,9 +21,9 @@ var _Student = require('../models/Student');
 
 var _Student2 = _interopRequireDefault(_Student);
 
-var _Admin = require('../models/Admin');
+var _Users = require('../models/Users');
 
-var _Admin2 = _interopRequireDefault(_Admin);
+var _Users2 = _interopRequireDefault(_Users);
 
 var _Course = require('../models/Course');
 
@@ -32,6 +32,14 @@ var _Course2 = _interopRequireDefault(_Course);
 var _Visitor = require('../models/Visitor');
 
 var _Visitor2 = _interopRequireDefault(_Visitor);
+
+var _Teacher = require('../models/Teacher');
+
+var _Teacher2 = _interopRequireDefault(_Teacher);
+
+var _ClassDetails = require('../models/ClassDetails');
+
+var _ClassDetails2 = _interopRequireDefault(_ClassDetails);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -110,7 +118,7 @@ var SummaryData = exports.SummaryData = function () {
             console.log('Getting Summary');
             _context2.prev = 1;
             _context2.next = 4;
-            return Promise.all([_Student2.default.find().count(), _Student2.default.find({ accepted: true }).count(), _Admin2.default.find().count(), _Notice2.default.find().sort('-created')]);
+            return Promise.all([_Student2.default.find().count(), _Student2.default.find({ accepted: true }).count(), _Users2.default.find().count(), _Notice2.default.find().sort('-created')]);
 
           case 4:
             _ref5 = _context2.sent;
@@ -274,15 +282,105 @@ var GetVisitors = exports.GetVisitors = function () {
   };
 }();
 
-var GetTeachers = exports.GetTeachers = function GetTeachers(req, res) {
-  _Admin2.default.find({ userType: 'teacher' }).sort('-created').then(function (data) {
-    return res.json({
+var GetTeachers = exports.GetTeachers = function () {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee4(req, res) {
+    var _ref11, _ref12, teachers, count, data;
+
+    return _regeneratorRuntime2.default.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            _context4.next = 3;
+            return Promise.all([_Teacher2.default.find(), _Teacher2.default.find().count()]);
+
+          case 3:
+            _ref11 = _context4.sent;
+            _ref12 = _slicedToArray(_ref11, 2);
+            teachers = _ref12[0];
+            count = _ref12[1];
+            _context4.next = 9;
+            return _ClassDetails2.default.find({}, 'teacher classTitle');
+
+          case 9:
+            data = _context4.sent;
+
+            console.log(data);
+            teachers = teachers.map(function (teacher) {
+              var assignedClass = data.filter(function (d) {
+                return teacher.fullName === d.teacher;
+              }).map(function (a) {
+                return a.classTitle;
+              }).join(', ');
+              console.log(assignedClass);
+              teacher._doc.classInfo = assignedClass ? assignedClass : '';
+              return teacher;
+            });
+            res.json({ teachers: teachers });
+            _context4.next = 19;
+            break;
+
+          case 15:
+            _context4.prev = 15;
+            _context4.t0 = _context4['catch'](0);
+
+            console.log(_context4.t0);
+            res.status(500).json({
+              message: 'Error Loading Teacher Details',
+              error: _context4.t0.message
+            });
+
+          case 19:
+          case 'end':
+            return _context4.stop();
+        }
+      }
+    }, _callee4, undefined, [[0, 15]]);
+  }));
+
+  return function GetTeachers(_x7, _x8) {
+    return _ref10.apply(this, arguments);
+  };
+}();
+
+var AllClass = exports.AllClass = function AllClass(req, res) {
+  _ClassDetails2.default.find().sort('classTitle').then(function (data) {
+    console.log(data);
+    res.json({
       data: data
     });
   }).catch(function (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Error fetching courses',
+      message: 'Error fetching class information',
+      error: err.message
+    });
+  });
+};
+
+var AddClass = exports.AddClass = function AddClass(req, res) {
+  _ClassDetails2.default.create(_extends({}, req.body)).then(function (classInfo) {
+    res.json(classInfo);
+  }).catch(function (err) {
+    res.status(500).json({
+      message: 'Error Creating Class',
+      error: err.message
+    });
+  });
+};
+
+var UpdateClass = exports.UpdateClass = function UpdateClass(req, res) {
+  var _id = req.body._id;
+
+  _ClassDetails2.default.findOneAndUpdate({ _id: _id }, {
+    $set: _extends({}, req.body)
+  }, {
+    new: true
+  }).then(function (classInfo) {
+    res.json(classInfo);
+  }).catch(function (err) {
+    res.status(500).json({
+      message: 'Error Updating Class',
       error: err.message
     });
   });

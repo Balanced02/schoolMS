@@ -20,6 +20,8 @@ import {
   GetVisitors,
   GetTeachers,
   AllClass,
+  AddClass,
+  UpdateClass,
 } from './controllers/api';
 
 const router = Router();
@@ -65,13 +67,17 @@ api.use(RedirectNoAuth);
 
 //Queries
 api.get('/getSummary', SummaryData);
-api.post('/createNotice', CreateNotice);
-api.post('/createCourse', CreateCourse);
-api.post('/updateCourse', UpdateCourse);
 api.get('/allCourse', AllCourse);
-api.post('/newVisitor', VisitorData);
 api.get('/allVisitors', GetVisitors);
 api.get('/allTeachers', GetTeachers);
 api.get('/allClass', AllClass);
+
+//actions
+api.post('/newVisitor', VisitorData);
+api.post('/createNotice', CreateNotice);
+api.post('/createCourse', CreateCourse);
+api.post('/updateCourse', UpdateCourse);
+api.post('/addClass', AddClass);
+api.post('/updateClass', UpdateClass);
 
 export default router;

@@ -15,7 +15,7 @@ import { login, logout } from '../../actions/auth';
 
 import Dashboard from '../../views/Dashboard';
 import TeacherDashboard from '../../views/TeacherDashboard';
-import Staff from '../../views/Staff';
+import EmployeeList from '../../views/EmployeeList';
 import Department from '../../views/Department';
 import Course from '../../views/Course';
 import Visitor from '../../views/Visitors';
@@ -67,7 +67,7 @@ class Full extends Component {
               <Container fluid>
                 <Switch>
                   <Route path="/dashboard" name="Dashboard" component={Dashboard} />
-                  <Route path="/staff" name="Staff" component={Staff} />
+                  <Route path="/employeeList" name="EmployeeList" component={EmployeeList} />
                   <Route path="/department" name="Department" component={Department} />
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route path="/addCourse" name="Course" component={Course} />

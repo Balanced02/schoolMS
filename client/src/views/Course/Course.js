@@ -96,23 +96,33 @@ class Course extends Component {
   }
 
   updateClass() {
-    callApi('/updateCourse', this.state.classInfo, 'POST')
+    callApi('/updateClass', this.state.classInfo, 'POST')
       .then(data => {
         this.props.dispatch(showInfo('Update Successful'));
         this.setState({
-          classInfo: {},
+          classInfo: {
+            classTitle: '',
+            maxStudents: '',
+            teacher: '',
+          },
         });
+        this.getSummary();
       })
       .catch(err => this.props.dispatch(showError('Error, please retry after some time')));
   }
 
   newClass() {
-    callApi('/createClass', this.state.classInfo, 'POST')
+    callApi('/addClass', this.state.classInfo, 'POST')
       .then(data => {
         this.props.dispatch(showInfo('Added Successfully'));
         this.setState({
-          classInfo: {},
+          classInfo: {
+            classTitle: '',
+            maxStudents: '',
+            teacher: '',
+          },
         });
+        this.getSummary();
       })
       .catch(err => this.props.dispatch(showError('Error, please retry after some time')));
   }
@@ -208,7 +218,7 @@ class Course extends Component {
     this.clearCourseState();
     this.getClasses();
     callApi('/allTeachers')
-      .then(data => this.setState({ teachers: data.data }))
+      .then(data => this.setState({ teachers: data.teachers }))
       .catch(err => this.props.dispatch(showError('Error Loading TeacherList')));
   }
 
@@ -242,6 +252,7 @@ class Course extends Component {
           <Nav tabs>
             <NavItem>
               <NavLink
+                style={{ cursor: 'pointer' }}
                 className={classnames({ active: activeTab === '1' })}
                 onClick={() => {
                   this.tabToggle('1');
@@ -252,6 +263,7 @@ class Course extends Component {
             </NavItem>
             <NavItem>
               <NavLink
+                style={{ cursor: 'pointer' }}
                 className={classnames({ active: activeTab === '2' })}
                 onClick={() => {
                   this.tabToggle('2');

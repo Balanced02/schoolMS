@@ -17,11 +17,16 @@ let classSchema = new mongoose.Schema({
     required: true,
   },
   students: {
-    type: String,
-    default: '0',
+    type: Array,
+    default: [],
   },
   teacher: {
     type: String,
+    required: true,
+  },
+  created: {
+    type: Date,
+    default: Date.now,
     required: true,
   },
 });

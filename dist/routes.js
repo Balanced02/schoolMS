@@ -36,9 +36,9 @@ var _connectMongo = require('connect-mongo');
 
 var _connectMongo2 = _interopRequireDefault(_connectMongo);
 
-var _Admin = require('./models/Admin');
+var _Users = require('./models/Users');
 
-var _Admin2 = _interopRequireDefault(_Admin);
+var _Users2 = _interopRequireDefault(_Users);
 
 var _auth = require('./controllers/auth');
 
@@ -68,9 +68,9 @@ router.use(_passport2.default.initialize());
 router.use(_passport2.default.session());
 
 var LocalStrategy = _passportLocal2.default.Strategy;
-_passport2.default.use(new LocalStrategy(_Admin2.default.authenticate()));
-_passport2.default.serializeUser(_Admin2.default.serializeUser());
-_passport2.default.deserializeUser(_Admin2.default.deserializeUser());
+_passport2.default.use(new LocalStrategy(_Users2.default.authenticate()));
+_passport2.default.serializeUser(_Users2.default.serializeUser());
+_passport2.default.deserializeUser(_Users2.default.deserializeUser());
 
 router.use('/api', api);
 
@@ -87,13 +87,18 @@ api.use(_auth.RedirectNoAuth);
 
 //Queries
 api.get('/getSummary', _api.SummaryData);
+api.get('/allCourse', _api.AllCourse);
+api.get('/allVisitors', _api.GetVisitors);
+api.get('/allTeachers', _api.GetTeachers);
+api.get('/allClass', _api.AllClass);
+
+//actions
+api.post('/newVisitor', _api.VisitorData);
 api.post('/createNotice', _api.CreateNotice);
 api.post('/createCourse', _api.CreateCourse);
 api.post('/updateCourse', _api.UpdateCourse);
-api.get('/allCourse', _api.AllCourse);
-api.post('/newVisitor', _api.VisitorData);
-api.get('/allVisitors', _api.GetVisitors);
-api.get('/allTeachers', _api.GetTeachers);
+api.post('/addClass', _api.AddClass);
+api.post('/updateClass', _api.UpdateClass);
 
 exports.default = router;
 //# sourceMappingURL=routes.js.map

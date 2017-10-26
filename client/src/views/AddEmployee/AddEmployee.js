@@ -148,7 +148,6 @@ class Employee extends Component {
                   </option>
                   <option value="admin"> Admin </option>
                   <option value="teacher"> Teacher </option>
-                  <option value="student"> Student </option>
                   <option value="libarian"> Libarian </option>
                   <option value="non-teaching"> Non-Teaching Staff </option>
                 </Input>

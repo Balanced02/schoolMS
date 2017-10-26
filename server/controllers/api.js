@@ -171,21 +171,28 @@ export const GetVisitors = async (req, res) => {
   }
 };
 
-export const GetTeachers = (req, res) => {
-  Teacher.find()
-    .then(data => {
-      // console.log(data);
-      res.json({
-        data,
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        message: 'Error Loading Teacher Details',
-        error: err.message,
-      });
+export const GetTeachers = async (req, res) => {
+  try {
+    let [teachers, count] = await Promise.all([Teacher.find(), Teacher.find().count()]);
+    let data = await ClassDetails.find({}, 'teacher classTitle');
+    console.log(data);
+    teachers = teachers.map(teacher => {
+      let assignedClass = data
+        .filter(d => teacher.fullName === d.teacher)
+        .map(a => a.classTitle)
+        .join(', ');
+      console.log(assignedClass);
+      teacher._doc.classInfo = assignedClass ? assignedClass : '';
+      return teacher;
     });
+    res.json({ teachers });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Error Loading Teacher Details',
+      error: err.message,
+    });
+  }
 };
 
 export const AllClass = (req, res) => {
@@ -201,6 +208,43 @@ export const AllClass = (req, res) => {
       console.log(err);
       res.status(500).json({
         message: 'Error fetching class information',
+        error: err.message,
+      });
+    });
+};
+
+export const AddClass = (req, res) => {
+  ClassDetails.create({ ...req.body })
+    .then(classInfo => {
+      res.json(classInfo);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error Creating Class',
+        error: err.message,
+      });
+    });
+};
+
+export const UpdateClass = (req, res) => {
+  let { _id } = req.body;
+  ClassDetails.findOneAndUpdate(
+    { _id },
+    {
+      $set: {
+        ...req.body,
+      },
+    },
+    {
+      new: true,
+    }
+  )
+    .then(classInfo => {
+      res.json(classInfo);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error Updating Class',
         error: err.message,
       });
     });

@@ -56,7 +56,7 @@ export default {
             },
             {
               name: 'Employee List',
-              url: '/staff',
+              url: '/employeeList',
               category: 'admin',
             },
           ],
@@ -91,6 +91,27 @@ export default {
       category: 'admin teacher',
       icon: 'fa fa-male fa-2x',
     },
+
+    {
+      name: 'Admissions',
+      url: '/admission',
+      icon: 'fa fa-lock fa-2x',
+      category: 'admin',
+      children: [
+        {
+          name: 'New Intake',
+          url: '/newIntake',
+        },
+        {
+          name: 'Applicants',
+          url: '/applicants',
+        },
+        {
+          name: 'Pending Applications',
+          url: '/applicants',
+        },
+      ],
+    },
     {
       name: 'Settings',
       url: '/adminSettings',
@@ -112,26 +133,6 @@ export default {
         {
           name: 'Assign Course',
           url: '/assignCourse',
-        },
-      ],
-    },
-    {
-      name: 'Admissions',
-      url: '/admission',
-      icon: 'fa fa-lock fa-2x',
-      category: 'admin',
-      children: [
-        {
-          name: 'Applicants',
-          url: '/applicants',
-        },
-        {
-          name: 'Pending Applications',
-          url: '/applicants',
-        },
-        {
-          name: 'New Intake',
-          url: '/newIntake',
         },
       ],
     },

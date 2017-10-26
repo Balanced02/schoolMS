@@ -30,14 +30,19 @@ var classSchema = new _mongoose2.default.Schema({
     required: true
   },
   students: {
-    type: String,
-    default: '0'
+    type: Array,
+    default: []
   },
   teacher: {
     type: String,
     required: true
+  },
+  created: {
+    type: Date,
+    default: Date.now,
+    required: true
   }
 });
 
-exports.default = _mongoose2.default.model('Class', classSchema);
-//# sourceMappingURL=Class.js.map
+exports.default = _mongoose2.default.model('ClassDetails', classSchema);
+//# sourceMappingURL=ClassDetails.js.map

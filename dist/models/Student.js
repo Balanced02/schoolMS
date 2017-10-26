@@ -12,38 +12,84 @@ var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
 
-var _validator = require('validator');
-
-var _validator2 = _interopRequireDefault(_validator);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var studentSchema = new _mongoose2.default.Schema({
+  uid: {
+    type: String,
+    default: _v2.default
+  },
   username: {
     type: String,
     required: true,
     unique: true
   },
-  password: {
-    type: String
-  },
-  hash: {
-    type: String
-  },
-  uid: {
-    type: String,
-    default: _v2.default
-  },
-  classs: {
+  className: {
     type: String,
     default: ''
   },
-  name: {
+  surName: {
     type: String,
+    required: true
+  },
+  otherNames: {
+    type: String,
+    required: true
+  },
+  dob: {
+    type: Date
+  },
+  gender: {
+    type: String,
+    required: true
+  },
+  bloodGroup: {
+    type: String,
+    required: true
+  },
+  religion: {
+    type: String,
+    trim: true
+  },
+  address: {
+    type: String,
+    trim: true,
     required: true
   },
   phone: {
     type: String
+  },
+  lSchName: {
+    type: String,
+    trim: true
+  },
+  lSchAddress: {
+    type: String,
+    trim: true
+  },
+  lSchQualification: {
+    type: String,
+    trim: true
+  },
+  pName: {
+    type: String,
+    required: true
+  },
+  pPhoneNumber: {
+    type: String,
+    required: true
+  },
+  pOccupation: {
+    type: String,
+    required: true
+  },
+  pOfficeAddress: {
+    type: String,
+    required: true
+  },
+  pAddress: {
+    type: String,
+    required: true
   },
   accepted: {
     type: Boolean,

@@ -28,7 +28,7 @@ export const Register = (req, res) => {
             });
           })
           .catch(err => {
-            console.log(err);
+            // console.log(err);
             return res.status(400).json({
               message: err.message,
             });
@@ -42,11 +42,11 @@ const createUser = (userType, body, id) => {
   let User =
     userType === 'teacher'
       ? Teacher
-      : userType === 'student' ? Student : userType === '' ? Admin : '';
+      : userType === 'student' ? Student : userType === '' ? Admin : Teacher;
   return new Promise((resolve, reject) => {
     User.create({ ...body, sid: id })
       .then(user => {
-        console.log(User);
+        // console.log(User);
         resolve(user);
       })
       .catch(err => {

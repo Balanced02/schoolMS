@@ -6,7 +6,7 @@ import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
 import StaffSearchResult from '../../components/StaffSearchResult';
 
-class Staff extends Component {
+class EmployeeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +17,7 @@ class Staff extends Component {
 
   getTeachers() {
     callApi('/allTeachers')
-      .then(teacher => this.setState({ searchResults: teacher.data, searching: false }))
+      .then(data => this.setState({ searchResults: data.teachers, searching: false }))
       .catch(err => this.props.dispatch(showError('Error Loading TeacherList')));
   }
   componentWillMount() {
@@ -35,4 +35,4 @@ class Staff extends Component {
   }
 }
 
-export default connect()(Staff);
+export default connect()(EmployeeList);
