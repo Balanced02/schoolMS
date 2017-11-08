@@ -259,9 +259,9 @@ export const LeaveApplication = (req, res) => {
 };
 
 export const GetLeave = async (req, res) => {
+  let id = req.params.id;
   let searchQuery = {};
-
-  if (req.user.username !== 'admin') {
+  if (id !== 'admin') {
     searchQuery = {
       teacherId: req.user.sid,
     };
@@ -280,6 +280,7 @@ export const GetLeave = async (req, res) => {
     });
     res.json(leaves);
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: 'Error getting leaves',
       error: error.message,

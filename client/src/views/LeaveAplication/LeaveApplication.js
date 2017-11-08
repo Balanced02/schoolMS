@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Card, Button } from 'reactstrap';
+import { Card, Button, CardBlock } from 'reactstrap';
 import { connect } from 'react-redux';
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
 
 import LeaveModal from '../../components/LeaveModal';
+import LeaveList from '../../components/LeaveList';
 
 class LeaveApplication extends Component {
   constructor(props) {
@@ -74,7 +75,7 @@ class LeaveApplication extends Component {
   }
 
   render() {
-    const { modalOpen, leave, minDate } = this.state;
+    const { modalOpen, leave, minDate, applications, user } = this.state;
     return (
       <div className="animated fadeIn container">
         <Card>
@@ -82,6 +83,9 @@ class LeaveApplication extends Component {
             {' '}
             New Application{' '}
           </Button>
+          <CardBlock>
+            <LeaveList userId={user.sid} />
+          </CardBlock>
         </Card>
         <LeaveModal
           isOpen={modalOpen}

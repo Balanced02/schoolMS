@@ -7,6 +7,7 @@ import { showError, showInfo } from '../../actions/feedback';
 
 import LeaveApproval from '../../components/LeaveApproval';
 import LeaveModal from '../../components/LeaveModal';
+import LeaveList from '../../components/LeaveList';
 
 class Leave extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class Leave extends Component {
   }
 
   getApplications() {
-    callApi('/allLeave')
+    callApi('/allLeave/admin')
       .then(data =>
         this.setState({
           searchResults: data,
@@ -102,6 +103,7 @@ class Leave extends Component {
               <LeaveApproval data={searchResults} select={data => this.select(data)} />
             )}
           </CardBlock>
+          <LeaveList />
         </Card>
         <LeaveModal
           isOpen={modalOpen}

@@ -74,7 +74,7 @@ api.get('/allCourse', AllCourse);
 api.get('/allVisitors', GetVisitors);
 api.get('/allTeachers', GetTeachers);
 api.get('/allClass', AllClass);
-api.get('/allLeave', GetLeave);
+api.get('/allLeave/:id', GetLeave);
 
 //actions
 api.post('/newVisitor', VisitorData);
