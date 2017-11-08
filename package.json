@@ -10,8 +10,8 @@
   "license": "MIT",
   "main": "dist/index.js",
   "engines": {
-    "node": ">6.0.0",
-    "npm": ">3.10.0"
+    "node": ">=6.0.0",
+    "npm": ">=3.10.0"
   },
   "scripts": {
     "prestart": "npm run -s build",

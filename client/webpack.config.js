@@ -1,21 +1,21 @@
-const webpack = require('webpack')
-const path = require('path')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const webpack = require('webpack');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
-const extractCSS = new ExtractTextPlugin('[name].fonts.css')
-const extractSCSS = new ExtractTextPlugin('[name].styles.css')
+const extractCSS = new ExtractTextPlugin('[name].fonts.css');
+const extractSCSS = new ExtractTextPlugin('[name].styles.css');
 
-const BUILD_DIR = path.resolve(__dirname, 'build')
-const SRC_DIR = path.resolve(__dirname, 'src')
+const BUILD_DIR = path.resolve(__dirname, 'build');
+const SRC_DIR = path.resolve(__dirname, 'src');
 
-const PUBLIC_PATH = 'http://localhost:5000/admin/' // webpack needs the trailing slash for output.publicPath
+const PUBLIC_PATH = 'http://localhost:5000/admin/'; // webpack needs the trailing slash for output.publicPath
 
-console.log('BUILD_DIR', BUILD_DIR)
-console.log('SRC_DIR', SRC_DIR)
+console.log('BUILD_DIR', BUILD_DIR);
+console.log('SRC_DIR', SRC_DIR);
 
 module.exports = {
   entry: {
@@ -102,7 +102,12 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+      },
+      sourceMap: true,
+    }),
     new webpack.NamedModulesPlugin(),
     extractCSS,
     extractSCSS,
@@ -145,6 +150,9 @@ module.exports = {
       // https://github.com/facebookincubator/create-react-app/issues/2235
       stripPrefix: BUILD_DIR.replace(/\\/g, '/') + '/',
     }),
-    new CopyWebpackPlugin([{ from: './public/img', to: 'img' }, {from: './public/manifest.json'}], { copyUnmodified: false }),
+    new CopyWebpackPlugin(
+      [{ from: './public/img', to: 'img' }, { from: './public/manifest.json' }],
+      { copyUnmodified: false }
+    ),
   ],
-}
+};
