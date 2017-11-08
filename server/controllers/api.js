@@ -6,6 +6,7 @@ import Course from '../models/Course';
 import Visitor from '../models/Visitor';
 import Teacher from '../models/Teacher';
 import ClassDetails from '../models/ClassDetails';
+import Leave from '../models/Leave';
 
 export const CreateNotice = (req, res) => {
   let { date, body } = req.body;
@@ -40,7 +41,6 @@ export const AllCourse = async (req, res) => {
 };
 
 export const SummaryData = async (req, res) => {
-  console.log('Getting Summary');
   try {
     let [totalStudents, pendingReg, totalStaff, noticeBoard] = await Promise.all([
       Student.find().count(),
@@ -175,19 +175,16 @@ export const GetTeachers = async (req, res) => {
   try {
     let [teachers, count] = await Promise.all([Teacher.find(), Teacher.find().count()]);
     let data = await ClassDetails.find({}, 'teacher classTitle');
-    console.log(data);
     teachers = teachers.map(teacher => {
       let assignedClass = data
         .filter(d => teacher.fullName === d.teacher)
         .map(a => a.classTitle)
         .join(', ');
-      console.log(assignedClass);
       teacher._doc.classInfo = assignedClass ? assignedClass : '';
       return teacher;
     });
     res.json({ teachers });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       message: 'Error Loading Teacher Details',
       error: err.message,
@@ -199,13 +196,11 @@ export const AllClass = (req, res) => {
   ClassDetails.find()
     .sort('classTitle')
     .then(data => {
-      console.log(data);
       res.json({
         data,
       });
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({
         message: 'Error fetching class information',
         error: err.message,
@@ -245,6 +240,75 @@ export const UpdateClass = (req, res) => {
     .catch(err => {
       res.status(500).json({
         message: 'Error Updating Class',
+        error: err.message,
+      });
+    });
+};
+
+export const LeaveApplication = (req, res) => {
+  Leave.create({ ...req.body })
+    .then(leave => {
+      res.json(leave);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error creating leave',
+        error: err.message,
+      });
+    });
+};
+
+export const GetLeave = async (req, res) => {
+  let searchQuery = {};
+
+  if (req.user.username !== 'admin') {
+    searchQuery = {
+      teacherId: req.user.sid,
+    };
+  }
+
+  try {
+    let [leaves, count] = await Promise.all([
+      Leave.find(searchQuery).sort('-status'),
+      Leave.find(searchQuery).count(),
+    ]);
+    let data = await Teacher.find({}, 'sid fullName');
+    leaves = leaves.map(leave => {
+      let teacherName = data.filter(d => leave.teacherId === d.sid)[0];
+      leave._doc.teacherName = teacherName ? teacherName.fullName : '';
+      return leave;
+    });
+    res.json(leaves);
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error getting leaves',
+      error: error.message,
+    });
+  }
+};
+
+export const LeaveUpdate = (req, res) => {
+  let { _id } = req.body;
+  let edited = Date.now();
+  Leave.findOneAndUpdate(
+    { _id },
+    {
+      $set: {
+        ...req.body,
+        edited,
+      },
+    },
+    {
+      new: true,
+    }
+  )
+    .then(leave => {
+      res.json(leave);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error Updating Leave',
         error: err.message,
       });
     });

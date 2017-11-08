@@ -20,15 +20,15 @@ class Register extends Component {
   constructor() {
     super();
     this.state = {
-      name: '',
+      fullName: '',
       username: '',
-      number: '',
+      phoneNumber: '',
       password: '',
       cpassword: '',
     };
   }
   render() {
-    let { name, username, number, password, cpassword } = this.state;
+    let { fullName, username, phoneNumber, password, cpassword } = this.state;
     let { dispatch, loading } = this.props;
     const changeInput = (e, input) => {
       let obj = {};
@@ -37,16 +37,16 @@ class Register extends Component {
       // console.log(this.state[input]);
     };
     const register = () => {
-      if (name && username && number && password && cpassword) {
+      if (fullName && username && phoneNumber && password && cpassword) {
         if (password !== cpassword) {
           dispatch(showError('Passwords do not Match!'));
           return;
         }
         dispatch(
           startRegister({
-            name,
+            fullName,
             username,
-            number,
+            phoneNumber,
             password,
           })
         );
@@ -81,8 +81,8 @@ class Register extends Component {
                     <Input
                       type="text"
                       placeholder="Full Name"
-                      value={name}
-                      onChange={e => changeInput(e, 'name')}
+                      value={fullName}
+                      onChange={e => changeInput(e, 'fullName')}
                     />
                   </InputGroup>
                   <InputGroup className="mb-3">
@@ -92,8 +92,8 @@ class Register extends Component {
                     <Input
                       type="text"
                       placeholder="Phone Number"
-                      value={number}
-                      onChange={e => changeInput(e, 'number')}
+                      value={phoneNumber}
+                      onChange={e => changeInput(e, 'phoneNumber')}
                     />
                   </InputGroup>
                   <InputGroup className="mb-3">

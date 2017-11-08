@@ -21,6 +21,8 @@ import Course from '../../views/Course';
 import Visitor from '../../views/Visitors';
 import AddEmployee from '../../views/AddEmployee';
 import NewIntake from '../../views/NewIntake';
+import Leave from '../../views/LeaveApproval';
+import LeaveApplication from '../../views/LeaveAplication';
 
 class Full extends Component {
   constructor(props) {
@@ -73,6 +75,12 @@ class Full extends Component {
                   <Route path="/addCourse" name="Course" component={Course} />
                   <Route path="/addEmployee" name="Add Employee" component={AddEmployee} />
                   <Route path="/newIntake" name="New Intake" component={NewIntake} />
+                  <Route path="/leaveApprovals" name="Leave" component={Leave} />
+                  <Route
+                    path="/leaveApplication"
+                    name="Leave Application"
+                    component={LeaveApplication}
+                  />
                   <Redirect from="/" to="/dashboard" />
                 </Switch>
               </Container>
@@ -91,6 +99,12 @@ class Full extends Component {
               <Container fluid>
                 <Switch>
                   <Route path="/dashboard" name="Dashboard" component={TeacherDashboard} />
+                  <Route path="/visitors" name="Department" component={Visitor} />
+                  <Route
+                    path="/leaveApplication"
+                    name="Leave Application"
+                    component={LeaveApplication}
+                  />
                   <Redirect from="/" to="/dashboard" />
                 </Switch>
               </Container>

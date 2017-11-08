@@ -4,7 +4,7 @@ import Student from '../models/Student';
 import Admin from '../models/Admin';
 
 export const Register = (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
   let newUser = new Users({
     ...req.body,
   });
@@ -12,7 +12,7 @@ export const Register = (req, res) => {
   // console.log(req.body.number);
   Users.register(newUser, req.body.password, (err, user) => {
     if (err) {
-      // console.log(err);
+      console.log(err);
       return res.status(400).json({
         message: err.message,
       });
@@ -28,7 +28,7 @@ export const Register = (req, res) => {
             });
           })
           .catch(err => {
-            // console.log(err);
+            console.log(err);
             return res.status(400).json({
               message: err.message,
             });

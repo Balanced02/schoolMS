@@ -5,5 +5,8 @@ const routes = {
   '/addCourse': 'Add and Edit Course',
   '/courseMaterials': 'Course Materials',
   '/newIntake': 'New Intake',
+  '/leaveApplication': 'Leave Application',
 };
 export default routes;
+
+//Joseph Afuape Oluwapelumi

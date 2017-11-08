@@ -22,6 +22,9 @@ import {
   AllClass,
   AddClass,
   UpdateClass,
+  LeaveApplication,
+  GetLeave,
+  LeaveUpdate,
 } from './controllers/api';
 
 const router = Router();
@@ -71,6 +74,7 @@ api.get('/allCourse', AllCourse);
 api.get('/allVisitors', GetVisitors);
 api.get('/allTeachers', GetTeachers);
 api.get('/allClass', AllClass);
+api.get('/allLeave', GetLeave);
 
 //actions
 api.post('/newVisitor', VisitorData);
@@ -79,5 +83,7 @@ api.post('/createCourse', CreateCourse);
 api.post('/updateCourse', UpdateCourse);
 api.post('/addClass', AddClass);
 api.post('/updateClass', UpdateClass);
+api.post('/leaveApplication', LeaveApplication);
+api.post('/updateLeave', LeaveUpdate);
 
 export default router;

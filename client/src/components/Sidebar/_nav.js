@@ -67,19 +67,12 @@ export default {
           category: 'admin teacher',
           children: [
             {
-              name: 'Leave Category',
-              url: '/academic',
-              category: 'admin',
+              name: 'Leave Approvals',
+              url: '/leaveApprovals',
             },
             {
               name: 'Leave Application',
-              url: '/academic',
-              category: 'admin teacher',
-            },
-            {
-              name: 'Leave Approvals',
-              url: '/academic',
-              category: 'admin',
+              url: '/leaveApplication',
             },
           ],
         },
@@ -137,9 +130,9 @@ export default {
       ],
     },
     {
-      name: 'Students',
-      url: '/students',
-      icon: 'fa fa-users fa-2x',
+      name: 'Academic',
+      url: '/academics',
+      icon: 'fa fa-book fa-2x',
       category: 'teacher',
       children: [
         {
@@ -150,7 +143,17 @@ export default {
           name: 'Attendance',
           url: '/attendance',
         },
+        {
+          name: 'Lesson Planning',
+          url: '/lessonPlanning',
+        },
       ],
+    },
+    {
+      name: 'Leave Application',
+      url: '/leaveApplication',
+      icon: 'fa fa-bathtub fa-2x',
+      category: 'teacher',
     },
   ],
 };

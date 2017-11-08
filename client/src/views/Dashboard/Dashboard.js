@@ -102,7 +102,7 @@ class Dashboard extends Component {
     return (
       <div className="animated fadeIn container">
         <DashboardSummary data={summary} />
-        <Card>
+        <Card style={{ padding: 15 }}>
           <Row>
             <div>
               <Col>
