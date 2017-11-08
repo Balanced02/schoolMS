@@ -56,7 +56,7 @@ class Leave extends Component {
           searching: false,
         })
       )
-      .catch(err => this.props.dispatch(showError('Error getting leave applications')));
+      .catch(err => this.props.dispatch(showError('Error getting leave applications...')));
   }
 
   select(data) {
