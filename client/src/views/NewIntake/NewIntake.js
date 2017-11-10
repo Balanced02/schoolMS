@@ -45,28 +45,18 @@ class NewIntake extends Component {
     if (!check) {
       this.props.dispatch(showError('All fields must be filled'));
     } else {
-      this.props.dispatch(showInfo('Relax!!!'));
+      this.props.dispatch(showInfo('Generating Admission Number...'));
+      // this.newIntake()
     }
   }
 
-  addNewStaff() {
-    let filled = Object.values(this.state).every(val => val !== '');
-    if (filled) {
-      if (this.state.password !== this.state.password2) {
-        this.props.dispatch(showError('Passwords do not match'));
-        return;
-      } else {
-        callApi('/auth/register', { ...this.state }, 'POST')
-          .then(staff => {
-            this.props.dispatch(showInfo('Created Successfully'));
-            this.setState(this.initialState);
-          })
-          .catch(err => this.props.dispatch(showError(err)));
-      }
-    }
-    filled
-      ? this.props.dispatch(showInfo('Good to go'))
-      : this.props.dispatch(showError('Kindly Fill correctly'));
+  newIntake() {
+    callApi('/auth/register', { ...this.state }, 'POST')
+      .then(student => {
+        this.props.dispatch(showInfo('Created Successfully'));
+        this.setState(this.initialState);
+      })
+      .catch(err => this.props.dispatch(showError(err)));
   }
 
   render() {

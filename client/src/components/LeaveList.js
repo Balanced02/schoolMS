@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { callApi } from '../utils';
 import { showError, showInfo } from '../actions/feedback';
+import LeaveModal from './LeaveModal';
 
 import { CardHeader, Table, Card, CardBlock, Badge } from 'reactstrap';
 
@@ -13,6 +14,8 @@ class LeaveList extends Component {
         searching: true,
         searchResults: [],
       },
+      modalOpen: false,
+      leave: {},
     };
   }
 
@@ -35,8 +38,23 @@ class LeaveList extends Component {
     this.getApplications();
   }
 
+  toggle() {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
+  }
+
+  select(leave) {
+    this.setState({
+      leave: {
+        ...leave,
+      },
+    });
+    this.toggle();
+  }
+
   render() {
-    let { data } = this.state;
+    let { data, leaveCategory, leave, modalOpen } = this.state;
     return (
       <div>
         <Card>
@@ -85,14 +103,9 @@ class LeaveList extends Component {
                       <td>
                         {' '}
                         <i
-                          className="fa fa-pencil-square-o"
-                          onClick={() => select(leave)}
-                          style={{ cursor: 'pointer' }}
-                        />{' '}
-                        <i
                           className="fa fa-eye"
                           style={{ color: 'green', cursor: 'pointer' }}
-                          onClick={() => toggleModal(leave)}
+                          onClick={() => this.select(leave)}
                         />{' '}
                       </td>
                     </tr>
@@ -101,6 +114,7 @@ class LeaveList extends Component {
               </tbody>
             </Table>
           </CardBlock>
+          <LeaveModal isOpen={modalOpen} type={'view'} data={leave} toggle={() => this.toggle()} />
         </Card>
       </div>
     );

@@ -42,30 +42,31 @@ export default {
         {
           name: 'Employee Management',
           url: '/academic',
-          category: 'admin',
+
           children: [
             {
               name: 'Add Department',
               url: '/department',
-              category: 'admin',
             },
             {
               name: 'Add Employee',
               url: '/addEmployee',
-              category: 'admin',
             },
             {
               name: 'Employee List',
               url: '/employeeList',
-              category: 'admin',
             },
           ],
         },
         {
           name: 'Leave Management',
           url: '/academic',
-          category: 'admin teacher',
+          category: 'admin',
           children: [
+            {
+              name: 'Leave Category',
+              url: '/leaveCategory',
+            },
             {
               name: 'Leave Approvals',
               url: '/leaveApprovals',
@@ -73,6 +74,21 @@ export default {
             {
               name: 'Leave Application',
               url: '/leaveApplication',
+            },
+          ],
+        },
+        {
+          name: 'User Management',
+          url: '/userManagement',
+          category: 'admin',
+          children: [
+            {
+              name: 'User Category',
+              url: '/userCategory',
+            },
+            {
+              name: 'Pay Roll',
+              url: '/payRoll',
             },
           ],
         },

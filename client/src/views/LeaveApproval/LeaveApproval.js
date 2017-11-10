@@ -17,6 +17,7 @@ class Leave extends Component {
       searchResults: [],
       searching: true,
       leave: {},
+      leaveCategory: [],
       modalOpen: false,
     };
   }
@@ -40,6 +41,16 @@ class Leave extends Component {
         },
       });
     }
+  }
+
+  getLeaveCategory() {
+    callApi('/getLeaveCategory')
+      .then(data => {
+        this.setState({
+          leaveCategory: data,
+        });
+      })
+      .catch(err => this.props.dispatch(showError('Error fetching leave categories')));
   }
 
   toggle() {
@@ -70,6 +81,7 @@ class Leave extends Component {
 
   componentWillMount() {
     this.getApplications();
+    this.getLeaveCategory();
   }
 
   submit() {
@@ -80,13 +92,12 @@ class Leave extends Component {
           leave: {},
           modalOpen: false,
         });
-        this.getApplications();
       })
       .catch(err => this.props.dispatch('Error updating Leave Application'));
   }
 
   render() {
-    const { searching, searchResults, modalOpen, leave, userType } = this.state;
+    const { searching, searchResults, modalOpen, leave, userType, leaveCategory } = this.state;
     return (
       <div className="animated fadeIn container">
         <Card>
@@ -108,6 +119,7 @@ class Leave extends Component {
         <LeaveModal
           isOpen={modalOpen}
           data={leave}
+          category={leaveCategory}
           submit={() => this.submit()}
           userType={userType}
           edit={e => this.handleInputchange(e)}

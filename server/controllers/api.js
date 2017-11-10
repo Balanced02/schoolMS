@@ -7,6 +7,9 @@ import Visitor from '../models/Visitor';
 import Teacher from '../models/Teacher';
 import ClassDetails from '../models/ClassDetails';
 import Leave from '../models/Leave';
+import Department from '../models/Department';
+import LeaveCategory from '../models/LeaveCategory';
+import UserCategory from '../models/UserCategory';
 
 export const CreateNotice = (req, res) => {
   let { date, body } = req.body;
@@ -310,6 +313,165 @@ export const LeaveUpdate = (req, res) => {
       console.log(err);
       res.status(500).json({
         message: 'Error Updating Leave',
+        error: err.message,
+      });
+    });
+};
+
+export const NewDepartment = (req, res) => {
+  let { _id } = req.body;
+  if (_id) {
+    Department.findOneAndUpdate(
+      { _id },
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      {
+        new: true,
+      }
+    )
+      .then(dept => {
+        res.json(dept);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          message: 'Error updating dept',
+          error: err.message,
+        });
+      });
+  } else {
+    Department.create({
+      ...req.body,
+    })
+      .then(dept => {
+        res.json(dept);
+      })
+      .catch(err => {
+        res.status(500).json({
+          message: 'Error Creating Dept',
+          error: err.message,
+        });
+      });
+  }
+};
+
+export const FetchDepartment = (req, res) => {
+  Department.find()
+    .then(dept => res.json(dept))
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error Fetching Department',
+        error: err.message,
+      });
+    });
+};
+
+export const CategoryUpdate = (req, res) => {
+  console.log(req.body);
+  let { _id } = req.body;
+  if (_id) {
+    LeaveCategory.findOneAndUpdate(
+      { _id },
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      {
+        new: true,
+      }
+    )
+      .then(leave => {
+        res.json(leave);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          message: 'Error updating leave',
+          error: err.message,
+        });
+      });
+  } else {
+    LeaveCategory.create({
+      ...req.body,
+    })
+      .then(leave => {
+        res.json(leave);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          message: 'Error Creating Leave',
+          error: err.message,
+        });
+      });
+  }
+};
+
+export const GetLeaveCategory = (req, res) => {
+  LeaveCategory.find()
+    .then(leave => res.json(leave))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error Fetching Department',
+        error: err.message,
+      });
+    });
+};
+
+export const AddUserCategory = (req, res) => {
+  console.log(req.body);
+  let { _id } = req.body;
+  if (_id) {
+    UserCategory.findOneAndUpdate(
+      { _id },
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      {
+        new: true,
+      }
+    )
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          message: 'Error updating leave',
+          error: err.message,
+        });
+      });
+  } else {
+    UserCategory.create({
+      ...req.body,
+    })
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          message: 'Error Creating Leave',
+          error: err.message,
+        });
+      });
+  }
+};
+
+export const GetUserCategory = (req, res) => {
+  UserCategory.find()
+    .then(data => res.json(data))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error Fetching Department',
         error: err.message,
       });
     });

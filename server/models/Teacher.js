@@ -34,8 +34,14 @@ const teacherSchema = new Schema({
     trim: true,
     required: true,
   },
+  designation: {},
   dob: {
     type: Date,
+  },
+  joiningDate: {
+    type: Date,
+    required: true,
+    default: Date.now,
   },
   gender: {
     type: String,
@@ -52,6 +58,30 @@ const teacherSchema = new Schema({
   created: {
     type: Date,
     default: Date.now,
+    required: true,
+  },
+  totalExperience: {
+    type: String,
+    default: 0,
+  },
+  pName: {
+    type: String,
+    required: true,
+  },
+  pPhoneNumber: {
+    type: String,
+    required: true,
+  },
+  pOccupation: {
+    type: String,
+    required: true,
+  },
+  pOfficeAddress: {
+    type: String,
+    required: true,
+  },
+  pAddress: {
+    type: String,
     required: true,
   },
 });

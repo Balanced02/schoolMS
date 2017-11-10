@@ -17,7 +17,7 @@ import {
 } from 'reactstrap';
 import moment from 'moment';
 
-export default ({ isOpen, toggle, data, edit, submit, minDate, userType }) => {
+export default ({ isOpen, toggle, data, edit, category, submit, minDate, userType, type }) => {
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle}>{moment(data.date).format('MMM Do YYYY')}</ModalHeader>
@@ -32,14 +32,32 @@ export default ({ isOpen, toggle, data, edit, submit, minDate, userType }) => {
                 </Label>
                 <Col sm={8}>
                   <Input
-                    type="text"
+                    type="select"
                     name="category"
-                    value={data.category}
                     id="applicationCategory"
                     placeholder="Category"
                     bsSize="lg"
-                    onChange={e => edit(e)}
-                  />
+                    onChange={edit ? e => edit(e) : ''}
+                  >
+                    <option selected disabled>
+                      {' '}
+                      Select One{' '}
+                    </option>
+                    {type === 'view' ? (
+                      <option value={data.category} selected>
+                        {data.category}
+                      </option>
+                    ) : category ? (
+                      category.map(leave => (
+                        <option value={leave.category} selected={leave.category === data.category}>
+                          {' '}
+                          {leave.category}{' '}
+                        </option>
+                      ))
+                    ) : (
+                      ''
+                    )}
+                  </Input>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -52,7 +70,7 @@ export default ({ isOpen, toggle, data, edit, submit, minDate, userType }) => {
                     value={data.startDate}
                     name="startDate"
                     id="startDate"
-                    onChange={e => edit(e)}
+                    onChange={edit ? e => edit(e) : ''}
                     min={minDate}
                   />
                 </Col>
@@ -68,8 +86,8 @@ export default ({ isOpen, toggle, data, edit, submit, minDate, userType }) => {
                     value={data.endDate}
                     id="endDate"
                     placeholder="default"
-                    onChange={e => edit(e)}
-                    min={data.startDate || minDate}
+                    onChange={edit ? e => edit(e) : ''}
+                    min={minDate ? data.startDate || minDate : ''}
                   />
                 </Col>
               </FormGroup>
@@ -84,7 +102,7 @@ export default ({ isOpen, toggle, data, edit, submit, minDate, userType }) => {
                     value={data.reason}
                     id="reason"
                     placeholder="Reason for leave"
-                    onChange={e => edit(e)}
+                    onChange={edit ? e => edit(e) : ''}
                   />
                 </Col>
               </FormGroup>
@@ -95,7 +113,7 @@ export default ({ isOpen, toggle, data, edit, submit, minDate, userType }) => {
                   type="checkbox"
                   className="switch-input"
                   name="status"
-                  onChange={e => edit(e)}
+                  onChange={edit ? e => edit(e) : ''}
                   checked={data.status === 'approved'}
                 />
                 <span className="switch-label" data-on="YES" data-off="NO" />
@@ -105,12 +123,18 @@ export default ({ isOpen, toggle, data, edit, submit, minDate, userType }) => {
               ''
             )}
             <ModalFooter>
-              <Button color="info" onClick={submit}>
-                {data._id ? 'Update' : 'Submit'}
-              </Button>{' '}
-              <Button color="danger" onClick={toggle}>
-                Cancel
-              </Button>
+              {edit ? (
+                <div>
+                  <Button color="info" onClick={submit}>
+                    {data._id ? 'Update' : 'Submit'}
+                  </Button>{' '}
+                  <Button color="danger" onClick={toggle}>
+                    Cancel
+                  </Button>
+                </div>
+              ) : (
+                ''
+              )}
             </ModalFooter>
           </CardBlock>
         </Card>

@@ -25,6 +25,12 @@ import {
   LeaveApplication,
   GetLeave,
   LeaveUpdate,
+  NewDepartment,
+  FetchDepartment,
+  CategoryUpdate,
+  GetLeaveCategory,
+  GetUserCategory,
+  AddUserCategory,
 } from './controllers/api';
 
 const router = Router();
@@ -75,6 +81,9 @@ api.get('/allVisitors', GetVisitors);
 api.get('/allTeachers', GetTeachers);
 api.get('/allClass', AllClass);
 api.get('/allLeave/:id', GetLeave);
+api.get('/getLeaveCategory', GetLeaveCategory);
+api.get('/getDepartments', FetchDepartment);
+api.get('/getUserCategory', GetUserCategory);
 
 //actions
 api.post('/newVisitor', VisitorData);
@@ -85,5 +94,8 @@ api.post('/addClass', AddClass);
 api.post('/updateClass', UpdateClass);
 api.post('/leaveApplication', LeaveApplication);
 api.post('/updateLeave', LeaveUpdate);
+api.post('/newDepartment', NewDepartment);
+api.post('/addLeaveCategory', CategoryUpdate);
+api.post('/addUserCategory', AddUserCategory);
 
 export default router;

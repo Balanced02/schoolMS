@@ -15,6 +15,7 @@ class LeaveApplication extends Component {
       leave: { category: '', startDate: '', endDate: '' },
       minDate: '',
       modalOpen: false,
+      leaveCategory: [],
     };
   }
 
@@ -57,6 +58,16 @@ class LeaveApplication extends Component {
     }
   }
 
+  getLeaveCategory() {
+    callApi('/getLeaveCategory')
+      .then(data => {
+        this.setState({
+          leaveCategory: data,
+        });
+      })
+      .catch(err => this.props.dispatch(showError('Error fetching leave categories')));
+  }
+
   componentWillMount() {
     var today = new Date();
     var dd = today.getDate();
@@ -72,10 +83,11 @@ class LeaveApplication extends Component {
     this.setState({
       minDate: today,
     });
+    this.getLeaveCategory();
   }
 
   render() {
-    const { modalOpen, leave, minDate, applications, user } = this.state;
+    const { modalOpen, leave, minDate, applications, user, leaveCategory } = this.state;
     return (
       <div className="animated fadeIn container">
         <Card>
@@ -89,6 +101,7 @@ class LeaveApplication extends Component {
         </Card>
         <LeaveModal
           isOpen={modalOpen}
+          category={leaveCategory}
           data={leave}
           minDate={minDate}
           submit={() => this.submit()}
