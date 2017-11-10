@@ -30,7 +30,7 @@ class UserCategory extends Component {
   }
 
   addUserCategory() {
-    if (this.state.userCategory.category === '' || this.state.userCategory.salary === '') {
+    if (!this.state.userCategory.category || !this.state.userCategory.salary) {
       this.props.dispatch(showError('Please fill correctly'));
     } else {
       callApi('/addUserCategory', this.state.userCategory, 'POST')

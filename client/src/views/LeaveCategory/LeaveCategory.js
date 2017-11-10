@@ -30,7 +30,7 @@ class LeaveCategory extends Component {
   }
 
   addLeaveCategory() {
-    if (this.state.leaveCategory.category === '') {
+    if (!this.state.leaveCategory.category) {
       this.props.dispatch(showError('Please fill correctly'));
     } else {
       callApi('/addLeaveCategory', this.state.leaveCategory, 'POST')
