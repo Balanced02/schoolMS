@@ -1,0 +1,17 @@
+{
+  "fonts/Simple-Line-Icons.eot?v=2.4.0": "./fonts/Simple-Line-Icons.f33df365d6d0255b586f2920355e94d7.eot",
+  "fonts/Simple-Line-Icons.svg?v=2.4.0": "./fonts/Simple-Line-Icons.2fe2efe63441d830b1acd106c1fe8734.svg",
+  "fonts/Simple-Line-Icons.ttf?v=2.4.0": "./fonts/Simple-Line-Icons.d2285965fe34b05465047401b8595dd0.ttf",
+  "fonts/Simple-Line-Icons.woff2?v=2.4.0": "./fonts/Simple-Line-Icons.0cb0b9c589c0624c9c78dd3d83e946f6.woff2",
+  "fonts/Simple-Line-Icons.woff?v=2.4.0": "./fonts/Simple-Line-Icons.78f07e2c2a535c26ef21d95e41bd7175.woff",
+  "fonts/fontawesome-webfont.eot?v=4.7.0": "./fonts/fontawesome-webfont.674f50d287a8c48dc19ba404d20fe713.eot",
+  "fonts/fontawesome-webfont.svg?v=4.7.0": "./fonts/fontawesome-webfont.912ec66d7572ff821749319396470bde.svg",
+  "fonts/fontawesome-webfont.ttf?v=4.7.0": "./fonts/fontawesome-webfont.b06871f281fee6b241d60582ae9369b9.ttf",
+  "fonts/fontawesome-webfont.woff2?v=4.7.0": "./fonts/fontawesome-webfont.af7ae505a9eed503f8b8e6982036873e.woff2",
+  "fonts/fontawesome-webfont.woff?v=4.7.0": "./fonts/fontawesome-webfont.fee66e712a8a08eef5805a46892932ad.woff",
+  "img/logo.png": "./img/logo.a961dfbf36f110092c3f2d35778fa3db.png",
+  "index.css": "index.styles.css",
+  "index.css.map": "index.fonts.css.map",
+  "index.js": "index.bundle.js",
+  "index.js.map": "index.bundle.js.map"
+}
