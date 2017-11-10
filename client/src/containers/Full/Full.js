@@ -24,7 +24,7 @@ import NewIntake from '../../views/NewIntake';
 import Leave from '../../views/LeaveApproval';
 import LeaveApplication from '../../views/LeaveAplication';
 import LeaveCategory from '../../views/LeaveCategory';
-import UserCategory from '../../views/UserCategory';
+import AddDesignation from '../../views/AddDesignation';
 
 class Full extends Component {
   constructor(props) {
@@ -79,7 +79,7 @@ class Full extends Component {
                   <Route path="/newIntake" name="New Intake" component={NewIntake} />
                   <Route path="/leaveApprovals" name="Leave" component={Leave} />
                   <Route path="/leaveCategory" name="Leave" component={LeaveCategory} />
-                  <Route path="/userCategory" name="Leave" component={UserCategory} />
+                  <Route path="/addDesignation" name="Leave" component={AddDesignation} />
                   <Route
                     path="/leaveApplication"
                     name="Leave Application"

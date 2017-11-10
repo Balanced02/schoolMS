@@ -72,16 +72,16 @@ class Employee extends Component {
             <FormGroup row>
               <Label md={2}>Academic Year</Label>
               <Col md={4}>
-                <Input type="select" name="designation" onChange={e => this.edit(e)}>
+                <Input type="select" name="designation" onChange={e => this.handleInputchange(e)}>
                   <option value="1" disabled selected>
-                    Designation
+                    Academic Year
                   </option>
                   <option value="Male">2016-2017</option>
                 </Input>
               </Col>
               <Label md={2}>Joining Date</Label>
               <Col md={4}>
-                <Input type="date" name="joiningDate" onChange={e => this.edit(e)} />
+                <Input type="date" name="joiningDate" onChange={e => this.handleInputchange(e)} />
               </Col>
             </FormGroup>
             <Form>
@@ -173,10 +173,9 @@ class Employee extends Component {
                       {' '}
                       Select one{' '}
                     </option>
-                    <option value="admin"> Admin </option>
-                    <option value="teacher"> Teacher </option>
-                    <option value="libarian"> Libarian </option>
+                    <option value="teacher"> Teaching Staff </option>
                     <option value="non-teaching"> Non-Teaching Staff </option>
+                    <option value="admin"> Admin </option>
                   </Input>
                 </Col>
                 <Label md={2}>Gender</Label>

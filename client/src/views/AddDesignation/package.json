@@ -1,0 +1,6 @@
+{
+  "name": "Add Designation",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./AddDesignation.js"
+}

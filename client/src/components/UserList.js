@@ -6,7 +6,7 @@ export default ({ data, select }) => {
   return (
     <div className="container-fluid">
       <Card>
-        <CardHeader>Category List</CardHeader>
+        <CardHeader>Designation List</CardHeader>
         <CardBlock>
           {data.searching ? (
             <i className="fa fa-spinner fa-spin fa-2x" />
@@ -19,7 +19,9 @@ export default ({ data, select }) => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Title</th>
+                  <th>Designation Name</th>
+                  <th>User Type</th>
+                  <th>Basic Salary</th>
                   <th />
                 </tr>
               </thead>
@@ -27,7 +29,15 @@ export default ({ data, select }) => {
                 {data.searchResults.map((user, i) => (
                   <tr key={i}>
                     <td>{i + 1}</td>
-                    <td> {user.category} </td>
+                    <td> {user.category.toUpperCase()} </td>
+                    <td>
+                      {' '}
+                      {user.userType === 'teacher'
+                        ? 'TEACHING STAFF'
+                        : user.userType === 'non-teaching'
+                          ? 'NON-TEACHING STAFF'
+                          : user.userType === 'admin' ? 'ADMIN' : ''}{' '}
+                    </td>
                     <td> {user.salary} </td>
                     <td>
                       {' '}

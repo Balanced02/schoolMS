@@ -83,8 +83,8 @@ export default {
           category: 'admin',
           children: [
             {
-              name: 'User Category',
-              url: '/userCategory',
+              name: 'Add Designation',
+              url: '/addDesignation',
             },
             {
               name: 'Pay Roll',

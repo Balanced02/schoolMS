@@ -38,12 +38,6 @@ export default ({ data, select }) => {
                         onClick={() => select(classInfo)}
                         style={{ cursor: 'pointer' }}
                       />
-                      <i className="fa fa-eye" style={{ color: 'green', cursor: 'pointer' }} />{' '}
-                      <i
-                        className="fa fa-trash"
-                        id={'Popover' + i}
-                        style={{ color: 'red', cursor: 'pointer' }}
-                      />{' '}
                     </td>
                   </tr>
                 ))}

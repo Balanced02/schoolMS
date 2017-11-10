@@ -17,7 +17,7 @@ import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
 import UserList from '../../components/UserList';
 
-class UserCategory extends Component {
+class AddDesignation extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -86,12 +86,12 @@ class UserCategory extends Component {
         <Card>
           <CardBlock>
             <Row>
-              <Col md={6}>
+              <Col md={5}>
                 <Card>
-                  <CardHeader>Add User Category</CardHeader>
+                  <CardHeader>Add Designation Category</CardHeader>
                   <CardBlock>
                     <FormGroup>
-                      <Label>User Category</Label>
+                      <Label>Designation Category</Label>
                       <Input
                         type="text"
                         name="category"
@@ -100,7 +100,40 @@ class UserCategory extends Component {
                       />
                     </FormGroup>
                     <FormGroup>
-                      <Label>Salary</Label>
+                      <Label>User Type</Label>
+                      <Input
+                        type="select"
+                        name="userType"
+                        onChange={e => this.handleInputChange(e)}
+                      >
+                        <option selected disabled>
+                          Select
+                        </option>
+                        <option
+                          value="teacher"
+                          selected={this.state.userCategory.userType === 'teacher'}
+                        >
+                          {' '}
+                          Teaching Staff{' '}
+                        </option>
+                        <option
+                          value="non-teaching"
+                          selected={this.state.userCategory.userType === 'non-teaching'}
+                        >
+                          {' '}
+                          Non-Teaching Staff{' '}
+                        </option>
+                        <option
+                          value="admin"
+                          selected={this.state.userCategory.userType === 'admin'}
+                        >
+                          {' '}
+                          Admin{' '}
+                        </option>
+                      </Input>
+                    </FormGroup>
+                    <FormGroup>
+                      <Label>Basic Salary</Label>
                       <Input
                         type="number"
                         name="salary"
@@ -114,7 +147,7 @@ class UserCategory extends Component {
                   </CardBlock>
                 </Card>
               </Col>
-              <Col md={6}>
+              <Col md={7}>
                 <UserList data={this.state.data} select={data => this.select(data)} />
               </Col>
             </Row>
@@ -125,4 +158,4 @@ class UserCategory extends Component {
   }
 }
 
-export default connect()(UserCategory);
+export default connect()(AddDesignation);

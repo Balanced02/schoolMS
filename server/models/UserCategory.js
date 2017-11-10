@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 let userCategorySchema = new mongoose.Schema({
+  userType: {
+    type: String,
+    required: true,
+  },
   category: {
     type: String,
     required: true,

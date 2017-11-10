@@ -8,8 +8,6 @@ export const Register = (req, res) => {
   let newUser = new Users({
     ...req.body,
   });
-  // console.log(req.body.username);
-  // console.log(req.body.number);
   Users.register(newUser, req.body.password, (err, user) => {
     if (err) {
       console.log(err);
@@ -18,8 +16,6 @@ export const Register = (req, res) => {
       });
     } else {
       if (user._doc.userType) {
-        // console.log(Object.keys(user));
-        // console.log(user._doc.userType);
         createUser(user._doc.userType, req.body, user._doc.sid)
           .then(user => {
             return res.json({
@@ -46,7 +42,6 @@ const createUser = (userType, body, id) => {
   return new Promise((resolve, reject) => {
     User.create({ ...body, sid: id })
       .then(user => {
-        // console.log(User);
         resolve(user);
       })
       .catch(err => {
@@ -57,7 +52,6 @@ const createUser = (userType, body, id) => {
 
 export const Login = (req, res) => {
   let user = req.user;
-  // console.log(user);
   return res.json({
     message: 'Login Successful',
     user: {
@@ -70,7 +64,6 @@ export const Login = (req, res) => {
 
 // Get user data from client side
 export const AuthMe = (req, res) => {
-  // console.log(req.user);
   if (req.user) {
     return res.json({
       authenticated: true,
