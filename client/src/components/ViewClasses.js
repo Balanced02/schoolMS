@@ -4,7 +4,7 @@ import { CardHeader, Table, Card, CardBlock } from 'reactstrap';
 
 export default ({ data, select }) => {
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" style={{ paddingTop: 15 }}>
       <Card>
         <CardHeader>CLASS LIST</CardHeader>
         <CardBlock>

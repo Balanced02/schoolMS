@@ -34,6 +34,52 @@ export default {
       ],
     },
     {
+      name: 'Admissions',
+      url: '/admission',
+      icon: 'fa fa-lock fa-2x',
+      category: 'admin',
+      children: [
+        {
+          name: 'New Intake',
+          url: '/newIntake',
+        },
+        {
+          name: 'Applicants',
+          url: '/applicants',
+        },
+        {
+          name: 'Pending Applications',
+          url: '/applicants',
+        },
+      ],
+    },
+    {
+      name: 'Academic',
+      url: '/academics',
+      icon: 'fa fa-book fa-2x',
+      category: 'teacher',
+      children: [
+        {
+          name: 'Assignment/Test',
+          url: '/assignment',
+        },
+        {
+          name: 'Attendance',
+          url: '/attendance',
+        },
+        {
+          name: 'Lesson Planning',
+          url: '/lessonPlanning',
+        },
+      ],
+    },
+    {
+      name: 'Leave Application',
+      url: '/leaveApplication',
+      icon: 'fa fa-bathtub fa-2x',
+      category: 'teacher',
+    },
+    {
       name: 'HR/Payroll',
       url: '/academic',
       icon: 'fa fa-eye fa-2x',
@@ -95,33 +141,6 @@ export default {
       ],
     },
     {
-      name: 'Visitors',
-      url: '/visitors',
-      category: 'admin teacher',
-      icon: 'fa fa-male fa-2x',
-    },
-
-    {
-      name: 'Admissions',
-      url: '/admission',
-      icon: 'fa fa-lock fa-2x',
-      category: 'admin',
-      children: [
-        {
-          name: 'New Intake',
-          url: '/newIntake',
-        },
-        {
-          name: 'Applicants',
-          url: '/applicants',
-        },
-        {
-          name: 'Pending Applications',
-          url: '/applicants',
-        },
-      ],
-    },
-    {
       name: 'Settings',
       url: '/adminSettings',
       category: 'admin',
@@ -146,30 +165,10 @@ export default {
       ],
     },
     {
-      name: 'Academic',
-      url: '/academics',
-      icon: 'fa fa-book fa-2x',
-      category: 'teacher',
-      children: [
-        {
-          name: 'Assignment/Test',
-          url: '/assignment',
-        },
-        {
-          name: 'Attendance',
-          url: '/attendance',
-        },
-        {
-          name: 'Lesson Planning',
-          url: '/lessonPlanning',
-        },
-      ],
-    },
-    {
-      name: 'Leave Application',
-      url: '/leaveApplication',
-      icon: 'fa fa-bathtub fa-2x',
-      category: 'teacher',
+      name: 'Visitors',
+      url: '/visitors',
+      category: 'admin teacher',
+      icon: 'fa fa-male fa-2x',
     },
   ],
 };

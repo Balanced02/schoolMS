@@ -1,11 +1,10 @@
 import React from 'react';
-import ViewCourseModal from './ViewCourseModal';
 
 import { CardHeader, Table, Card, CardBlock } from 'reactstrap';
 
 export default ({ data, select, toggleModal }) => {
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" style={{ paddingTop: 15 }}>
       <Card>
         <CardHeader>COURSE LIST</CardHeader>
         <CardBlock>

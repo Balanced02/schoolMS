@@ -277,27 +277,18 @@ class Course extends Component {
           <TabContent activeTab={activeTab}>
             <TabPane tabId="1">
               <Row>
-                <Col sm="12">
-                  <Row>
-                    <Col md={6}>
-                      <AddCourse
-                        data={course}
-                        edit={e => this.edit(e)}
-                        submit={() => this.createCourse()}
-                      />
-                    </Col>
-                    <Col md={6}>
-                      <CourseList
-                        data={courseList}
-                        select={data => this.select(data)}
-                        toggleModal={course => this.toggleModal(course)}
-                      />
-                    </Col>
-                  </Row>
-                  <ViewCourseModal
-                    data={modal}
-                    open={modalOpen}
-                    toggle={() => this.toggleModal()}
+                <Col md={6}>
+                  <AddCourse
+                    data={course}
+                    edit={e => this.edit(e)}
+                    submit={() => this.createCourse()}
+                  />
+                </Col>
+                <Col md={6}>
+                  <CourseList
+                    data={courseList}
+                    select={data => this.select(data)}
+                    toggleModal={course => this.toggleModal(course)}
                   />
                 </Col>
               </Row>
@@ -322,6 +313,7 @@ class Course extends Component {
               </Row>
             </TabPane>
           </TabContent>
+          <ViewCourseModal data={modal} open={modalOpen} toggle={() => this.toggleModal()} />
         </div>
       </Card>
     );

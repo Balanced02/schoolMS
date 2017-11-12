@@ -10,6 +10,7 @@ import Leave from '../models/Leave';
 import Department from '../models/Department';
 import LeaveCategory from '../models/LeaveCategory';
 import UserCategory from '../models/UserCategory';
+import PayRoll from '../models/PayRoll';
 
 export const CreateNotice = (req, res) => {
   let { date, body } = req.body;
@@ -467,11 +468,66 @@ export const AddUserCategory = (req, res) => {
 
 export const GetUserCategory = (req, res) => {
   UserCategory.find()
+    .sort('userType')
     .then(data => res.json(data))
     .catch(err => {
       console.log(err);
       res.status(500).json({
         message: 'Error Fetching Department',
+        error: err.message,
+      });
+    });
+};
+
+export const AddPayHead = (req, res) => {
+  console.log(req.body);
+  let { _id } = req.body;
+  if (_id) {
+    PayRoll.findOneAndUpdate(
+      { _id },
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      {
+        new: true,
+      }
+    )
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          message: 'Error updating PayHead',
+          error: err.message,
+        });
+      });
+  } else {
+    PayRoll.create({
+      ...req.body,
+    })
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          message: 'Error Creating Pay Head',
+          error: err.message,
+        });
+      });
+  }
+};
+
+export const GetPayHead = (req, res) => {
+  PayRoll.find()
+    .then(data => res.json(data))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error Fetching Pay Roll Details',
         error: err.message,
       });
     });

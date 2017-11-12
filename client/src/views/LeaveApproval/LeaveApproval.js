@@ -92,6 +92,7 @@ class Leave extends Component {
           leave: {},
           modalOpen: false,
         });
+        this.getApplications();
       })
       .catch(err => this.props.dispatch('Error updating Leave Application'));
   }
