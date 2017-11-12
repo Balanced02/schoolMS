@@ -133,10 +133,91 @@ export default {
               url: '/addDesignation',
             },
             {
-              name: 'Pay Roll',
-              url: '/payRoll',
+              name: 'Pay Head',
+              url: '/payHead',
             },
           ],
+        },
+      ],
+    },
+
+    {
+      name: 'Library',
+      url: '/library',
+      category: 'admin',
+      icon: 'fa fa-sliders fa-2x',
+      children: [
+        {
+          name: 'Add Category',
+          url: '/addCategory',
+        },
+        {
+          name: 'Add Books',
+          url: '/addBooks',
+        },
+        {
+          name: 'Issue Book',
+          url: '/issueBook',
+        },
+        {
+          name: 'Return Book',
+          url: '/returnBook',
+        },
+        {
+          name: 'Reports',
+          url: '/bookReports',
+        },
+      ],
+    },
+    {
+      name: 'Transport',
+      url: '/transport',
+      category: 'admin',
+      icon: 'fa fa-sliders fa-2x',
+      children: [
+        {
+          name: 'Add Vehicle',
+          url: '/addVehicle',
+        },
+        {
+          name: 'Add Driver',
+          url: '/addDriver',
+        },
+        {
+          name: 'Add Route',
+          url: '/addRoute',
+        },
+        {
+          name: 'Fee Collection',
+          url: '/feeCollection',
+        },
+      ],
+    },
+    {
+      name: 'Store Management',
+      url: '/storeManagement',
+      category: 'admin',
+      icon: 'fa fa-sliders fa-2x',
+      children: [
+        {
+          name: 'Inventory',
+          url: '/addCategory',
+        },
+      ],
+    },
+    {
+      name: 'Reports',
+      url: '/reports',
+      category: 'admin',
+      icon: 'fa fa-sliders fa-2x',
+      children: [
+        {
+          name: 'Student Reports',
+          url: '/studentReports',
+        },
+        {
+          name: 'Student Details',
+          url: '/studentDetails',
         },
       ],
     },

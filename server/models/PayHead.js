@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-let payRollSchema = new mongoose.Schema({
+let payHeadSchema = new mongoose.Schema({
   payHeadType: {
     type: String,
     required: true,
@@ -22,4 +22,4 @@ let payRollSchema = new mongoose.Schema({
     required: true,
   },
 });
-export default mongoose.model('PayR', payRollSchema);
+export default mongoose.model('PayHead', payHeadSchema);

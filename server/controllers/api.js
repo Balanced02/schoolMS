@@ -10,7 +10,7 @@ import Leave from '../models/Leave';
 import Department from '../models/Department';
 import LeaveCategory from '../models/LeaveCategory';
 import UserCategory from '../models/UserCategory';
-import PayRoll from '../models/PayRoll';
+import PayHead from '../models/PayHead';
 
 export const CreateNotice = (req, res) => {
   let { date, body } = req.body;
@@ -483,7 +483,7 @@ export const AddPayHead = (req, res) => {
   console.log(req.body);
   let { _id } = req.body;
   if (_id) {
-    PayRoll.findOneAndUpdate(
+    PayHead.findOneAndUpdate(
       { _id },
       {
         $set: {
@@ -505,7 +505,7 @@ export const AddPayHead = (req, res) => {
         });
       });
   } else {
-    PayRoll.create({
+    PayHead.create({
       ...req.body,
     })
       .then(data => {
@@ -522,7 +522,7 @@ export const AddPayHead = (req, res) => {
 };
 
 export const GetPayHead = (req, res) => {
-  PayRoll.find()
+  PayHead.find()
     .then(data => res.json(data))
     .catch(err => {
       console.log(err);

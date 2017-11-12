@@ -2,5 +2,5 @@
   "name": "Pay Roll",
   "version": "1.0.0",
   "private": true,
-  "main": "./PayRoll.js"
+  "main": "./PayHead.js"
 }
