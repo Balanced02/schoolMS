@@ -44,7 +44,7 @@ export const Register = (req, res) => {
   });
 };
 
-const createSchool = async (userType, body, id) => {
+const createSchool = (userType, body, id) => {
   console.log(userType);
   if (userType !== 'school') {
     return new Promise((resolve, reject) => {

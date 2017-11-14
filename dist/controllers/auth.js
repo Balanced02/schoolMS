@@ -31,8 +31,6 @@ var _path = require('path');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 var Register = exports.Register = function Register(req, res) {
   var type = req.body.userType;
   var newUser = new _Users2.default(_extends({}, req.body, {
@@ -69,62 +67,39 @@ var Register = exports.Register = function Register(req, res) {
   });
 };
 
-var createSchool = function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(userType, body, id) {
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            console.log(userType);
+var createSchool = function createSchool(userType, body, id) {
+  console.log(userType);
+  if (userType !== 'school') {
+    return new Promise(function (resolve, reject) {
+      console.log(body);
+      createUser(userType, body, id).then(function (data) {
+        return resolve(data);
+      }).catch(function (err) {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
 
-            if (!(userType !== 'school')) {
-              _context.next = 3;
-              break;
-            }
-
-            return _context.abrupt('return', new Promise(function (resolve, reject) {
-              console.log(body);
-              createUser(userType, body, id).then(function (data) {
-                return resolve(data);
-              }).catch(function (err) {
-                console.log(err);
-                reject(err);
-              });
-            }));
-
-          case 3:
-
-            _School2.default.create(_extends({}, body)).then(function (user) {
-              console.log(user);
-              var adminObj = {
-                email: user.email,
-                username: user.shortCode,
-                phoneNumber: user.phoneNumber,
-                fullName: user.schoolName
-              };
-              return new Promise(function (resolve, reject) {
-                return createUser('admin', adminObj, user.id).then(function (data) {
-                  return resolve(data);
-                }).catch(function (err) {
-                  return reject(err);
-                });
-              });
-            }).catch(function (err) {
-              return reject(err);
-            });
-
-          case 4:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, undefined);
-  }));
-
-  return function createSchool(_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
-  };
-}();
+  _School2.default.create(_extends({}, body)).then(function (user) {
+    console.log(user);
+    var adminObj = {
+      email: user.email,
+      username: user.shortCode,
+      phoneNumber: user.phoneNumber,
+      fullName: user.schoolName
+    };
+    return new Promise(function (resolve, reject) {
+      return createUser('admin', adminObj, user.id).then(function (data) {
+        return resolve(data);
+      }).catch(function (err) {
+        return reject(err);
+      });
+    });
+  }).catch(function (err) {
+    return reject(err);
+  });
+};
 
 var createUser = function createUser(userType, body, id) {
   console.log('Creating: ' + userType);
