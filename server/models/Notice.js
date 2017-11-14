@@ -1,10 +1,8 @@
 import mongoose from 'mongoose';
-import uuid from 'uuid/v4';
 
 let noticeSchema = new mongoose.Schema({
-  id: {
+  sid: {
     type: String,
-    default: uuid,
     unique: true,
   },
   date: {

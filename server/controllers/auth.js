@@ -3,10 +3,13 @@ import Teacher from '../models/Teacher';
 import Student from '../models/Student';
 import Admin from '../models/Admin';
 import School from '../models/School';
+import { resolve } from 'path';
 
 export const Register = (req, res) => {
+  let type = req.body.userType;
   let newUser = new Users({
     ...req.body,
+    userType: req.body.userType === 'school' ? 'admin' : req.body.userType,
   });
   Users.register(newUser, req.body.password, (err, user) => {
     if (err) {
@@ -15,54 +18,78 @@ export const Register = (req, res) => {
         message: err.message,
       });
     } else {
-      if (user.userType) {
-        createUser(user.userType, req.body, user.sid)
-          .then(user => {
-            return res.json({
-              message: 'Registered Successfully',
-              user: { ...user },
+      if (user.userType !== 'super') {
+        if (user.userType) {
+          createSchool(type, req.body, user.sid)
+            .then(user => {
+              return res.json({
+                message: 'Registered Successfully',
+                user: { ...user },
+              });
+            })
+            .catch(err => {
+              console.log(err);
+              return res.status(400).json({
+                message: err.message,
+              });
             });
-          })
-          .catch(err => {
-            console.log(err);
-            return res.status(400).json({
-              message: err.message,
-            });
-          });
+        }
+      } else {
+        res.json({
+          message: 'Registered Successfully',
+          user: { ...user },
+        });
       }
     }
   });
 };
 
+const createSchool = async (userType, body, id) => {
+  console.log(userType);
+  if (userType !== 'school') {
+    return new Promise((resolve, reject) => {
+      console.log(body);
+      createUser(userType, body, id)
+        .then(data => resolve(data))
+        .catch(err => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
+
+  School.create({ ...body })
+    .then(user => {
+      console.log(user);
+      let adminObj = {
+        email: user.email,
+        username: user.shortCode,
+        phoneNumber: user.phoneNumber,
+        fullName: user.schoolName,
+      };
+      return new Promise((resolve, reject) =>
+        createUser('admin', adminObj, user.id)
+          .then(data => resolve(data))
+          .catch(err => reject(err))
+      );
+    })
+    .catch(err => reject(err));
+};
+
 const createUser = (userType, body, id) => {
+  console.log('Creating: ' + userType);
   let User =
     userType === 'teacher'
       ? Teacher
       : userType === 'student' ? Student : userType === 'admin' ? Admin : Teacher;
   return new Promise((resolve, reject) => {
-    if (userType !== 'school') {
-      User.create({ ...body, sid: id })
-        .then(user => {
-          resolve(user);
-        })
-        .catch(err => {
-          reject(err);
-        });
-    } else if (userType === 'school') {
-      School.create({ ...body })
-        .then(user => {
-          console.log(user);
-          let adminObj = {
-            email: user.email,
-            username: user.shortCode,
-            phoneNumber: user.phoneNumber,
-            fullName: user.schoolName,
-            username: user.schoolName,
-          };
-          createUser('admin', adminObj, user.id);
-        })
-        .catch(err => reject(err));
-    }
+    User.create({ ...body, sid: id })
+      .then(user => {
+        resolve(user);
+      })
+      .catch(err => {
+        reject(err);
+      });
   });
 };
 

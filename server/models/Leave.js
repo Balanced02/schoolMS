@@ -2,10 +2,9 @@ import mongoose from 'mongoose';
 import uuid from 'uuid/v4';
 
 let leaveSchema = new mongoose.Schema({
-  id: {
+  sid: {
     type: String,
-    default: uuid,
-    unique: true,
+    required: true,
   },
   category: {
     type: String,

@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 let payHeadSchema = new mongoose.Schema({
+  sid: {
+    type: String,
+    unique: true,
+  },
   payHeadType: {
     type: String,
     required: true,

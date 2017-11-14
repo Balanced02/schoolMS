@@ -21,6 +21,7 @@ class InstitutionDetails extends Component {
         country: '',
         password: 'testschooladmin',
         email: '',
+        founded: '',
         fullName: '',
         address: '',
         userType: 'school',
@@ -65,7 +66,9 @@ class InstitutionDetails extends Component {
       .post('/api/uploadFile')
       .send(photo)
       .end((err, res) => {
-        if (err) console.log(err);
+        if (err) {
+          console.log(err);
+        }
         console.log(res);
         this.setState({
           imageUrl: res.body.data,
@@ -100,24 +103,30 @@ class InstitutionDetails extends Component {
   register() {
     const { username, password } = this.state.data;
     if ((username, password)) {
-      this.props.dispatch(
-        callApi('/auth/register', { ...this.state.data }, 'POST')
-          .then(data =>
-            this.setState({
+      callApi('/auth/register', { ...this.state.data }, 'POST')
+        .then(data => {
+          this.setState({
+            data: {
               schoolName: '',
               shortCode: '',
               address: '',
               phoneNumber: '',
               country: '',
               email: '',
+              founded: '',
+              fax: '',
               fullName: '',
               address: '',
               username: '',
               logo: '',
-            })
-          )
-          .catch(err => this.props.dispatch(showError('Error Creating school')))
-      );
+            },
+            uploadFile: '',
+            uploading: false,
+            imageUrl: '',
+          });
+          this.props.dispatch(showInfo('Successfully Created'));
+        })
+        .catch(err => this.props.dispatch(showError('Error Creating school')));
     } else {
       this.props.dispatch(showError('Kindly provide value for all Inputs!'));
     }

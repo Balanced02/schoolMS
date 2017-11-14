@@ -5,8 +5,6 @@ const Schema = mongoose.Schema;
 const adminSchema = new Schema({
   sid: {
     type: String,
-    unique: true,
-    trim: true,
     required: true,
   },
   phoneNumber: {

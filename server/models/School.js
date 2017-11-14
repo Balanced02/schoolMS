@@ -15,6 +15,9 @@ const schoolSchema = new Schema({
     type: String,
     required: true,
   },
+  founded: {
+    type: String,
+  },
   logo: {
     type: 'String',
     required: true,
@@ -58,6 +61,11 @@ const schoolSchema = new Schema({
   address: {
     type: String,
     required: true,
+  },
+  created: {
+    type: Date,
+    required: true,
+    default: Date.now,
   },
 });
 

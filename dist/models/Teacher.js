@@ -15,9 +15,7 @@ var Schema = _mongoose2.default.Schema;
 var teacherSchema = new Schema({
   sid: {
     type: String,
-    unique: true,
-    trim: true,
-    required: true
+    unique: true
   },
   phoneNumber: {
     type: String,

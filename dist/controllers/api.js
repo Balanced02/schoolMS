@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GetPayHead = exports.AddPayHead = exports.GetUserCategory = exports.AddUserCategory = exports.GetLeaveCategory = exports.CategoryUpdate = exports.FetchDepartment = exports.NewDepartment = exports.LeaveUpdate = exports.GetLeave = exports.LeaveApplication = exports.UpdateClass = exports.AddClass = exports.AllClass = exports.GetTeachers = exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.AllCourse = exports.CreateNotice = undefined;
+exports.UploadFile = exports.GetSchools = exports.EditSchool = exports.GetPayHead = exports.AddPayHead = exports.GetUserCategory = exports.AddUserCategory = exports.GetLeaveCategory = exports.CategoryUpdate = exports.FetchDepartment = exports.NewDepartment = exports.LeaveUpdate = exports.GetLeave = exports.LeaveApplication = exports.UpdateClass = exports.AddClass = exports.AllClass = exports.GetTeachers = exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.AllCourse = exports.CreateNotice = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -12,6 +12,26 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 var _regeneratorRuntime = require('regenerator-runtime');
 
 var _regeneratorRuntime2 = _interopRequireDefault(_regeneratorRuntime);
+
+var _dropbox = require('dropbox');
+
+var _dropbox2 = _interopRequireDefault(_dropbox);
+
+var _multer = require('multer');
+
+var _multer2 = _interopRequireDefault(_multer);
+
+var _crypto = require('crypto');
+
+var _crypto2 = _interopRequireDefault(_crypto);
+
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _http = require('http');
+
+var _http2 = _interopRequireDefault(_http);
 
 var _Notice = require('../models/Notice');
 
@@ -60,6 +80,12 @@ var _UserCategory2 = _interopRequireDefault(_UserCategory);
 var _PayHead = require('../models/PayHead');
 
 var _PayHead2 = _interopRequireDefault(_PayHead);
+
+var _School = require('../models/School');
+
+var _School2 = _interopRequireDefault(_School);
+
+var _url = require('url');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -135,11 +161,12 @@ var SummaryData = exports.SummaryData = function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
+            console.log(req.user);
+            _context2.prev = 1;
+            _context2.next = 4;
             return Promise.all([_Student2.default.find().count(), _Student2.default.find({ accepted: true }).count(), _Users2.default.find().count(), _Notice2.default.find().sort('-created')]);
 
-          case 3:
+          case 4:
             _ref5 = _context2.sent;
             _ref6 = _slicedToArray(_ref5, 4);
             totalStudents = _ref6[0];
@@ -153,21 +180,21 @@ var SummaryData = exports.SummaryData = function () {
               noticeBoard: noticeBoard
             }));
 
-          case 12:
-            _context2.prev = 12;
-            _context2.t0 = _context2['catch'](0);
+          case 13:
+            _context2.prev = 13;
+            _context2.t0 = _context2['catch'](1);
 
             res.status(400).json({
               message: 'Error Loading Clients',
               error: _context2.t0.message
             });
 
-          case 15:
+          case 16:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, undefined, [[0, 12]]);
+    }, _callee2, undefined, [[1, 13]]);
   }));
 
   return function SummaryData(_x3, _x4) {
@@ -451,20 +478,20 @@ var GetLeave = exports.GetLeave = function () {
               return leave;
             });
             res.json(leaves);
-            _context5.next = 21;
+            _context5.next = 20;
             break;
 
           case 17:
             _context5.prev = 17;
             _context5.t0 = _context5['catch'](3);
 
-            console.log(_context5.t0);
+            // console.log(error);
             res.status(500).json({
               message: 'Error getting leaves',
               error: _context5.t0.message
             });
 
-          case 21:
+          case 20:
           case 'end':
             return _context5.stop();
         }
@@ -490,7 +517,7 @@ var LeaveUpdate = exports.LeaveUpdate = function LeaveUpdate(req, res) {
   }).then(function (leave) {
     res.json(leave);
   }).catch(function (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).json({
       message: 'Error Updating Leave',
       error: err.message
@@ -509,7 +536,7 @@ var NewDepartment = exports.NewDepartment = function NewDepartment(req, res) {
     }).then(function (dept) {
       res.json(dept);
     }).catch(function (err) {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error updating dept',
         error: err.message
@@ -539,7 +566,7 @@ var FetchDepartment = exports.FetchDepartment = function FetchDepartment(req, re
 };
 
 var CategoryUpdate = exports.CategoryUpdate = function CategoryUpdate(req, res) {
-  console.log(req.body);
+  // console.log(req.body);
   var _id = req.body._id;
 
   if (_id) {
@@ -550,7 +577,7 @@ var CategoryUpdate = exports.CategoryUpdate = function CategoryUpdate(req, res) 
     }).then(function (leave) {
       res.json(leave);
     }).catch(function (err) {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error updating leave',
         error: err.message
@@ -560,7 +587,7 @@ var CategoryUpdate = exports.CategoryUpdate = function CategoryUpdate(req, res) 
     _LeaveCategory2.default.create(_extends({}, req.body)).then(function (leave) {
       res.json(leave);
     }).catch(function (err) {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error Creating Leave',
         error: err.message
@@ -573,7 +600,7 @@ var GetLeaveCategory = exports.GetLeaveCategory = function GetLeaveCategory(req,
   _LeaveCategory2.default.find().then(function (leave) {
     return res.json(leave);
   }).catch(function (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).json({
       message: 'Error Fetching Department',
       error: err.message
@@ -582,7 +609,7 @@ var GetLeaveCategory = exports.GetLeaveCategory = function GetLeaveCategory(req,
 };
 
 var AddUserCategory = exports.AddUserCategory = function AddUserCategory(req, res) {
-  console.log(req.body);
+  // console.log(req.body);
   var _id = req.body._id;
 
   if (_id) {
@@ -593,7 +620,7 @@ var AddUserCategory = exports.AddUserCategory = function AddUserCategory(req, re
     }).then(function (data) {
       res.json(data);
     }).catch(function (err) {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error updating leave',
         error: err.message
@@ -603,7 +630,7 @@ var AddUserCategory = exports.AddUserCategory = function AddUserCategory(req, re
     _UserCategory2.default.create(_extends({}, req.body)).then(function (data) {
       res.json(data);
     }).catch(function (err) {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error Creating Leave',
         error: err.message
@@ -616,7 +643,7 @@ var GetUserCategory = exports.GetUserCategory = function GetUserCategory(req, re
   _UserCategory2.default.find().sort('userType').then(function (data) {
     return res.json(data);
   }).catch(function (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).json({
       message: 'Error Fetching Department',
       error: err.message
@@ -625,7 +652,7 @@ var GetUserCategory = exports.GetUserCategory = function GetUserCategory(req, re
 };
 
 var AddPayHead = exports.AddPayHead = function AddPayHead(req, res) {
-  console.log(req.body);
+  // console.log(req.body);
   var _id = req.body._id;
 
   if (_id) {
@@ -636,7 +663,7 @@ var AddPayHead = exports.AddPayHead = function AddPayHead(req, res) {
     }).then(function (data) {
       res.json(data);
     }).catch(function (err) {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error updating PayHead',
         error: err.message
@@ -646,7 +673,7 @@ var AddPayHead = exports.AddPayHead = function AddPayHead(req, res) {
     _PayHead2.default.create(_extends({}, req.body)).then(function (data) {
       res.json(data);
     }).catch(function (err) {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error Creating Pay Head',
         error: err.message
@@ -659,10 +686,140 @@ var GetPayHead = exports.GetPayHead = function GetPayHead(req, res) {
   _PayHead2.default.find().then(function (data) {
     return res.json(data);
   }).catch(function (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).json({
       message: 'Error Fetching Pay Roll Details',
       error: err.message
+    });
+  });
+};
+
+var EditSchool = exports.EditSchool = function EditSchool(req, res) {
+  // console.log(req.body);
+  var _id = req.body._id;
+
+  if (_id) {
+    _School2.default.findOneAndUpdate({ _id: _id }, {
+      $set: _extends({}, req.body)
+    }, {
+      new: true
+    }).then(function (data) {
+      res.json(data);
+    }).catch(function (err) {
+      // console.log(err);
+      res.status(500).json({
+        message: 'Error updating School',
+        error: err.message
+      });
+    });
+  } else {
+    res.status(500).json({
+      message: 'Error updating School',
+      error: err.message
+    });
+  }
+};
+
+var GetSchools = exports.GetSchools = function GetSchools(req, res) {
+  _School2.default.find().then(function (data) {
+    return res.json(data);
+  }).catch(function (err) {
+    // console.log(err);
+    res.status(500).json({
+      message: 'Error Fetching School Details',
+      error: err.message
+    });
+  });
+};
+
+var UploadFile = exports.UploadFile = function () {
+  var _ref16 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee6(req, res) {
+    return _regeneratorRuntime2.default.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            if (req.file) {
+              _context6.next = 5;
+              break;
+            }
+
+            console.log('No file received');
+            return _context6.abrupt('return', res.send({
+              success: false
+            }));
+
+          case 5:
+            console.log(req.file);
+            _context6.t0 = _fs2.default;
+            _context6.t1 = req.file.path;
+            _context6.next = 10;
+            return function (err, data) {
+              if (err) console.log(err);
+              console.log('reading!!!');
+              _http2.default.createServer(function (req, res) {
+                res.writeHead(200, { 'Content-Type': 'image/*' });
+                res.end(data); // Send the file data to the browser.
+              }).listen(8124);
+              upload(data, req.file.filename).then(function (response) {
+                console.log(response.path_display);
+                getImg(response.path_display).then(function (data) {
+                  console.log(data);
+                  res.json({ response: response, data: data });
+                }).catch(function (err) {
+                  console.log(err);
+                  res.status(500).json({
+                    message: 'Error Uploading Logo',
+                    error: err.message
+                  });
+                });
+              }).catch(function (err) {
+                console.log(err);
+                res.status(500).json({
+                  message: 'Error Uploading Logo',
+                  error: err.message
+                });
+              });
+            };
+
+          case 10:
+            _context6.t2 = _context6.sent;
+            return _context6.abrupt('return', _context6.t0.readFile.call(_context6.t0, _context6.t1, _context6.t2));
+
+          case 12:
+          case 'end':
+            return _context6.stop();
+        }
+      }
+    }, _callee6, undefined);
+  }));
+
+  return function UploadFile(_x11, _x12) {
+    return _ref16.apply(this, arguments);
+  };
+}();
+
+var dbx = new _dropbox2.default({
+  accessToken: 'k8Ho1ZfoarAAAAAAAAAACXwiV_26nZURhcclrTo2j0eR7NqFNDFre1K4Qr-6D5KE'
+});
+
+var upload = function upload(data, path) {
+  console.log('Uploading!!!');
+  return new Promise(function (resolve, reject) {
+    dbx.filesUpload({ autorename: true, path: '/logos/' + path + '.jpeg', contents: data }).then(function (response) {
+      resolve(response);
+    }).catch(function (error) {
+      reject(error);
+    });
+  });
+};
+
+var getImg = function getImg(path) {
+  return new Promise(function (resolve, reject) {
+    dbx.filesGetTemporaryLink({ path: path }).then(function (response) {
+      // console.log(response.link);
+      resolve(response.link);
+    }).catch(function (error) {
+      reject(error);
     });
   });
 };

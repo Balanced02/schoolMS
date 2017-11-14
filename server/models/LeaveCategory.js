@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 let leaveCategorySchema = new mongoose.Schema({
+  sid: {
+    type: String,
+    required: true,
+  },
   category: {
     type: String,
     required: true,

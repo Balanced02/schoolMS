@@ -1,11 +1,9 @@
 import mongoose from 'mongoose';
-import uuid from 'uuid/v4';
 
 let departmentSchema = new mongoose.Schema({
-  id: {
+  sid: {
     type: String,
-    default: uuid,
-    unique: true,
+    required: true,
   },
   departmentTitle: {
     type: String,

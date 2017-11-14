@@ -15,8 +15,6 @@ var Schema = _mongoose2.default.Schema;
 var adminSchema = new Schema({
   sid: {
     type: String,
-    unique: true,
-    trim: true,
     required: true
   },
   phoneNumber: {
@@ -47,8 +45,7 @@ var adminSchema = new Schema({
     trim: true
   },
   address: {
-    type: String,
-    required: true
+    type: String
   }
 });
 

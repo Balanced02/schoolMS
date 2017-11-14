@@ -36,6 +36,10 @@ var _connectMongo = require('connect-mongo');
 
 var _connectMongo2 = _interopRequireDefault(_connectMongo);
 
+var _multer = require('multer');
+
+var _multer2 = _interopRequireDefault(_multer);
+
 var _Users = require('./models/Users');
 
 var _Users2 = _interopRequireDefault(_Users);
@@ -46,8 +50,11 @@ var _api = require('./controllers/api');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var app = (0, _express2.default)();
 var router = (0, _express.Router)();
 var api = (0, _express.Router)();
+
+var upload = (0, _multer2.default)({ dest: './public/logos' });
 
 var MongoStore = (0, _connectMongo2.default)(_expressSession2.default);
 router.use((0, _cookieParser2.default)());
@@ -96,6 +103,7 @@ api.get('/getLeaveCategory', _api.GetLeaveCategory);
 api.get('/getDepartments', _api.FetchDepartment);
 api.get('/getUserCategory', _api.GetUserCategory);
 api.get('/getPayRollDetails', _api.GetPayHead);
+api.get('/getSchools', _api.GetSchools);
 
 //actions
 api.post('/newVisitor', _api.VisitorData);
@@ -110,6 +118,8 @@ api.post('/newDepartment', _api.NewDepartment);
 api.post('/addLeaveCategory', _api.CategoryUpdate);
 api.post('/addUserCategory', _api.AddUserCategory);
 api.post('/addPayRollDetails', _api.AddPayHead);
+api.post('/editSchool', _api.EditSchool);
+api.post('/uploadFile', upload.single('logos'), _api.UploadFile);
 
 exports.default = router;
 //# sourceMappingURL=routes.js.map

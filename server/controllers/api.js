@@ -54,6 +54,7 @@ export const AllCourse = async (req, res) => {
 };
 
 export const SummaryData = async (req, res) => {
+  console.log(req.user);
   try {
     let [totalStudents, pendingReg, totalStaff, noticeBoard] = await Promise.all([
       Student.find().count(),
@@ -293,7 +294,7 @@ export const GetLeave = async (req, res) => {
     });
     res.json(leaves);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({
       message: 'Error getting leaves',
       error: error.message,
@@ -320,7 +321,7 @@ export const LeaveUpdate = (req, res) => {
       res.json(leave);
     })
     .catch(err => {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error Updating Leave',
         error: err.message,
@@ -346,7 +347,7 @@ export const NewDepartment = (req, res) => {
         res.json(dept);
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({
           message: 'Error updating dept',
           error: err.message,
@@ -380,7 +381,7 @@ export const FetchDepartment = (req, res) => {
 };
 
 export const CategoryUpdate = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   let { _id } = req.body;
   if (_id) {
     LeaveCategory.findOneAndUpdate(
@@ -398,7 +399,7 @@ export const CategoryUpdate = (req, res) => {
         res.json(leave);
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({
           message: 'Error updating leave',
           error: err.message,
@@ -412,7 +413,7 @@ export const CategoryUpdate = (req, res) => {
         res.json(leave);
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({
           message: 'Error Creating Leave',
           error: err.message,
@@ -425,7 +426,7 @@ export const GetLeaveCategory = (req, res) => {
   LeaveCategory.find()
     .then(leave => res.json(leave))
     .catch(err => {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error Fetching Department',
         error: err.message,
@@ -434,7 +435,7 @@ export const GetLeaveCategory = (req, res) => {
 };
 
 export const AddUserCategory = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   let { _id } = req.body;
   if (_id) {
     UserCategory.findOneAndUpdate(
@@ -452,7 +453,7 @@ export const AddUserCategory = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({
           message: 'Error updating leave',
           error: err.message,
@@ -466,7 +467,7 @@ export const AddUserCategory = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({
           message: 'Error Creating Leave',
           error: err.message,
@@ -480,7 +481,7 @@ export const GetUserCategory = (req, res) => {
     .sort('userType')
     .then(data => res.json(data))
     .catch(err => {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error Fetching Department',
         error: err.message,
@@ -489,7 +490,7 @@ export const GetUserCategory = (req, res) => {
 };
 
 export const AddPayHead = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   let { _id } = req.body;
   if (_id) {
     PayHead.findOneAndUpdate(
@@ -507,7 +508,7 @@ export const AddPayHead = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({
           message: 'Error updating PayHead',
           error: err.message,
@@ -521,7 +522,7 @@ export const AddPayHead = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({
           message: 'Error Creating Pay Head',
           error: err.message,
@@ -534,7 +535,7 @@ export const GetPayHead = (req, res) => {
   PayHead.find()
     .then(data => res.json(data))
     .catch(err => {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error Fetching Pay Roll Details',
         error: err.message,
@@ -543,7 +544,7 @@ export const GetPayHead = (req, res) => {
 };
 
 export const EditSchool = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   let { _id } = req.body;
   if (_id) {
     School.findOneAndUpdate(
@@ -561,7 +562,7 @@ export const EditSchool = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({
           message: 'Error updating School',
           error: err.message,
@@ -579,7 +580,7 @@ export const GetSchools = (req, res) => {
   School.find()
     .then(data => res.json(data))
     .catch(err => {
-      console.log(err);
+      // console.log(err);
       res.status(500).json({
         message: 'Error Fetching School Details',
         error: err.message,
@@ -657,7 +658,7 @@ const getImg = path => {
     dbx
       .filesGetTemporaryLink({ path })
       .then(response => {
-        console.log(response.link);
+        // console.log(response.link);
         resolve(response.link);
       })
       .catch(error => {

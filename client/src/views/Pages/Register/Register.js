@@ -25,10 +25,11 @@ class Register extends Component {
       phoneNumber: '',
       password: '',
       cpassword: '',
+      userType: 'super',
     };
   }
   render() {
-    let { fullName, username, phoneNumber, password, cpassword } = this.state;
+    let { fullName, username, phoneNumber, password, cpassword, userType } = this.state;
     let { dispatch, loading } = this.props;
     const changeInput = (e, input) => {
       let obj = {};
@@ -48,6 +49,7 @@ class Register extends Component {
             username,
             phoneNumber,
             password,
+            userType,
           })
         );
       } else {

@@ -47,9 +47,18 @@ export default ({ data, edit, submit, onImageDrop, image, uploading }) => {
             />
           </FormGroup>
         </Col>
+        <Col xs="12" md="4">
+          <FormGroup>
+            <Label for="founded">
+              Founded
+              <span style={{ color: 'red' }}> *</span>
+            </Label>
+            <Input type="text" name="founded" value={data.founded} onChange={edit ? edit : ''} />
+          </FormGroup>
+        </Col>
       </Row>
       <Row>
-        <Col md="6" xs="12">
+        <Col md="5" xs="12">
           <FormGroup>
             <Label for="address">
               Institution Address
@@ -67,7 +76,7 @@ export default ({ data, edit, submit, onImageDrop, image, uploading }) => {
         <Col md="3" xs="12">
           <FormGroup>
             <Label for="shortCode">
-              Institution Short Code
+              Short Code
               <span style={{ color: 'red' }}> *</span>
             </Label>
             <Input
@@ -79,7 +88,7 @@ export default ({ data, edit, submit, onImageDrop, image, uploading }) => {
             <FormText color="muted">Used in generating admission number for students</FormText>
           </FormGroup>
         </Col>
-        <Col md="3" xs="12">
+        <Col md="4" xs="12">
           <FormGroup>
             <Label for="email">
               Institution E-mail Address

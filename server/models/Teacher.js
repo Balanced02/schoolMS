@@ -6,8 +6,6 @@ const teacherSchema = new Schema({
   sid: {
     type: String,
     unique: true,
-    trim: true,
-    required: true,
   },
   phoneNumber: {
     type: String,

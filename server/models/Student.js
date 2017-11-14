@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 import uuid from 'uuid/v4';
 
 let studentSchema = new mongoose.Schema({
-  uid: {
+  sid: {
     type: String,
-    default: uuid,
+    unique: true,
   },
   username: {
     type: String,

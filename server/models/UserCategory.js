@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 let userCategorySchema = new mongoose.Schema({
+  sid: {
+    type: String,
+    unique: true,
+  },
   userType: {
     type: String,
     required: true,

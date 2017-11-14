@@ -8,9 +8,6 @@ const usersSchema = new Schema({
   sid: {
     type: String,
     unique: true,
-    trim: true,
-    required: true,
-    default: uuid,
   },
   username: {
     type: String,

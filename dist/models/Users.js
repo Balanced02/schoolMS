@@ -23,10 +23,7 @@ var Schema = _mongoose2.default.Schema;
 var usersSchema = new Schema({
   sid: {
     type: String,
-    unique: true,
-    trim: true,
-    required: true,
-    default: _v2.default
+    unique: true
   },
   username: {
     type: String,
@@ -37,7 +34,6 @@ var usersSchema = new Schema({
     type: String,
     lowercase: true,
     trim: true,
-    default: 'admin',
     required: true
   }
 });
