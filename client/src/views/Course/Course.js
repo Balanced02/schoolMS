@@ -277,14 +277,14 @@ class Course extends Component {
           <TabContent activeTab={activeTab}>
             <TabPane tabId="1">
               <Row>
-                <Col md={6}>
+                <Col xs="12" md="6">
                   <AddCourse
                     data={course}
                     edit={e => this.edit(e)}
                     submit={() => this.createCourse()}
                   />
                 </Col>
-                <Col md={6}>
+                <Col xs="12" md="6">
                   <CourseList
                     data={courseList}
                     select={data => this.select(data)}
@@ -295,7 +295,7 @@ class Course extends Component {
             </TabPane>
             <TabPane tabId="2">
               <Row>
-                <Col md={6}>
+                <Col xs="12" md="6">
                   <AddClass
                     data={classInfo}
                     teachers={teachers}
@@ -303,7 +303,7 @@ class Course extends Component {
                     submit={() => this.createClass()}
                   />
                 </Col>
-                <Col md={6}>
+                <Col xs="12" md="6">
                   <ViewClasses
                     data={classes}
                     select={data => this.selectClass(data)}

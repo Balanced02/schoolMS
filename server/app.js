@@ -3,6 +3,7 @@ import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import morgan from 'morgan';
 import dotenv from 'dotenv';
 import routes from './routes';
 
@@ -26,6 +27,7 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Routes

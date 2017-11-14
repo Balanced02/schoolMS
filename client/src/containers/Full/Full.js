@@ -26,6 +26,8 @@ import LeaveApplication from '../../views/LeaveAplication';
 import LeaveCategory from '../../views/LeaveCategory';
 import AddDesignation from '../../views/AddDesignation';
 import payHead from '../../views/PayHead';
+import SDashboard from '../../views/SDashboard';
+import InstitutionDetails from '../../views/InstitutionDetails';
 
 class Full extends Component {
   constructor(props) {
@@ -111,6 +113,25 @@ class Full extends Component {
                     name="Leave Application"
                     component={LeaveApplication}
                   />
+                  <Redirect from="/" to="/dashboard" />
+                </Switch>
+              </Container>
+            </main>
+            <Aside />
+          </div>
+          <Footer />
+        </div>
+      ) : this.state.user.userType === 'super' ? (
+        <div className="app">
+          <Header user={this.state.user} />
+          <div className="app-body">
+            <Sidebar {...this.props} />
+            <main className="main">
+              <Breadcrumb />
+              <Container fluid>
+                <Switch>
+                  <Route path="/dashboard" name="Dashboard" component={SDashboard} />
+                  <Route path="/addSchool" name="Add School" component={InstitutionDetails} />
                   <Redirect from="/" to="/dashboard" />
                 </Switch>
               </Container>

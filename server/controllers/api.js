@@ -1,4 +1,11 @@
 import regeneratorRuntime from 'regenerator-runtime';
+
+import Dropbox from 'dropbox';
+import multer from 'multer';
+import crypto from 'crypto';
+import fs from 'fs';
+import http from 'http';
+
 import Notice from '../models/Notice';
 import Student from '../models/Student';
 import Users from '../models/Users';
@@ -11,6 +18,8 @@ import Department from '../models/Department';
 import LeaveCategory from '../models/LeaveCategory';
 import UserCategory from '../models/UserCategory';
 import PayHead from '../models/PayHead';
+import School from '../models/School';
+import { resolve } from 'url';
 
 export const CreateNotice = (req, res) => {
   let { date, body } = req.body;
@@ -531,4 +540,128 @@ export const GetPayHead = (req, res) => {
         error: err.message,
       });
     });
+};
+
+export const EditSchool = (req, res) => {
+  console.log(req.body);
+  let { _id } = req.body;
+  if (_id) {
+    School.findOneAndUpdate(
+      { _id },
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      {
+        new: true,
+      }
+    )
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          message: 'Error updating School',
+          error: err.message,
+        });
+      });
+  } else {
+    res.status(500).json({
+      message: 'Error updating School',
+      error: err.message,
+    });
+  }
+};
+
+export const GetSchools = (req, res) => {
+  School.find()
+    .then(data => res.json(data))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error Fetching School Details',
+        error: err.message,
+      });
+    });
+};
+
+export const UploadFile = async (req, res) => {
+  if (!req.file) {
+    console.log('No file received');
+    return res.send({
+      success: false,
+    });
+  } else {
+    console.log(req.file);
+    return fs.readFile(
+      req.file.path,
+      await function(err, data) {
+        if (err) console.log(err);
+        console.log('reading!!!');
+        http
+          .createServer(function(req, res) {
+            res.writeHead(200, { 'Content-Type': 'image/*' });
+            res.end(data); // Send the file data to the browser.
+          })
+          .listen(8124);
+        upload(data, req.file.filename)
+          .then(response => {
+            console.log(response.path_display);
+            getImg(response.path_display)
+              .then(data => {
+                console.log(data);
+                res.json({ response, data });
+              })
+              .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                  message: 'Error Uploading Logo',
+                  error: err.message,
+                });
+              });
+          })
+          .catch(err => {
+            console.log(err);
+            res.status(500).json({
+              message: 'Error Uploading Logo',
+              error: err.message,
+            });
+          });
+      }
+    );
+  }
+};
+
+const dbx = new Dropbox({
+  accessToken: 'k8Ho1ZfoarAAAAAAAAAACXwiV_26nZURhcclrTo2j0eR7NqFNDFre1K4Qr-6D5KE',
+});
+
+const upload = (data, path) => {
+  console.log('Uploading!!!');
+  return new Promise((resolve, reject) => {
+    dbx
+      .filesUpload({ autorename: true, path: '/logos/' + path + '.jpeg', contents: data })
+      .then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+const getImg = path => {
+  return new Promise((resolve, reject) => {
+    dbx
+      .filesGetTemporaryLink({ path })
+      .then(response => {
+        console.log(response.link);
+        resolve(response.link);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
 };

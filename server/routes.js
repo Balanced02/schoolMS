@@ -6,6 +6,7 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
+import multer from 'multer';
 
 import Users from './models/Users';
 
@@ -33,10 +34,16 @@ import {
   AddUserCategory,
   AddPayHead,
   GetPayHead,
+  EditSchool,
+  GetSchools,
+  UploadFile,
 } from './controllers/api';
 
+const app = express();
 const router = Router();
 const api = Router();
+
+var upload = multer({ dest: './public/logos' });
 
 const MongoStore = connectMongo(session);
 router.use(cookieParser());
@@ -87,6 +94,7 @@ api.get('/getLeaveCategory', GetLeaveCategory);
 api.get('/getDepartments', FetchDepartment);
 api.get('/getUserCategory', GetUserCategory);
 api.get('/getPayRollDetails', GetPayHead);
+api.get('/getSchools', GetSchools);
 
 //actions
 api.post('/newVisitor', VisitorData);
@@ -101,5 +109,7 @@ api.post('/newDepartment', NewDepartment);
 api.post('/addLeaveCategory', CategoryUpdate);
 api.post('/addUserCategory', AddUserCategory);
 api.post('/addPayRollDetails', AddPayHead);
+api.post('/editSchool', EditSchool);
+api.post('/uploadFile', upload.single('logos'), UploadFile);
 
 export default router;

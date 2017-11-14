@@ -83,7 +83,7 @@ class Department extends Component {
         <Card>
           <CardBlock>
             <Row>
-              <Col md={6}>
+              <Col xs="12" md="6">
                 <Card>
                   <CardHeader>Add Department</CardHeader>
                   <CardBlock>
@@ -102,7 +102,7 @@ class Department extends Component {
                   </CardBlock>
                 </Card>
               </Col>
-              <Col md={6}>
+              <Col xs="12" md="6">
                 <DepartmentList data={this.state.data} select={data => this.select(data)} />
               </Col>
             </Row>

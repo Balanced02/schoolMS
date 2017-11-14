@@ -38,7 +38,6 @@ const adminSchema = new Schema({
   },
   address: {
     type: String,
-    required: true,
   },
 });
 

@@ -86,7 +86,7 @@ class LeaveCategory extends Component {
         <Card>
           <CardBlock>
             <Row>
-              <Col md={6}>
+              <Col xs="12" md="6">
                 <Card>
                   <CardHeader>Add Leave Category</CardHeader>
                   <CardBlock>
@@ -105,7 +105,7 @@ class LeaveCategory extends Component {
                   </CardBlock>
                 </Card>
               </Col>
-              <Col md={6}>
+              <Col xs="12" md="6">
                 <CategoryList data={this.state.data} select={data => this.select(data)} />
               </Col>
             </Row>

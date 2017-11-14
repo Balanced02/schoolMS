@@ -21,7 +21,6 @@ const usersSchema = new Schema({
     type: String,
     lowercase: true,
     trim: true,
-    default: 'admin',
     required: true,
   },
 });

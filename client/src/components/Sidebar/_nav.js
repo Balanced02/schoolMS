@@ -4,11 +4,31 @@ export default {
       name: 'Dashboard',
       url: '/dashboard',
       icon: 'fa fa-line-chart fa-2x',
-      category: 'admin teacher',
+      category: 'admin teacher super',
       badge: {
         variant: 'info',
         text: 'NEW',
       },
+    },
+    {
+      name: 'User Management',
+      url: '/schoolManagement',
+      icon: 'fa fa-users fa-2x',
+      category: 'super',
+      badge: {
+        variant: 'info',
+        text: 'NEW',
+      },
+      children: [
+        {
+          name: 'Add School',
+          url: '/addSchool',
+        },
+        {
+          name: 'View Schools',
+          url: '/viewSchools',
+        },
+      ],
     },
     {
       name: 'Academics',
