@@ -103,7 +103,7 @@ class InstitutionDetails extends Component {
   register() {
     const { username, password } = this.state.data;
     if ((username, password)) {
-      callApi('/auth/register', { ...this.state.data }, 'POST')
+      callApi('/auth/createSchool', { ...this.state.data }, 'POST')
         .then(data => {
           this.setState({
             data: {

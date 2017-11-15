@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import uuid from 'uuid/v4';
 
 const Schema = mongoose.Schema;
 
@@ -6,6 +7,7 @@ const teacherSchema = new Schema({
   sid: {
     type: String,
     unique: true,
+    default: uuid,
   },
   phoneNumber: {
     type: String,
@@ -14,6 +16,10 @@ const teacherSchema = new Schema({
   fullName: {
     type: String,
     trim: true,
+    required: true,
+  },
+  schoolId: {
+    type: String,
     required: true,
   },
   username: {
@@ -74,9 +80,10 @@ const teacherSchema = new Schema({
     type: String,
     required: true,
   },
-  pOfficeAddress: {
+  pEmail: {
     type: String,
     required: true,
+    default: 'nomail@nomail.com',
   },
   pAddress: {
     type: String,

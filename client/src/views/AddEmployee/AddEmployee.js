@@ -242,9 +242,9 @@ class Employee extends Component {
               <Col md={4}>
                 <Input
                   type="email"
-                  name="pOfficeAddress"
-                  value={this.state.pOfficeAddress}
-                  placeholder="E-mail"
+                  name="pEmail"
+                  value={this.state.pEmail}
+                  placeholder="Parent E-mail Address"
                   onChange={e => this.handleInputchange(e)}
                 />
               </Col>
@@ -254,7 +254,7 @@ class Employee extends Component {
               <Col md={10}>
                 <Input
                   type="textarea"
-                  value={this.state.address}
+                  value={this.state.paddress}
                   name="pAddress"
                   placeholder="Address"
                   onChange={e => this.handleInputchange(e)}

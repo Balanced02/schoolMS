@@ -10,7 +10,7 @@ import multer from 'multer';
 
 import Users from './models/Users';
 
-import { Register, Login, Logout, RedirectNoAuth, AuthMe } from './controllers/auth';
+import { Register, Login, Logout, RedirectNoAuth, AuthMe, CreateSchool } from './controllers/auth';
 import {
   SummaryData,
   CreateNotice,
@@ -77,6 +77,7 @@ router.use(express.static(path.join(__dirname, '../client/build')));
 // Auth
 api.get('/me', AuthMe);
 api.post('/auth/login', passport.authenticate('local'), Login);
+api.post('/auth/createSchool', CreateSchool);
 api.post('/auth/register', Register);
 api.get('/auth/logout', Logout);
 

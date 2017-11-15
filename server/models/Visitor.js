@@ -5,6 +5,7 @@ let visitorSchema = new mongoose.Schema({
   sid: {
     type: String,
     unique: true,
+    default: uuid,
   },
   visitorName: {
     type: String,
@@ -14,6 +15,10 @@ let visitorSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+  },
+  schoolId: {
+    type: String,
+    required: true,
   },
   address: {
     type: String,

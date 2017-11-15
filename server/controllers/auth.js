@@ -1,3 +1,5 @@
+import regeneratorRuntime from 'regenerator-runtime';
+
 import Users from '../models/Users';
 import Teacher from '../models/Teacher';
 import Student from '../models/Student';
@@ -7,20 +9,11 @@ import { resolve } from 'path';
 
 export const Register = (req, res) => {
   let type = req.body.userType;
-  let newUser = new Users({
-    ...req.body,
-    userType: req.body.userType === 'school' ? 'admin' : req.body.userType,
-  });
-  Users.register(newUser, req.body.password, (err, user) => {
-    if (err) {
-      console.log(err);
-      return res.status(400).json({
-        message: err.message,
-      });
-    } else {
-      if (user.userType !== 'super') {
+  if (req.body.userType !== 'super') {
+    userRegister(req.body, req.user)
+      .then(user => {
         if (user.userType) {
-          createSchool(type, req.body, user.sid)
+          createUser(type, { ...req.body, schoolId: req.user.schoolId }, user.sid)
             .then(user => {
               return res.json({
                 message: 'Registered Successfully',
@@ -34,46 +27,93 @@ export const Register = (req, res) => {
               });
             });
         }
-      } else {
-        res.json({
+      })
+      .catch(err => {
+        console.log(err);
+        return res.status(400).json({
+          message: err.message,
+        });
+      });
+  } else {
+    userRegister(req.body)
+      .then(user => {
+        return res.json({
           message: 'Registered Successfully',
           user: { ...user },
         });
+      })
+      .catch(err => {
+        console.log(err);
+        return res.status(400).json({
+          message: err.message,
+        });
+      });
+  }
+};
+
+const userRegister = (body, user) => {
+  let type = body.userType;
+  let id = user ? user.schoolId : 'super';
+  console.log('Details: ' + id + 'type: ' + type);
+  let newUser = new Users({
+    ...body,
+    userType: body.userType === 'school' ? 'admin' : body.userType,
+    schoolId: id,
+  });
+
+  return new Promise((resolve, reject) => {
+    Users.register(newUser, body.password, (err, user) => {
+      if (err) {
+        console.log(err);
+        reject(err);
       }
-    }
+      resolve(user);
+    });
   });
 };
 
-const createSchool = (userType, body, id) => {
-  console.log(userType);
-  if (userType !== 'school') {
-    return new Promise((resolve, reject) => {
-      console.log(body);
-      createUser(userType, body, id)
-        .then(data => resolve(data))
-        .catch(err => {
-          console.log(err);
-          reject(err);
-        });
-    });
-  }
-
-  School.create({ ...body })
-    .then(user => {
-      console.log(user);
+export const CreateSchool = (req, res) => {
+  let schoolId = req.body.shortCode + Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
+  console.log('School Id: ' + schoolId);
+  School.create({
+    ...req.body,
+    schoolId,
+  })
+    .then(async data => {
+      console.log(data);
       let adminObj = {
-        email: user.email,
-        username: user.shortCode,
-        phoneNumber: user.phoneNumber,
-        fullName: user.schoolName,
+        userType: 'admin',
+        email: data.email,
+        username: data.shortCode,
+        phoneNumber: data.phoneNumber,
+        fullName: data.schoolName,
+        schoolId: data.schoolId,
+        password: req.body.password,
       };
-      return new Promise((resolve, reject) =>
-        createUser('admin', adminObj, user.id)
-          .then(data => resolve(data))
-          .catch(err => reject(err))
-      );
+      try {
+        let [user, authn] = await Promise.all([
+          createUser('admin', adminObj, data.sid),
+          userRegister(adminObj, adminObj),
+        ]);
+        return res.json({
+          user,
+          authn,
+        });
+      } catch (err) {
+        console.log(err);
+        res.status(500).json({
+          message: 'Error Registering User',
+          error: err.message,
+        });
+      }
     })
-    .catch(err => reject(err));
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error Registering School',
+        error: err.message,
+      });
+    });
 };
 
 const createUser = (userType, body, id) => {
@@ -88,6 +128,7 @@ const createUser = (userType, body, id) => {
         resolve(user);
       })
       .catch(err => {
+        console.log(err);
         reject(err);
       });
   });

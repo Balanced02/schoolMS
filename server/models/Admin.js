@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import uuid from 'uuid/v4';
 
 const Schema = mongoose.Schema;
 
@@ -6,6 +7,7 @@ const adminSchema = new Schema({
   sid: {
     type: String,
     required: true,
+    default: uuid,
   },
   phoneNumber: {
     type: String,
@@ -14,6 +16,10 @@ const adminSchema = new Schema({
   fullName: {
     type: String,
     trim: true,
+    required: true,
+  },
+  schoolId: {
+    type: String,
     required: true,
   },
   username: {

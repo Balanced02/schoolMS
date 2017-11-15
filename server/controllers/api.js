@@ -26,6 +26,7 @@ export const CreateNotice = (req, res) => {
   Notice.create({
     date,
     body,
+    schoolId: req.user.schoolId,
   })
     .then(notice => {
       res.json(notice);
@@ -40,7 +41,14 @@ export const CreateNotice = (req, res) => {
 
 export const AllCourse = async (req, res) => {
   try {
-    let [courses, count] = await Promise.all([Course.find().sort('date'), Course.find().count()]);
+    let [courses, count] = await Promise.all([
+      Course.find({
+        schoolId: req.user.schoolId,
+      }).sort('date'),
+      Course.find({
+        schoolId: req.user.schoolId,
+      }).count(),
+    ]);
     return res.json({
       courses,
       count,
@@ -57,10 +65,10 @@ export const SummaryData = async (req, res) => {
   console.log(req.user);
   try {
     let [totalStudents, pendingReg, totalStaff, noticeBoard] = await Promise.all([
-      Student.find().count(),
-      Student.find({ accepted: true }).count(),
-      Users.find().count(),
-      Notice.find().sort('-created'),
+      Student.find({ schoolId: req.user.schoolId }).count(),
+      Student.find({ accepted: true, schoolId: req.user.schoolId }).count(),
+      Users.find({ schoolId: req.user.schoolId }).count(),
+      Notice.find({ schoolId: req.user.schoolId }).sort('-created'),
     ]);
     return res.json({
       totalStudents,
@@ -78,7 +86,7 @@ export const SummaryData = async (req, res) => {
 
 export const CreateCourse = (req, res) => {
   let { courseName, courseCode, minAttendance, description } = req.body;
-  Course.create({ courseName, courseCode, minAttendance, description })
+  Course.create({ courseName, courseCode, minAttendance, description, schoolId: req.user.schoolId })
     .then(course => {
       res.json(course);
     })
@@ -116,7 +124,7 @@ export const UpdateCourse = (req, res) => {
 
 export const VisitorData = (req, res) => {
   !req.body._id
-    ? newVisitor(req.body)
+    ? newVisitor({ ...req.body, schoolId: req.user.schoolId })
         .then(visitor => res.json(visitor))
         .catch(err => {
           res.status(500).json({
@@ -168,10 +176,10 @@ const updateVisitor = data => {
 export const GetVisitors = async (req, res) => {
   try {
     let [visitors, count] = await Promise.all([
-      Visitor.find()
+      Visitor.find({ schoolId: req.user.schoolId })
         .sort('-timeIn')
         .limit(50),
-      Visitor.find().count(),
+      Visitor.find({ schoolId: req.user.schoolId }).count(),
     ]);
     return res.json({
       visitors,
@@ -187,8 +195,11 @@ export const GetVisitors = async (req, res) => {
 
 export const GetTeachers = async (req, res) => {
   try {
-    let [teachers, count] = await Promise.all([Teacher.find(), Teacher.find().count()]);
-    let data = await ClassDetails.find({}, 'teacher classTitle');
+    let [teachers, count] = await Promise.all([
+      Teacher.find({ schoolId: req.user.schoolId }),
+      Teacher.find({ schoolId: req.user.schoolId }).count(),
+    ]);
+    let data = await ClassDetails.find({ schoolId: req.user.schoolId }, 'teacher classTitle');
     teachers = teachers.map(teacher => {
       let assignedClass = data
         .filter(d => teacher.fullName === d.teacher)
@@ -207,7 +218,7 @@ export const GetTeachers = async (req, res) => {
 };
 
 export const AllClass = (req, res) => {
-  ClassDetails.find()
+  ClassDetails.find({ schoolId: req.user.schoolId })
     .sort('classTitle')
     .then(data => {
       res.json({
@@ -223,7 +234,7 @@ export const AllClass = (req, res) => {
 };
 
 export const AddClass = (req, res) => {
-  ClassDetails.create({ ...req.body })
+  ClassDetails.create({ ...req.body, schoolId: req.user.schoolId })
     .then(classInfo => {
       res.json(classInfo);
     })
@@ -260,11 +271,14 @@ export const UpdateClass = (req, res) => {
 };
 
 export const LeaveApplication = (req, res) => {
-  Leave.create({ ...req.body })
+  console.log(req.user.sid);
+  Leave.create({ ...req.body, schoolId: req.user.schoolId, teacherId: req.user.sid })
     .then(leave => {
+      // console.log(leave);
       res.json(leave);
     })
     .catch(err => {
+      console.log(err);
       res.status(500).json({
         message: 'Error creating leave',
         error: err.message,
@@ -274,19 +288,20 @@ export const LeaveApplication = (req, res) => {
 
 export const GetLeave = async (req, res) => {
   let id = req.params.id;
-  let searchQuery = {};
+  console.log(id);
+  let searchQuery = { schoolId: req.user.schoolId };
   if (id !== 'admin') {
     searchQuery = {
-      teacherId: req.user.sid,
+      teacherId: id,
     };
   }
-
   try {
     let [leaves, count] = await Promise.all([
       Leave.find(searchQuery).sort('-status'),
       Leave.find(searchQuery).count(),
     ]);
-    let data = await Teacher.find({}, 'sid fullName');
+    console.log(leaves);
+    let data = await Teacher.find({ schoolId: req.user.schoolId }, 'sid fullName');
     leaves = leaves.map(leave => {
       let teacherName = data.filter(d => leave.teacherId === d.sid)[0];
       leave._doc.teacherName = teacherName ? teacherName.fullName : '';
@@ -356,6 +371,7 @@ export const NewDepartment = (req, res) => {
   } else {
     Department.create({
       ...req.body,
+      schoolId: req.user.schoolId,
     })
       .then(dept => {
         res.json(dept);
@@ -370,7 +386,7 @@ export const NewDepartment = (req, res) => {
 };
 
 export const FetchDepartment = (req, res) => {
-  Department.find()
+  Department.find({ schoolId: req.user.schoolId })
     .then(dept => res.json(dept))
     .catch(err => {
       res.status(500).json({
@@ -381,7 +397,7 @@ export const FetchDepartment = (req, res) => {
 };
 
 export const CategoryUpdate = (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
   let { _id } = req.body;
   if (_id) {
     LeaveCategory.findOneAndUpdate(
@@ -408,12 +424,13 @@ export const CategoryUpdate = (req, res) => {
   } else {
     LeaveCategory.create({
       ...req.body,
+      schoolId: req.user.schoolId,
     })
       .then(leave => {
         res.json(leave);
       })
       .catch(err => {
-        // console.log(err);
+        console.log(err);
         res.status(500).json({
           message: 'Error Creating Leave',
           error: err.message,
@@ -423,7 +440,7 @@ export const CategoryUpdate = (req, res) => {
 };
 
 export const GetLeaveCategory = (req, res) => {
-  LeaveCategory.find()
+  LeaveCategory.find({ schoolId: req.user.schoolId })
     .then(leave => res.json(leave))
     .catch(err => {
       // console.log(err);
@@ -462,6 +479,7 @@ export const AddUserCategory = (req, res) => {
   } else {
     UserCategory.create({
       ...req.body,
+      schoolId: req.user.schoolId,
     })
       .then(data => {
         res.json(data);
@@ -477,7 +495,7 @@ export const AddUserCategory = (req, res) => {
 };
 
 export const GetUserCategory = (req, res) => {
-  UserCategory.find()
+  UserCategory.find({ schoolId: req.user.schoolId })
     .sort('userType')
     .then(data => res.json(data))
     .catch(err => {
@@ -517,6 +535,7 @@ export const AddPayHead = (req, res) => {
   } else {
     PayHead.create({
       ...req.body,
+      schoolId: req.user.schoolId,
     })
       .then(data => {
         res.json(data);
@@ -532,7 +551,7 @@ export const AddPayHead = (req, res) => {
 };
 
 export const GetPayHead = (req, res) => {
-  PayHead.find()
+  PayHead.find({ schoolId: req.user.schoolId })
     .then(data => res.json(data))
     .catch(err => {
       // console.log(err);
@@ -577,7 +596,7 @@ export const EditSchool = (req, res) => {
 };
 
 export const GetSchools = (req, res) => {
-  School.find()
+  School.find({ schoolId: req.user.schoolId })
     .then(data => res.json(data))
     .catch(err => {
       // console.log(err);

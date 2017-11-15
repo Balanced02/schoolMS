@@ -5,11 +5,17 @@ let studentSchema = new mongoose.Schema({
   sid: {
     type: String,
     unique: true,
+    required: true,
+    default: uuid,
   },
   username: {
     type: String,
     required: true,
     unique: true,
+  },
+  schoolId: {
+    type: String,
+    required: true,
   },
   className: {
     type: String,

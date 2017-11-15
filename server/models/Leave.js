@@ -5,11 +5,16 @@ let leaveSchema = new mongoose.Schema({
   sid: {
     type: String,
     required: true,
+    default: uuid,
   },
   category: {
     type: String,
     required: true,
     trim: true,
+  },
+  schoolId: {
+    type: String,
+    required: true,
   },
   startDate: {
     type: String,
@@ -21,7 +26,7 @@ let leaveSchema = new mongoose.Schema({
   },
   teacherId: {
     type: String,
-    trim: true,
+    required: true,
   },
   reason: {
     type: String,

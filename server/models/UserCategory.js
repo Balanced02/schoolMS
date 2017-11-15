@@ -1,11 +1,17 @@
 import mongoose from 'mongoose';
+import uuid from 'uuid/v4';
 
 let userCategorySchema = new mongoose.Schema({
   sid: {
     type: String,
     unique: true,
+    default: uuid,
   },
   userType: {
+    type: String,
+    required: true,
+  },
+  schoolId: {
     type: String,
     required: true,
   },

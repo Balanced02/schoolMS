@@ -5,11 +5,16 @@ let courseSchema = new mongoose.Schema({
   sid: {
     type: String,
     required: true,
+    default: uuid,
   },
   courseName: {
     type: String,
     required: true,
     trim: true,
+  },
+  schoolId: {
+    type: String,
+    required: true,
   },
   courseCode: {
     type: String,
