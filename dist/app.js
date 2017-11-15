@@ -38,6 +38,7 @@ var app = (0, _express2.default)();
 app.disable('x-powered-by');
 //mongodb://schoolms:schoolms@ds051630.mlab.com:51630/schoolms
 //mongodb://localhost/schoolMSdev
+
 _mongoose2.default.connect('mongodb://schoolms:schoolms@ds051630.mlab.com:51630/schoolms', function (err) {
   if (err) {
     console.error(err);
