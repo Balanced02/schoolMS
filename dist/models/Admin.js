@@ -8,6 +8,10 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _v = require('uuid/v4');
+
+var _v2 = _interopRequireDefault(_v);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Schema = _mongoose2.default.Schema;
@@ -15,7 +19,8 @@ var Schema = _mongoose2.default.Schema;
 var adminSchema = new Schema({
   sid: {
     type: String,
-    required: true
+    required: true,
+    default: _v2.default
   },
   phoneNumber: {
     type: String,
@@ -24,6 +29,10 @@ var adminSchema = new Schema({
   fullName: {
     type: String,
     trim: true,
+    required: true
+  },
+  schoolId: {
+    type: String,
     required: true
   },
   username: {

@@ -8,6 +8,10 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _v = require('uuid/v4');
+
+var _v2 = _interopRequireDefault(_v);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Schema = _mongoose2.default.Schema;
@@ -15,7 +19,8 @@ var Schema = _mongoose2.default.Schema;
 var teacherSchema = new Schema({
   sid: {
     type: String,
-    unique: true
+    unique: true,
+    default: _v2.default
   },
   phoneNumber: {
     type: String,
@@ -24,6 +29,10 @@ var teacherSchema = new Schema({
   fullName: {
     type: String,
     trim: true,
+    required: true
+  },
+  schoolId: {
+    type: String,
     required: true
   },
   username: {
@@ -84,9 +93,10 @@ var teacherSchema = new Schema({
     type: String,
     required: true
   },
-  pOfficeAddress: {
+  pEmail: {
     type: String,
-    required: true
+    required: true,
+    default: 'nomail@nomail.com'
   },
   pAddress: {
     type: String,

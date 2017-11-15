@@ -17,12 +17,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var courseSchema = new _mongoose2.default.Schema({
   sid: {
     type: String,
-    required: true
+    required: true,
+    default: _v2.default
   },
   courseName: {
     type: String,
     required: true,
     trim: true
+  },
+  schoolId: {
+    type: String,
+    required: true
   },
   courseCode: {
     type: String,

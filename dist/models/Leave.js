@@ -17,12 +17,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var leaveSchema = new _mongoose2.default.Schema({
   sid: {
     type: String,
-    required: true
+    required: true,
+    default: _v2.default
   },
   category: {
     type: String,
     required: true,
     trim: true
+  },
+  schoolId: {
+    type: String,
+    required: true
   },
   startDate: {
     type: String,
@@ -34,7 +39,7 @@ var leaveSchema = new _mongoose2.default.Schema({
   },
   teacherId: {
     type: String,
-    trim: true
+    required: true
   },
   reason: {
     type: String

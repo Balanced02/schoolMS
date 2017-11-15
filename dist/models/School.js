@@ -35,6 +35,10 @@ var schoolSchema = new Schema((_ref = {
   founded: {
     type: String
   },
+  schoolId: {
+    type: String,
+    required: true
+  },
   logo: {
     type: 'String',
     required: true

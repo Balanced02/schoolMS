@@ -17,12 +17,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var studentSchema = new _mongoose2.default.Schema({
   sid: {
     type: String,
-    unique: true
+    unique: true,
+    required: true,
+    default: _v2.default
   },
   username: {
     type: String,
     required: true,
     unique: true
+  },
+  schoolId: {
+    type: String,
+    required: true
   },
   className: {
     type: String,

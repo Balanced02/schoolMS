@@ -12,6 +12,8 @@ var _passportLocalMongoose = require('passport-local-mongoose');
 
 var _passportLocalMongoose2 = _interopRequireDefault(_passportLocalMongoose);
 
+var _http = require('http');
+
 var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
@@ -23,7 +25,12 @@ var Schema = _mongoose2.default.Schema;
 var usersSchema = new Schema({
   sid: {
     type: String,
-    unique: true
+    required: true,
+    default: _v2.default
+  },
+  schoolId: {
+    type: String,
+    required: true
   },
   username: {
     type: String,

@@ -17,7 +17,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var visitorSchema = new _mongoose2.default.Schema({
   sid: {
     type: String,
-    unique: true
+    unique: true,
+    default: _v2.default
   },
   visitorName: {
     type: String,
@@ -27,6 +28,10 @@ var visitorSchema = new _mongoose2.default.Schema({
     type: String,
     required: true,
     trim: true
+  },
+  schoolId: {
+    type: String,
+    required: true
   },
   address: {
     type: String,

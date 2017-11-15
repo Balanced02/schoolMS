@@ -86,6 +86,7 @@ router.use(_express2.default.static(_path2.default.join(__dirname, '../client/bu
 // Auth
 api.get('/me', _auth.AuthMe);
 api.post('/auth/login', _passport2.default.authenticate('local'), _auth.Login);
+api.post('/auth/createSchool', _auth.CreateSchool);
 api.post('/auth/register', _auth.Register);
 api.get('/auth/logout', _auth.Logout);
 

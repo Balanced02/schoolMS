@@ -98,7 +98,8 @@ var CreateNotice = exports.CreateNotice = function CreateNotice(req, res) {
 
   _Notice2.default.create({
     date: date,
-    body: body
+    body: body,
+    schoolId: req.user.schoolId
   }).then(function (notice) {
     res.json(notice);
   }).catch(function (err) {
@@ -119,7 +120,11 @@ var AllCourse = exports.AllCourse = function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return Promise.all([_Course2.default.find().sort('date'), _Course2.default.find().count()]);
+            return Promise.all([_Course2.default.find({
+              schoolId: req.user.schoolId
+            }).sort('date'), _Course2.default.find({
+              schoolId: req.user.schoolId
+            }).count()]);
 
           case 3:
             _ref2 = _context.sent;
@@ -164,7 +169,7 @@ var SummaryData = exports.SummaryData = function () {
             console.log(req.user);
             _context2.prev = 1;
             _context2.next = 4;
-            return Promise.all([_Student2.default.find().count(), _Student2.default.find({ accepted: true }).count(), _Users2.default.find().count(), _Notice2.default.find().sort('-created')]);
+            return Promise.all([_Student2.default.find({ schoolId: req.user.schoolId }).count(), _Student2.default.find({ accepted: true, schoolId: req.user.schoolId }).count(), _Users2.default.find({ schoolId: req.user.schoolId }).count(), _Notice2.default.find({ schoolId: req.user.schoolId }).sort('-created')]);
 
           case 4:
             _ref5 = _context2.sent;
@@ -209,7 +214,7 @@ var CreateCourse = exports.CreateCourse = function CreateCourse(req, res) {
       minAttendance = _req$body2.minAttendance,
       description = _req$body2.description;
 
-  _Course2.default.create({ courseName: courseName, courseCode: courseCode, minAttendance: minAttendance, description: description }).then(function (course) {
+  _Course2.default.create({ courseName: courseName, courseCode: courseCode, minAttendance: minAttendance, description: description, schoolId: req.user.schoolId }).then(function (course) {
     res.json(course);
   }).catch(function (err) {
     res.status(500).json({
@@ -242,7 +247,7 @@ var UpdateCourse = exports.UpdateCourse = function UpdateCourse(req, res) {
 };
 
 var VisitorData = exports.VisitorData = function VisitorData(req, res) {
-  !req.body._id ? newVisitor(req.body).then(function (visitor) {
+  !req.body._id ? newVisitor(_extends({}, req.body, { schoolId: req.user.schoolId })).then(function (visitor) {
     return res.json(visitor);
   }).catch(function (err) {
     res.status(500).json({
@@ -294,7 +299,7 @@ var GetVisitors = exports.GetVisitors = function () {
           case 0:
             _context3.prev = 0;
             _context3.next = 3;
-            return Promise.all([_Visitor2.default.find().sort('-timeIn').limit(50), _Visitor2.default.find().count()]);
+            return Promise.all([_Visitor2.default.find({ schoolId: req.user.schoolId }).sort('-timeIn').limit(50), _Visitor2.default.find({ schoolId: req.user.schoolId }).count()]);
 
           case 3:
             _ref8 = _context3.sent;
@@ -338,7 +343,7 @@ var GetTeachers = exports.GetTeachers = function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return Promise.all([_Teacher2.default.find(), _Teacher2.default.find().count()]);
+            return Promise.all([_Teacher2.default.find({ schoolId: req.user.schoolId }), _Teacher2.default.find({ schoolId: req.user.schoolId }).count()]);
 
           case 3:
             _ref11 = _context4.sent;
@@ -346,7 +351,7 @@ var GetTeachers = exports.GetTeachers = function () {
             teachers = _ref12[0];
             count = _ref12[1];
             _context4.next = 9;
-            return _ClassDetails2.default.find({}, 'teacher classTitle');
+            return _ClassDetails2.default.find({ schoolId: req.user.schoolId }, 'teacher classTitle');
 
           case 9:
             data = _context4.sent;
@@ -387,7 +392,7 @@ var GetTeachers = exports.GetTeachers = function () {
 }();
 
 var AllClass = exports.AllClass = function AllClass(req, res) {
-  _ClassDetails2.default.find().sort('classTitle').then(function (data) {
+  _ClassDetails2.default.find({ schoolId: req.user.schoolId }).sort('classTitle').then(function (data) {
     res.json({
       data: data
     });
@@ -400,7 +405,7 @@ var AllClass = exports.AllClass = function AllClass(req, res) {
 };
 
 var AddClass = exports.AddClass = function AddClass(req, res) {
-  _ClassDetails2.default.create(_extends({}, req.body)).then(function (classInfo) {
+  _ClassDetails2.default.create(_extends({}, req.body, { schoolId: req.user.schoolId })).then(function (classInfo) {
     res.json(classInfo);
   }).catch(function (err) {
     res.status(500).json({
@@ -428,9 +433,12 @@ var UpdateClass = exports.UpdateClass = function UpdateClass(req, res) {
 };
 
 var LeaveApplication = exports.LeaveApplication = function LeaveApplication(req, res) {
-  _Leave2.default.create(_extends({}, req.body)).then(function (leave) {
+  console.log(req.user.sid);
+  _Leave2.default.create(_extends({}, req.body, { schoolId: req.user.schoolId, teacherId: req.user.sid })).then(function (leave) {
+    // console.log(leave);
     res.json(leave);
   }).catch(function (err) {
+    console.log(err);
     res.status(500).json({
       message: 'Error creating leave',
       error: err.message
@@ -447,27 +455,30 @@ var GetLeave = exports.GetLeave = function () {
         switch (_context5.prev = _context5.next) {
           case 0:
             id = req.params.id;
-            searchQuery = {};
+
+            console.log(id);
+            searchQuery = { schoolId: req.user.schoolId };
 
             if (id !== 'admin') {
               searchQuery = {
-                teacherId: req.user.sid
+                teacherId: id
               };
             }
-
-            _context5.prev = 3;
-            _context5.next = 6;
+            _context5.prev = 4;
+            _context5.next = 7;
             return Promise.all([_Leave2.default.find(searchQuery).sort('-status'), _Leave2.default.find(searchQuery).count()]);
 
-          case 6:
+          case 7:
             _ref14 = _context5.sent;
             _ref15 = _slicedToArray(_ref14, 2);
             leaves = _ref15[0];
             count = _ref15[1];
-            _context5.next = 12;
-            return _Teacher2.default.find({}, 'sid fullName');
 
-          case 12:
+            console.log(leaves);
+            _context5.next = 14;
+            return _Teacher2.default.find({ schoolId: req.user.schoolId }, 'sid fullName');
+
+          case 14:
             data = _context5.sent;
 
             leaves = leaves.map(function (leave) {
@@ -478,12 +489,12 @@ var GetLeave = exports.GetLeave = function () {
               return leave;
             });
             res.json(leaves);
-            _context5.next = 20;
+            _context5.next = 22;
             break;
 
-          case 17:
-            _context5.prev = 17;
-            _context5.t0 = _context5['catch'](3);
+          case 19:
+            _context5.prev = 19;
+            _context5.t0 = _context5['catch'](4);
 
             // console.log(error);
             res.status(500).json({
@@ -491,12 +502,12 @@ var GetLeave = exports.GetLeave = function () {
               error: _context5.t0.message
             });
 
-          case 20:
+          case 22:
           case 'end':
             return _context5.stop();
         }
       }
-    }, _callee5, undefined, [[3, 17]]);
+    }, _callee5, undefined, [[4, 19]]);
   }));
 
   return function GetLeave(_x9, _x10) {
@@ -543,7 +554,9 @@ var NewDepartment = exports.NewDepartment = function NewDepartment(req, res) {
       });
     });
   } else {
-    _Department2.default.create(_extends({}, req.body)).then(function (dept) {
+    _Department2.default.create(_extends({}, req.body, {
+      schoolId: req.user.schoolId
+    })).then(function (dept) {
       res.json(dept);
     }).catch(function (err) {
       res.status(500).json({
@@ -555,7 +568,7 @@ var NewDepartment = exports.NewDepartment = function NewDepartment(req, res) {
 };
 
 var FetchDepartment = exports.FetchDepartment = function FetchDepartment(req, res) {
-  _Department2.default.find().then(function (dept) {
+  _Department2.default.find({ schoolId: req.user.schoolId }).then(function (dept) {
     return res.json(dept);
   }).catch(function (err) {
     res.status(500).json({
@@ -566,7 +579,7 @@ var FetchDepartment = exports.FetchDepartment = function FetchDepartment(req, re
 };
 
 var CategoryUpdate = exports.CategoryUpdate = function CategoryUpdate(req, res) {
-  // console.log(req.body);
+  console.log(req.body);
   var _id = req.body._id;
 
   if (_id) {
@@ -584,10 +597,12 @@ var CategoryUpdate = exports.CategoryUpdate = function CategoryUpdate(req, res) 
       });
     });
   } else {
-    _LeaveCategory2.default.create(_extends({}, req.body)).then(function (leave) {
+    _LeaveCategory2.default.create(_extends({}, req.body, {
+      schoolId: req.user.schoolId
+    })).then(function (leave) {
       res.json(leave);
     }).catch(function (err) {
-      // console.log(err);
+      console.log(err);
       res.status(500).json({
         message: 'Error Creating Leave',
         error: err.message
@@ -597,7 +612,7 @@ var CategoryUpdate = exports.CategoryUpdate = function CategoryUpdate(req, res) 
 };
 
 var GetLeaveCategory = exports.GetLeaveCategory = function GetLeaveCategory(req, res) {
-  _LeaveCategory2.default.find().then(function (leave) {
+  _LeaveCategory2.default.find({ schoolId: req.user.schoolId }).then(function (leave) {
     return res.json(leave);
   }).catch(function (err) {
     // console.log(err);
@@ -627,7 +642,9 @@ var AddUserCategory = exports.AddUserCategory = function AddUserCategory(req, re
       });
     });
   } else {
-    _UserCategory2.default.create(_extends({}, req.body)).then(function (data) {
+    _UserCategory2.default.create(_extends({}, req.body, {
+      schoolId: req.user.schoolId
+    })).then(function (data) {
       res.json(data);
     }).catch(function (err) {
       // console.log(err);
@@ -640,7 +657,7 @@ var AddUserCategory = exports.AddUserCategory = function AddUserCategory(req, re
 };
 
 var GetUserCategory = exports.GetUserCategory = function GetUserCategory(req, res) {
-  _UserCategory2.default.find().sort('userType').then(function (data) {
+  _UserCategory2.default.find({ schoolId: req.user.schoolId }).sort('userType').then(function (data) {
     return res.json(data);
   }).catch(function (err) {
     // console.log(err);
@@ -670,7 +687,9 @@ var AddPayHead = exports.AddPayHead = function AddPayHead(req, res) {
       });
     });
   } else {
-    _PayHead2.default.create(_extends({}, req.body)).then(function (data) {
+    _PayHead2.default.create(_extends({}, req.body, {
+      schoolId: req.user.schoolId
+    })).then(function (data) {
       res.json(data);
     }).catch(function (err) {
       // console.log(err);
@@ -683,7 +702,7 @@ var AddPayHead = exports.AddPayHead = function AddPayHead(req, res) {
 };
 
 var GetPayHead = exports.GetPayHead = function GetPayHead(req, res) {
-  _PayHead2.default.find().then(function (data) {
+  _PayHead2.default.find({ schoolId: req.user.schoolId }).then(function (data) {
     return res.json(data);
   }).catch(function (err) {
     // console.log(err);
@@ -721,7 +740,7 @@ var EditSchool = exports.EditSchool = function EditSchool(req, res) {
 };
 
 var GetSchools = exports.GetSchools = function GetSchools(req, res) {
-  _School2.default.find().then(function (data) {
+  _School2.default.find({ schoolId: req.user.schoolId }).then(function (data) {
     return res.json(data);
   }).catch(function (err) {
     // console.log(err);
