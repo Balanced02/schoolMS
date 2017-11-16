@@ -12,7 +12,7 @@ const extractSCSS = new ExtractTextPlugin('[name].styles.css');
 const BUILD_DIR = path.resolve(__dirname, 'build');
 const SRC_DIR = path.resolve(__dirname, 'src');
 
-const PUBLIC_PATH = 'http://localhost:5000/admin/'; // webpack needs the trailing slash for output.publicPath
+const PUBLIC_PATH = 'http://localhost:5000/'; // webpack needs the trailing slash for output.publicPath
 
 console.log('BUILD_DIR', BUILD_DIR);
 console.log('SRC_DIR', SRC_DIR);

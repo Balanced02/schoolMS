@@ -15,8 +15,11 @@
   },
   "scripts": {
     "prestart": "npm run -s build",
-    "start": "concurrently \"node dist/index.js --exec babael-node\" \"cd client && npm run build\" ",
-    "dev": "concurrently \"nodemon server/index.js --exec babel-node\" \"cd client && npm run dev\"",
+    "postinstall": "cd client && npm install",
+    "start":
+      "concurrently \"node dist/index.js --exec babael-node\" \"cd client && npm run build\" ",
+    "dev":
+      "concurrently \"nodemon server/index.js --exec babel-node\" \"cd client && npm run dev\"",
     "clean": "rimraf dist",
     "build": "npm run clean && mkdir -p dist && babel server -s -D -d dist",
     "test": "jest --watch",
@@ -100,10 +103,7 @@
     ]
   },
   "eslintConfig": {
-    "plugins": [
-      "import",
-      "jest"
-    ],
+    "plugins": ["import", "jest"],
     "parserOptions": {
       "ecmaVersion": 2017,
       "sourceType": "module"
@@ -112,9 +112,7 @@
       "node": true,
       "jest": true
     },
-    "extends": [
-      "eslint:recommended"
-    ],
+    "extends": ["eslint:recommended"],
     "rules": {
       "jest/no-focused-tests": 2,
       "jest/no-identical-title": 2
