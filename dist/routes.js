@@ -105,6 +105,7 @@ api.get('/getDepartments', _api.FetchDepartment);
 api.get('/getUserCategory', _api.GetUserCategory);
 api.get('/getPayRollDetails', _api.GetPayHead);
 api.get('/getSchools', _api.GetSchools);
+api.get('/getLibraryCategory', _api.GetLibraryCategory);
 
 //actions
 api.post('/newVisitor', _api.VisitorData);
@@ -120,6 +121,7 @@ api.post('/addLeaveCategory', _api.CategoryUpdate);
 api.post('/addUserCategory', _api.AddUserCategory);
 api.post('/addPayRollDetails', _api.AddPayHead);
 api.post('/editSchool', _api.EditSchool);
+api.post('/addLibraryCategory', _api.LibraryCategoryUpdate);
 api.post('/uploadFile', upload.single('logos'), _api.UploadFile);
 
 exports.default = router;

@@ -7,7 +7,6 @@ const adminSchema = new Schema({
   sid: {
     type: String,
     required: true,
-    default: uuid,
   },
   phoneNumber: {
     type: String,

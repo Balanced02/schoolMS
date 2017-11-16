@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UploadFile = exports.GetSchools = exports.EditSchool = exports.GetPayHead = exports.AddPayHead = exports.GetUserCategory = exports.AddUserCategory = exports.GetLeaveCategory = exports.CategoryUpdate = exports.FetchDepartment = exports.NewDepartment = exports.LeaveUpdate = exports.GetLeave = exports.LeaveApplication = exports.UpdateClass = exports.AddClass = exports.AllClass = exports.GetTeachers = exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.AllCourse = exports.CreateNotice = undefined;
+exports.GetLibraryCategory = exports.LibraryCategoryUpdate = exports.UploadFile = exports.GetSchools = exports.EditSchool = exports.GetPayHead = exports.AddPayHead = exports.GetUserCategory = exports.AddUserCategory = exports.GetLeaveCategory = exports.CategoryUpdate = exports.FetchDepartment = exports.NewDepartment = exports.LeaveUpdate = exports.GetLeave = exports.LeaveApplication = exports.UpdateClass = exports.AddClass = exports.AllClass = exports.GetTeachers = exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.AllCourse = exports.CreateNotice = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -84,6 +84,10 @@ var _PayHead2 = _interopRequireDefault(_PayHead);
 var _School = require('../models/School');
 
 var _School2 = _interopRequireDefault(_School);
+
+var _LibraryCategory = require('../models/LibraryCategory');
+
+var _LibraryCategory2 = _interopRequireDefault(_LibraryCategory);
 
 var _url = require('url');
 
@@ -740,7 +744,7 @@ var EditSchool = exports.EditSchool = function EditSchool(req, res) {
 };
 
 var GetSchools = exports.GetSchools = function GetSchools(req, res) {
-  _School2.default.find({ schoolId: req.user.schoolId }).then(function (data) {
+  _School2.default.find().then(function (data) {
     return res.json(data);
   }).catch(function (err) {
     // console.log(err);
@@ -839,6 +843,51 @@ var getImg = function getImg(path) {
       resolve(response.link);
     }).catch(function (error) {
       reject(error);
+    });
+  });
+};
+
+var LibraryCategoryUpdate = exports.LibraryCategoryUpdate = function LibraryCategoryUpdate(req, res) {
+  console.log(req.body);
+  var _id = req.body._id;
+
+  if (_id) {
+    _LibraryCategory2.default.findOneAndUpdate({ _id: _id }, {
+      $set: _extends({}, req.body)
+    }, {
+      new: true
+    }).then(function (data) {
+      res.json(data);
+    }).catch(function (err) {
+      // console.log(err);
+      res.status(500).json({
+        message: 'Error updating',
+        error: err.message
+      });
+    });
+  } else {
+    _LibraryCategory2.default.create(_extends({}, req.body, {
+      schoolId: req.user.schoolId
+    })).then(function (data) {
+      res.json(data);
+    }).catch(function (err) {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error Creating',
+        error: err.message
+      });
+    });
+  }
+};
+
+var GetLibraryCategory = exports.GetLibraryCategory = function GetLibraryCategory(req, res) {
+  _LibraryCategory2.default.find({ schoolId: req.user.schoolId }).then(function (data) {
+    return res.json(data);
+  }).catch(function (err) {
+    // console.log(err);
+    res.status(500).json({
+      message: 'Error Fetching Department',
+      error: err.message
     });
   });
 };

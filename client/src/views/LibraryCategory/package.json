@@ -1,0 +1,6 @@
+{
+  "name": "Library Category",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./LibraryCategory.js"
+}

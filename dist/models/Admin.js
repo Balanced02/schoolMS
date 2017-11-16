@@ -19,8 +19,7 @@ var Schema = _mongoose2.default.Schema;
 var adminSchema = new Schema({
   sid: {
     type: String,
-    required: true,
-    default: _v2.default
+    required: true
   },
   phoneNumber: {
     type: String,

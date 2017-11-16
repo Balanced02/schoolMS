@@ -169,7 +169,7 @@ export default {
       children: [
         {
           name: 'Add Category',
-          url: '/addCategory',
+          url: '/libraryCategory',
         },
         {
           name: 'Add Books',
@@ -193,7 +193,7 @@ export default {
       name: 'Transport',
       url: '/transport',
       category: 'admin',
-      icon: 'fa fa-sliders fa-2x',
+      icon: 'fa fa-bus fa-2x',
       children: [
         {
           name: 'Add Vehicle',

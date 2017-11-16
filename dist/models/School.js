@@ -61,8 +61,7 @@ var schoolSchema = new Schema((_ref = {
   required: true
 }), _defineProperty(_ref, 'fax', {
   type: String,
-  trim: true,
-  required: true
+  trim: true
 }), _defineProperty(_ref, 'country', {
   type: String,
   trim: true,

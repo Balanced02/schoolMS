@@ -53,7 +53,7 @@ export default ({ data, edit, submit, onImageDrop, image, uploading }) => {
               Founded
               <span style={{ color: 'red' }}> *</span>
             </Label>
-            <Input type="text" name="founded" value={data.founded} onChange={edit ? edit : ''} />
+            <Input type="month" name="founded" value={data.founded} onChange={edit ? edit : ''} />
           </FormGroup>
         </Col>
       </Row>

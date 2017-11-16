@@ -90,7 +90,34 @@ class InstitutionDetails extends Component {
   }
 
   check() {
-    let check = Object.values(this.state.data);
+    let {
+      schoolName,
+      shortCode,
+      address,
+      phoneNumber,
+      country,
+      password,
+      email,
+      founded,
+      fullName,
+      userType,
+      username,
+      logo,
+    } = this.state.data;
+    let check = [
+      schoolName,
+      shortCode,
+      address,
+      phoneNumber,
+      country,
+      password,
+      email,
+      founded,
+      fullName,
+      userType,
+      username,
+      logo,
+    ];
     check = check.every(data => data !== '');
     if (!check) {
       this.props.dispatch(showError('Fields with * are compulsory'));

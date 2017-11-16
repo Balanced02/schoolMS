@@ -12,7 +12,7 @@ export default ({ data, select }) => {
             <i className="fa fa-spinner fa-spin fa-2x" />
           ) : !data.searching && !data.searchResults.length ? (
             <h4 style={{ textAlign: 'center', marginTop: 20, alignSelf: 'stretch', flex: 1 }}>
-              No Leave Categories Found
+              No Category Found
             </h4>
           ) : (
             <Table responsive striped hover>

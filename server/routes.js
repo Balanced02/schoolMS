@@ -37,6 +37,8 @@ import {
   EditSchool,
   GetSchools,
   UploadFile,
+  LibraryCategoryUpdate,
+  GetLibraryCategory,
 } from './controllers/api';
 
 const app = express();
@@ -96,6 +98,7 @@ api.get('/getDepartments', FetchDepartment);
 api.get('/getUserCategory', GetUserCategory);
 api.get('/getPayRollDetails', GetPayHead);
 api.get('/getSchools', GetSchools);
+api.get('/getLibraryCategory', GetLibraryCategory);
 
 //actions
 api.post('/newVisitor', VisitorData);
@@ -111,6 +114,7 @@ api.post('/addLeaveCategory', CategoryUpdate);
 api.post('/addUserCategory', AddUserCategory);
 api.post('/addPayRollDetails', AddPayHead);
 api.post('/editSchool', EditSchool);
+api.post('/addLibraryCategory', LibraryCategoryUpdate);
 api.post('/uploadFile', upload.single('logos'), UploadFile);
 
 export default router;

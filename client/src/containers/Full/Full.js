@@ -28,6 +28,8 @@ import AddDesignation from '../../views/AddDesignation';
 import payHead from '../../views/PayHead';
 import SDashboard from '../../views/SDashboard';
 import InstitutionDetails from '../../views/InstitutionDetails';
+import LibraryCategory from '../../views/LibraryCategory';
+import ViewSchools from '../../views/ViewSchools';
 
 class Full extends Component {
   constructor(props) {
@@ -80,10 +82,15 @@ class Full extends Component {
                   <Route path="/addCourse" name="Course" component={Course} />
                   <Route path="/addEmployee" name="Add Employee" component={AddEmployee} />
                   <Route path="/newIntake" name="New Intake" component={NewIntake} />
-                  <Route path="/leaveApprovals" name="Leave" component={Leave} />
-                  <Route path="/leaveCategory" name="Leave" component={LeaveCategory} />
-                  <Route path="/addDesignation" name="Leave" component={AddDesignation} />
-                  <Route path="/payHead" name="Leave" component={payHead} />
+                  <Route path="/leaveApprovals" name="Leave Approvals" component={Leave} />
+                  <Route path="/leaveCategory" name="Leave Category" component={LeaveCategory} />
+                  <Route path="/addDesignation" name="Add Designation" component={AddDesignation} />
+                  <Route path="/payHead" name="Pay Head" component={payHead} />
+                  <Route
+                    path="/libraryCategory"
+                    name="Library Category"
+                    component={LibraryCategory}
+                  />
                   <Route
                     path="/leaveApplication"
                     name="Leave Application"
@@ -132,6 +139,7 @@ class Full extends Component {
                 <Switch>
                   <Route path="/dashboard" name="Dashboard" component={SDashboard} />
                   <Route path="/addSchool" name="Add School" component={InstitutionDetails} />
+                  <Route path="/viewSchools" name="School Lists" component={ViewSchools} />
                   <Redirect from="/" to="/dashboard" />
                 </Switch>
               </Container>

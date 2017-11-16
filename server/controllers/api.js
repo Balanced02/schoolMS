@@ -19,6 +19,8 @@ import LeaveCategory from '../models/LeaveCategory';
 import UserCategory from '../models/UserCategory';
 import PayHead from '../models/PayHead';
 import School from '../models/School';
+import LibraryCategory from '../models/LibraryCategory';
+
 import { resolve } from 'url';
 
 export const CreateNotice = (req, res) => {
@@ -596,7 +598,7 @@ export const EditSchool = (req, res) => {
 };
 
 export const GetSchools = (req, res) => {
-  School.find({ schoolId: req.user.schoolId })
+  School.find()
     .then(data => res.json(data))
     .catch(err => {
       // console.log(err);
@@ -684,4 +686,59 @@ const getImg = path => {
         reject(error);
       });
   });
+};
+
+export const LibraryCategoryUpdate = (req, res) => {
+  console.log(req.body);
+  let { _id } = req.body;
+  if (_id) {
+    LibraryCategory.findOneAndUpdate(
+      { _id },
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      {
+        new: true,
+      }
+    )
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        // console.log(err);
+        res.status(500).json({
+          message: 'Error updating',
+          error: err.message,
+        });
+      });
+  } else {
+    LibraryCategory.create({
+      ...req.body,
+      schoolId: req.user.schoolId,
+    })
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          message: 'Error Creating',
+          error: err.message,
+        });
+      });
+  }
+};
+
+export const GetLibraryCategory = (req, res) => {
+  LibraryCategory.find({ schoolId: req.user.schoolId })
+    .then(data => res.json(data))
+    .catch(err => {
+      // console.log(err);
+      res.status(500).json({
+        message: 'Error Fetching Department',
+        error: err.message,
+      });
+    });
 };

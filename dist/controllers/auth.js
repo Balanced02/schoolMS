@@ -118,7 +118,8 @@ var CreateSchool = exports.CreateSchool = function CreateSchool(req, res) {
                 phoneNumber: data.phoneNumber,
                 fullName: data.schoolName,
                 schoolId: data.schoolId,
-                password: req.body.password
+                password: req.body.password,
+                sid: data.sid
               };
               _context.prev = 2;
               _context.next = 5;
@@ -165,10 +166,11 @@ var CreateSchool = exports.CreateSchool = function CreateSchool(req, res) {
 };
 
 var createUser = function createUser(userType, body, id) {
-  console.log('Creating: ' + userType);
+  console.log('Creating: ' + id);
   var User = userType === 'teacher' ? _Teacher2.default : userType === 'student' ? _Student2.default : userType === 'admin' ? _Admin2.default : _Teacher2.default;
   return new Promise(function (resolve, reject) {
     User.create(_extends({}, body, { sid: id })).then(function (user) {
+      console.log(user);
       resolve(user);
     }).catch(function (err) {
       console.log(err);

@@ -89,6 +89,7 @@ export const CreateSchool = (req, res) => {
         fullName: data.schoolName,
         schoolId: data.schoolId,
         password: req.body.password,
+        sid: data.sid,
       };
       try {
         let [user, authn] = await Promise.all([
@@ -117,7 +118,7 @@ export const CreateSchool = (req, res) => {
 };
 
 const createUser = (userType, body, id) => {
-  console.log('Creating: ' + userType);
+  console.log('Creating: ' + id);
   let User =
     userType === 'teacher'
       ? Teacher
@@ -125,6 +126,7 @@ const createUser = (userType, body, id) => {
   return new Promise((resolve, reject) => {
     User.create({ ...body, sid: id })
       .then(user => {
+        console.log(user);
         resolve(user);
       })
       .catch(err => {

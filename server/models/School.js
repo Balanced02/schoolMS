@@ -47,7 +47,6 @@ const schoolSchema = new Schema({
   fax: {
     type: String,
     trim: true,
-    required: true,
   },
   country: {
     type: String,
