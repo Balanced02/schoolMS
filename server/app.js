@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+
 import routes from './routes';
 
 const app = express();

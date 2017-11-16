@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Card } from 'reactstrap';
+import { Card, CardBlock, CardHeader } from 'reactstrap';
 import { connect } from 'react-redux';
 
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
 import SchoolSearchResult from '../../components/SchoolSearchResult';
+import InstitutionDetail from '../../components/InstitutionDetail';
 
 class SchoolList extends Component {
   constructor(props) {
@@ -12,23 +13,173 @@ class SchoolList extends Component {
     this.state = {
       searchResults: [],
       searching: true,
+      schoolDetail: false,
+      school: {},
+      count: '',
+      imageUrl: '',
+      uploadFile: '',
+      uploading: false,
     };
   }
 
   getSchools() {
     callApi('/getSchools')
-      .then(data => this.setState({ searchResults: data, searching: false }))
+      .then(data =>
+        this.setState({ searchResults: data.schools, count: data.count, searching: false })
+      )
       .catch(err => this.props.dispatch(showError('Error Loading TeacherList')));
   }
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+  check() {
+    let {
+      schoolName,
+      shortCode,
+      address,
+      phoneNumber,
+      country,
+      email,
+      founded,
+      fullName,
+      userType,
+      username,
+      logo,
+    } = this.state.school;
+    let check = [
+      schoolName,
+      shortCode,
+      address,
+      phoneNumber,
+      country,
+      email,
+      founded,
+      fullName,
+      userType,
+      username,
+      logo,
+    ];
+    check = check.every(data => data !== '');
+    if (!check) {
+      this.props.dispatch(showError('Fields with * are compulsory'));
+    } else {
+      this.props.dispatch(showInfo('Creating School'));
+      this.updateSchool();
+    }
+  }
+
+  updateSchool() {
+    callApi('/updateSchool', { ...this.state.school }, 'POST')
+      .then(data => {
+        this.setState({
+          school: {
+            schoolName: '',
+            shortCode: '',
+            address: '',
+            phoneNumber: '',
+            country: '',
+            email: '',
+            founded: '',
+            fax: '',
+            fullName: '',
+            address: '',
+            username: '',
+            logo: '',
+          },
+          uploadFile: '',
+          uploading: false,
+          schoolDetail: false,
+          imageUrl: '',
+        });
+        this.props.dispatch(showInfo('Updated Successfully'));
+      })
+      .catch(err => this.props.dispatch(showError('Error Updating school')));
+  }
+
+  edit(e) {
+    let { name, value } = e.target;
+    this.setState({
+      school: {
+        ...this.state.school,
+        [name]: value,
+      },
+    });
+  }
+
+  onImageDrop(files) {
+    this.setState({
+      uploadFile: files[0],
+      uploading: true,
+    });
+    this.upload(files[0]);
+  }
+
+  select(data) {
+    this.setState({
+      school: {
+        ...data,
+      },
+      uploading: true,
+    });
+    this.toggle();
+    this.getImageUrl(data.logo);
+  }
+
+  toggle() {
+    this.setState({
+      schoolDetail: !this.state.schoolDetail,
+    });
+  }
+
+  getImageUrl(path) {
+    callApi('/getImageUrl', { logo: path }, 'POST')
+      .then(link =>
+        this.setState({
+          imageUrl: link,
+          uploading: false,
+        })
+      )
+      .catch(err => this.props.dispatch(showError('Error getting image link')));
+  }
+
   componentWillMount() {
     this.getSchools();
   }
 
   render() {
+    const { school, uploading, schoolDetail, imageUrl } = this.state;
     return (
       <div className="animated fadeIn container">
         <Card>
-          <SchoolSearchResult data={this.state.searchResults} searching={this.state.searching} />
+          <CardHeader> School List </CardHeader>
+          <CardBlock>
+            {!schoolDetail ? (
+              <SchoolSearchResult
+                data={this.state.searchResults}
+                searching={this.state.searching}
+                select={d => this.select(d)}
+              />
+            ) : (
+              <div>
+                <i
+                  className="fa fa-window-close fa-2x"
+                  style={{ float: 'right', cursor: 'pointer', color: 'red' }}
+                  onClick={() => this.toggle()}
+                />
+                <InstitutionDetail
+                  data={school}
+                  edit={e => this.edit(e)}
+                  submit={() => this.check()}
+                  onImageDrop={files => this.onImageDrop(files)}
+                  image={imageUrl}
+                  uploading={uploading}
+                />
+              </div>
+            )}
+          </CardBlock>
         </Card>
       </div>
     );

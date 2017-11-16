@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import { Row, Col, Table } from 'reactstrap';
 
-export default ({ data, searching }) => {
+export default ({ data, searching, select }) => {
   return (
     <Row>
       <Col md="12" xs="12">
@@ -36,7 +36,7 @@ export default ({ data, searching }) => {
               <h4 style={{ textAlign: 'center', marginTop: 20 }}>No Teachers</h4>
             ) : (
               data.map((schl, i) => (
-                <tr style={{ cursor: 'pointer' }}>
+                <tr style={{ cursor: 'pointer' }} onClick={() => select(schl)}>
                   <td> {i + 1} </td>
                   <td> {schl.schoolId} </td>
                   <td> {schl.schoolName} </td>

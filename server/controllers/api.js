@@ -63,6 +63,27 @@ export const AllCourse = async (req, res) => {
   }
 };
 
+export const GetSchools = async (req, res) => {
+  try {
+    let [count, schools] = await Promise.all([
+      School.find().count(),
+      School.find()
+        .sort('-created')
+        .limit(25),
+    ]);
+    return res.json({
+      count,
+      schools,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Error Loading Schools',
+      error: err.message,
+    });
+  }
+};
+
 export const SummaryData = async (req, res) => {
   console.log(req.user);
   try {
@@ -597,18 +618,6 @@ export const EditSchool = (req, res) => {
   }
 };
 
-export const GetSchools = (req, res) => {
-  School.find()
-    .then(data => res.json(data))
-    .catch(err => {
-      // console.log(err);
-      res.status(500).json({
-        message: 'Error Fetching School Details',
-        error: err.message,
-      });
-    });
-};
-
 export const UploadFile = async (req, res) => {
   if (!req.file) {
     console.log('No file received');
@@ -674,7 +683,7 @@ const upload = (data, path) => {
   });
 };
 
-const getImg = path => {
+export const getImg = path => {
   return new Promise((resolve, reject) => {
     dbx
       .filesGetTemporaryLink({ path })
@@ -738,6 +747,30 @@ export const GetLibraryCategory = (req, res) => {
       // console.log(err);
       res.status(500).json({
         message: 'Error Fetching Department',
+        error: err.message,
+      });
+    });
+};
+
+export const UpdateSchool = (req, res) => {
+  let { _id } = req.body;
+  School.findOneAndUpdate(
+    { _id },
+    {
+      $set: {
+        ...req.body,
+      },
+    },
+    {
+      new: true,
+    }
+  )
+    .then(school => {
+      res.json(school);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error Updating Course',
         error: err.message,
       });
     });

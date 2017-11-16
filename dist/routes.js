@@ -108,6 +108,18 @@ api.get('/getSchools', _api.GetSchools);
 api.get('/getLibraryCategory', _api.GetLibraryCategory);
 
 //actions
+api.post('/getImageUrl', function (req, res) {
+  var logo = req.body.logo;
+
+  (0, _api.getImg)(logo).then(function (link) {
+    return res.json(link);
+  }).catch(function (err) {
+    return res.status(500).json({
+      message: 'Error Uploading Logo',
+      error: err.message
+    });
+  });
+});
 api.post('/newVisitor', _api.VisitorData);
 api.post('/createNotice', _api.CreateNotice);
 api.post('/createCourse', _api.CreateCourse);
@@ -122,6 +134,7 @@ api.post('/addUserCategory', _api.AddUserCategory);
 api.post('/addPayRollDetails', _api.AddPayHead);
 api.post('/editSchool', _api.EditSchool);
 api.post('/addLibraryCategory', _api.LibraryCategoryUpdate);
+api.post('/updateSchool', _api.UpdateSchool);
 api.post('/uploadFile', upload.single('logos'), _api.UploadFile);
 
 exports.default = router;

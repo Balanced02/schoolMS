@@ -8,10 +8,13 @@ export default ({ data, edit, submit, onImageDrop, image, uploading }) => {
   return (
     <Form>
       {uploading ? (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <i className="fa fa-spinner fa-spin fa-5x" style={{ color: 'green' }} />
-          <br />
-          <p>Uploading... please wait</p>
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <p>
+              <i className="fa fa-spinner fa-pulse fa-spin fa-5x" style={{ color: 'green' }} />
+            </p>
+          </div>
+          <p style={{ textAlign: 'center', fontSize: 20 }}>Please wait...</p>
         </div>
       ) : image ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>

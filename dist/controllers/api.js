@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GetLibraryCategory = exports.LibraryCategoryUpdate = exports.UploadFile = exports.GetSchools = exports.EditSchool = exports.GetPayHead = exports.AddPayHead = exports.GetUserCategory = exports.AddUserCategory = exports.GetLeaveCategory = exports.CategoryUpdate = exports.FetchDepartment = exports.NewDepartment = exports.LeaveUpdate = exports.GetLeave = exports.LeaveApplication = exports.UpdateClass = exports.AddClass = exports.AllClass = exports.GetTeachers = exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.AllCourse = exports.CreateNotice = undefined;
+exports.UpdateSchool = exports.GetLibraryCategory = exports.LibraryCategoryUpdate = exports.getImg = exports.UploadFile = exports.EditSchool = exports.GetPayHead = exports.AddPayHead = exports.GetUserCategory = exports.AddUserCategory = exports.GetLeaveCategory = exports.CategoryUpdate = exports.FetchDepartment = exports.NewDepartment = exports.LeaveUpdate = exports.GetLeave = exports.LeaveApplication = exports.UpdateClass = exports.AddClass = exports.AllClass = exports.GetTeachers = exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.GetSchools = exports.AllCourse = exports.CreateNotice = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -162,27 +162,72 @@ var AllCourse = exports.AllCourse = function () {
   };
 }();
 
-var SummaryData = exports.SummaryData = function () {
+var GetSchools = exports.GetSchools = function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee2(req, res) {
-    var _ref5, _ref6, totalStudents, pendingReg, totalStaff, noticeBoard;
+    var _ref5, _ref6, count, schools;
 
     return _regeneratorRuntime2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return Promise.all([_School2.default.find().count(), _School2.default.find().sort('-created').limit(25)]);
+
+          case 3:
+            _ref5 = _context2.sent;
+            _ref6 = _slicedToArray(_ref5, 2);
+            count = _ref6[0];
+            schools = _ref6[1];
+            return _context2.abrupt('return', res.json({
+              count: count,
+              schools: schools
+            }));
+
+          case 10:
+            _context2.prev = 10;
+            _context2.t0 = _context2['catch'](0);
+
+            console.log(_context2.t0);
+            res.status(500).json({
+              message: 'Error Loading Schools',
+              error: _context2.t0.message
+            });
+
+          case 14:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, undefined, [[0, 10]]);
+  }));
+
+  return function GetSchools(_x3, _x4) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+var SummaryData = exports.SummaryData = function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee3(req, res) {
+    var _ref8, _ref9, totalStudents, pendingReg, totalStaff, noticeBoard;
+
+    return _regeneratorRuntime2.default.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
             console.log(req.user);
-            _context2.prev = 1;
-            _context2.next = 4;
+            _context3.prev = 1;
+            _context3.next = 4;
             return Promise.all([_Student2.default.find({ schoolId: req.user.schoolId }).count(), _Student2.default.find({ accepted: true, schoolId: req.user.schoolId }).count(), _Users2.default.find({ schoolId: req.user.schoolId }).count(), _Notice2.default.find({ schoolId: req.user.schoolId }).sort('-created')]);
 
           case 4:
-            _ref5 = _context2.sent;
-            _ref6 = _slicedToArray(_ref5, 4);
-            totalStudents = _ref6[0];
-            pendingReg = _ref6[1];
-            totalStaff = _ref6[2];
-            noticeBoard = _ref6[3];
-            return _context2.abrupt('return', res.json({
+            _ref8 = _context3.sent;
+            _ref9 = _slicedToArray(_ref8, 4);
+            totalStudents = _ref9[0];
+            pendingReg = _ref9[1];
+            totalStaff = _ref9[2];
+            noticeBoard = _ref9[3];
+            return _context3.abrupt('return', res.json({
               totalStudents: totalStudents,
               pendingReg: pendingReg,
               totalStaff: totalStaff,
@@ -190,24 +235,24 @@ var SummaryData = exports.SummaryData = function () {
             }));
 
           case 13:
-            _context2.prev = 13;
-            _context2.t0 = _context2['catch'](1);
+            _context3.prev = 13;
+            _context3.t0 = _context3['catch'](1);
 
             res.status(400).json({
               message: 'Error Loading Clients',
-              error: _context2.t0.message
+              error: _context3.t0.message
             });
 
           case 16:
           case 'end':
-            return _context2.stop();
+            return _context3.stop();
         }
       }
-    }, _callee2, undefined, [[1, 13]]);
+    }, _callee3, undefined, [[1, 13]]);
   }));
 
-  return function SummaryData(_x3, _x4) {
-    return _ref4.apply(this, arguments);
+  return function SummaryData(_x5, _x6) {
+    return _ref7.apply(this, arguments);
   };
 }();
 
@@ -294,30 +339,30 @@ var updateVisitor = function updateVisitor(data) {
 };
 
 var GetVisitors = exports.GetVisitors = function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee3(req, res) {
-    var _ref8, _ref9, visitors, count;
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee4(req, res) {
+    var _ref11, _ref12, visitors, count;
 
-    return _regeneratorRuntime2.default.wrap(function _callee3$(_context3) {
+    return _regeneratorRuntime2.default.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.prev = 0;
-            _context3.next = 3;
+            _context4.prev = 0;
+            _context4.next = 3;
             return Promise.all([_Visitor2.default.find({ schoolId: req.user.schoolId }).sort('-timeIn').limit(50), _Visitor2.default.find({ schoolId: req.user.schoolId }).count()]);
 
           case 3:
-            _ref8 = _context3.sent;
-            _ref9 = _slicedToArray(_ref8, 2);
-            visitors = _ref9[0];
-            count = _ref9[1];
-            return _context3.abrupt('return', res.json({
+            _ref11 = _context4.sent;
+            _ref12 = _slicedToArray(_ref11, 2);
+            visitors = _ref12[0];
+            count = _ref12[1];
+            return _context4.abrupt('return', res.json({
               visitors: visitors,
               count: count
             }));
 
           case 10:
-            _context3.prev = 10;
-            _context3.t0 = _context3['catch'](0);
+            _context4.prev = 10;
+            _context4.t0 = _context4['catch'](0);
 
             res.status(500).json({
               message: 'Error fetching courses',
@@ -326,39 +371,39 @@ var GetVisitors = exports.GetVisitors = function () {
 
           case 13:
           case 'end':
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, undefined, [[0, 10]]);
+    }, _callee4, undefined, [[0, 10]]);
   }));
 
-  return function GetVisitors(_x5, _x6) {
-    return _ref7.apply(this, arguments);
+  return function GetVisitors(_x7, _x8) {
+    return _ref10.apply(this, arguments);
   };
 }();
 
 var GetTeachers = exports.GetTeachers = function () {
-  var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee4(req, res) {
-    var _ref11, _ref12, teachers, count, data;
+  var _ref13 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee5(req, res) {
+    var _ref14, _ref15, teachers, count, data;
 
-    return _regeneratorRuntime2.default.wrap(function _callee4$(_context4) {
+    return _regeneratorRuntime2.default.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
+            _context5.prev = 0;
+            _context5.next = 3;
             return Promise.all([_Teacher2.default.find({ schoolId: req.user.schoolId }), _Teacher2.default.find({ schoolId: req.user.schoolId }).count()]);
 
           case 3:
-            _ref11 = _context4.sent;
-            _ref12 = _slicedToArray(_ref11, 2);
-            teachers = _ref12[0];
-            count = _ref12[1];
-            _context4.next = 9;
+            _ref14 = _context5.sent;
+            _ref15 = _slicedToArray(_ref14, 2);
+            teachers = _ref15[0];
+            count = _ref15[1];
+            _context5.next = 9;
             return _ClassDetails2.default.find({ schoolId: req.user.schoolId }, 'teacher classTitle');
 
           case 9:
-            data = _context4.sent;
+            data = _context5.sent;
 
             teachers = teachers.map(function (teacher) {
               var assignedClass = data.filter(function (d) {
@@ -370,28 +415,28 @@ var GetTeachers = exports.GetTeachers = function () {
               return teacher;
             });
             res.json({ teachers: teachers });
-            _context4.next = 17;
+            _context5.next = 17;
             break;
 
           case 14:
-            _context4.prev = 14;
-            _context4.t0 = _context4['catch'](0);
+            _context5.prev = 14;
+            _context5.t0 = _context5['catch'](0);
 
             res.status(500).json({
               message: 'Error Loading Teacher Details',
-              error: _context4.t0.message
+              error: _context5.t0.message
             });
 
           case 17:
           case 'end':
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4, undefined, [[0, 14]]);
+    }, _callee5, undefined, [[0, 14]]);
   }));
 
-  return function GetTeachers(_x7, _x8) {
-    return _ref10.apply(this, arguments);
+  return function GetTeachers(_x9, _x10) {
+    return _ref13.apply(this, arguments);
   };
 }();
 
@@ -451,12 +496,12 @@ var LeaveApplication = exports.LeaveApplication = function LeaveApplication(req,
 };
 
 var GetLeave = exports.GetLeave = function () {
-  var _ref13 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee5(req, res) {
-    var id, searchQuery, _ref14, _ref15, leaves, count, data;
+  var _ref16 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee6(req, res) {
+    var id, searchQuery, _ref17, _ref18, leaves, count, data;
 
-    return _regeneratorRuntime2.default.wrap(function _callee5$(_context5) {
+    return _regeneratorRuntime2.default.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
             id = req.params.id;
 
@@ -468,22 +513,22 @@ var GetLeave = exports.GetLeave = function () {
                 teacherId: id
               };
             }
-            _context5.prev = 4;
-            _context5.next = 7;
+            _context6.prev = 4;
+            _context6.next = 7;
             return Promise.all([_Leave2.default.find(searchQuery).sort('-status'), _Leave2.default.find(searchQuery).count()]);
 
           case 7:
-            _ref14 = _context5.sent;
-            _ref15 = _slicedToArray(_ref14, 2);
-            leaves = _ref15[0];
-            count = _ref15[1];
+            _ref17 = _context6.sent;
+            _ref18 = _slicedToArray(_ref17, 2);
+            leaves = _ref18[0];
+            count = _ref18[1];
 
             console.log(leaves);
-            _context5.next = 14;
+            _context6.next = 14;
             return _Teacher2.default.find({ schoolId: req.user.schoolId }, 'sid fullName');
 
           case 14:
-            data = _context5.sent;
+            data = _context6.sent;
 
             leaves = leaves.map(function (leave) {
               var teacherName = data.filter(function (d) {
@@ -493,29 +538,29 @@ var GetLeave = exports.GetLeave = function () {
               return leave;
             });
             res.json(leaves);
-            _context5.next = 22;
+            _context6.next = 22;
             break;
 
           case 19:
-            _context5.prev = 19;
-            _context5.t0 = _context5['catch'](4);
+            _context6.prev = 19;
+            _context6.t0 = _context6['catch'](4);
 
             // console.log(error);
             res.status(500).json({
               message: 'Error getting leaves',
-              error: _context5.t0.message
+              error: _context6.t0.message
             });
 
           case 22:
           case 'end':
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5, undefined, [[4, 19]]);
+    }, _callee6, undefined, [[4, 19]]);
   }));
 
-  return function GetLeave(_x9, _x10) {
-    return _ref13.apply(this, arguments);
+  return function GetLeave(_x11, _x12) {
+    return _ref16.apply(this, arguments);
   };
 }();
 
@@ -743,39 +788,27 @@ var EditSchool = exports.EditSchool = function EditSchool(req, res) {
   }
 };
 
-var GetSchools = exports.GetSchools = function GetSchools(req, res) {
-  _School2.default.find().then(function (data) {
-    return res.json(data);
-  }).catch(function (err) {
-    // console.log(err);
-    res.status(500).json({
-      message: 'Error Fetching School Details',
-      error: err.message
-    });
-  });
-};
-
 var UploadFile = exports.UploadFile = function () {
-  var _ref16 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee6(req, res) {
-    return _regeneratorRuntime2.default.wrap(function _callee6$(_context6) {
+  var _ref19 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee7(req, res) {
+    return _regeneratorRuntime2.default.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
             if (req.file) {
-              _context6.next = 5;
+              _context7.next = 5;
               break;
             }
 
             console.log('No file received');
-            return _context6.abrupt('return', res.send({
+            return _context7.abrupt('return', res.send({
               success: false
             }));
 
           case 5:
             console.log(req.file);
-            _context6.t0 = _fs2.default;
-            _context6.t1 = req.file.path;
-            _context6.next = 10;
+            _context7.t0 = _fs2.default;
+            _context7.t1 = req.file.path;
+            _context7.next = 10;
             return function (err, data) {
               if (err) console.log(err);
               console.log('reading!!!');
@@ -805,19 +838,19 @@ var UploadFile = exports.UploadFile = function () {
             };
 
           case 10:
-            _context6.t2 = _context6.sent;
-            return _context6.abrupt('return', _context6.t0.readFile.call(_context6.t0, _context6.t1, _context6.t2));
+            _context7.t2 = _context7.sent;
+            return _context7.abrupt('return', _context7.t0.readFile.call(_context7.t0, _context7.t1, _context7.t2));
 
           case 12:
           case 'end':
-            return _context6.stop();
+            return _context7.stop();
         }
       }
-    }, _callee6, undefined);
+    }, _callee7, undefined);
   }));
 
-  return function UploadFile(_x11, _x12) {
-    return _ref16.apply(this, arguments);
+  return function UploadFile(_x13, _x14) {
+    return _ref19.apply(this, arguments);
   };
 }();
 
@@ -836,7 +869,7 @@ var upload = function upload(data, path) {
   });
 };
 
-var getImg = function getImg(path) {
+var getImg = exports.getImg = function getImg(path) {
   return new Promise(function (resolve, reject) {
     dbx.filesGetTemporaryLink({ path: path }).then(function (response) {
       // console.log(response.link);
@@ -887,6 +920,23 @@ var GetLibraryCategory = exports.GetLibraryCategory = function GetLibraryCategor
     // console.log(err);
     res.status(500).json({
       message: 'Error Fetching Department',
+      error: err.message
+    });
+  });
+};
+
+var UpdateSchool = exports.UpdateSchool = function UpdateSchool(req, res) {
+  var _id = req.body._id;
+
+  _School2.default.findOneAndUpdate({ _id: _id }, {
+    $set: _extends({}, req.body)
+  }, {
+    new: true
+  }).then(function (school) {
+    res.json(school);
+  }).catch(function (err) {
+    res.status(500).json({
+      message: 'Error Updating Course',
       error: err.message
     });
   });

@@ -38,7 +38,9 @@ import {
   GetSchools,
   UploadFile,
   LibraryCategoryUpdate,
+  getImg,
   GetLibraryCategory,
+  UpdateSchool,
 } from './controllers/api';
 
 const app = express();
@@ -101,6 +103,17 @@ api.get('/getSchools', GetSchools);
 api.get('/getLibraryCategory', GetLibraryCategory);
 
 //actions
+api.post('/getImageUrl', (req, res) => {
+  let { logo } = req.body;
+  getImg(logo)
+    .then(link => res.json(link))
+    .catch(err =>
+      res.status(500).json({
+        message: 'Error Uploading Logo',
+        error: err.message,
+      })
+    );
+});
 api.post('/newVisitor', VisitorData);
 api.post('/createNotice', CreateNotice);
 api.post('/createCourse', CreateCourse);
@@ -115,6 +128,7 @@ api.post('/addUserCategory', AddUserCategory);
 api.post('/addPayRollDetails', AddPayHead);
 api.post('/editSchool', EditSchool);
 api.post('/addLibraryCategory', LibraryCategoryUpdate);
+api.post('/updateSchool', UpdateSchool);
 api.post('/uploadFile', upload.single('logos'), UploadFile);
 
 export default router;
