@@ -11,6 +11,7 @@ export default ({ data, searching }) => {
           <thead>
             <tr>
               <th>#</th>
+              <th>SchoolId</th>
               <th>Name</th>
               <th>Founded</th>
               <th>Phone No.</th>
@@ -37,6 +38,7 @@ export default ({ data, searching }) => {
               data.map((schl, i) => (
                 <tr style={{ cursor: 'pointer' }}>
                   <td> {i + 1} </td>
+                  <td> {schl.schoolId} </td>
                   <td> {schl.schoolName} </td>
                   <td> {schl.founded} </td>
                   <td> {schl.phoneNumber} </td>
