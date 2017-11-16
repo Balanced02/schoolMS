@@ -15,7 +15,6 @@
   },
   "scripts": {
     "prestart": "npm run -s build",
-    "postinstall": "cd client && npm install",
     "start":
       "concurrently \"node dist/index.js --exec babael-node\" \"cd client && npm run build\" ",
     "dev":
