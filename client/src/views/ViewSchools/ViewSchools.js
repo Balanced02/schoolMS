@@ -150,7 +150,13 @@ class SchoolList extends Component {
           uploading: false,
         })
       )
-      .catch(err => this.props.dispatch(showError('Error getting image link')));
+      .catch(err => {
+        this.setState({
+          imageUrl: '',
+          uploading: false,
+        });
+        this.props.dispatch(showError('Error getting image link'));
+      });
   }
 
   componentWillMount() {
