@@ -4,7 +4,7 @@ import request from 'superagent';
 
 import { Form, FormGroup, FormText, Label, Input, Button, Row, Col } from 'reactstrap';
 
-export default ({ data, edit, submit, onImageDrop, image, uploading }) => {
+export default ({ data, edit, submit, onImageDrop, image, uploading, changeImage }) => {
   return (
     <Form>
       {uploading ? (
@@ -18,12 +18,17 @@ export default ({ data, edit, submit, onImageDrop, image, uploading }) => {
         </div>
       ) : image ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <img
-            alt="logo"
-            src={image}
-            className="thumbnail"
-            style={{ width: 'auto', height: 150 }}
-          />
+          <div className="contain">
+            <img
+              alt="logo"
+              src={image}
+              className="thumbnail image"
+              style={{ width: 'auto', height: 150 }}
+            />
+            <div className="overlay" onClick={() => changeImage()}>
+              <div className="text">Change Image</div>
+            </div>
+          </div>
         </div>
       ) : (
         <div style={{ display: 'flex', justifyContent: 'center' }}>

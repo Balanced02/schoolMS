@@ -27,6 +27,7 @@ class InstitutionDetails extends Component {
         userType: 'school',
         username: '',
         logo: '',
+        file: '',
       },
       uploadFile: '',
       uploading: false,
@@ -59,26 +60,27 @@ class InstitutionDetails extends Component {
   }
 
   upload(file) {
-    var photo = new FormData();
-    photo.append('logos', file);
-
-    upload
-      .post('/api/uploadFile')
-      .send(photo)
-      .end((err, res) => {
-        if (err) {
-          console.log(err);
-        }
-        console.log(res);
-        this.setState({
-          imageUrl: res.body.data,
-          uploading: false,
-          data: {
-            ...this.state.data,
-            logo: res.body.response.path_display,
-          },
+    return new Promise((resolve, reject) => {
+      var photo = new FormData();
+      photo.append('logos', file);
+      upload
+        .post('/api/uploadFile')
+        .send(photo)
+        .end((err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
         });
-      });
+    });
+  }
+
+  changeImage() {
+    this.setState({
+      uploadFile: '',
+      uploading: false,
+      imageUrl: '',
+    });
   }
 
   onImageDrop(files) {
@@ -86,7 +88,23 @@ class InstitutionDetails extends Component {
       uploadFile: files[0],
       uploading: true,
     });
-    this.upload(files[0]);
+    this.viewfile(files[0]);
+  }
+
+  viewfile(file) {
+    var img = document.createElement('img');
+    var reader = new FileReader();
+    reader.onloadend = () => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          file: file,
+        },
+        uploading: false,
+        imageUrl: reader.result,
+      });
+    };
+    reader.readAsDataURL(file);
   }
 
   check() {
@@ -102,7 +120,7 @@ class InstitutionDetails extends Component {
       fullName,
       userType,
       username,
-      logo,
+      file,
     } = this.state.data;
     let check = [
       schoolName,
@@ -113,23 +131,35 @@ class InstitutionDetails extends Component {
       password,
       email,
       founded,
+      file,
       fullName,
       userType,
       username,
-      logo,
     ];
     check = check.every(data => data !== '');
     if (!check) {
       this.props.dispatch(showError('Fields with * are compulsory'));
     } else {
       this.props.dispatch(showInfo('Creating School'));
-      this.register();
+      this.upload(this.state.uploadFile)
+        .then(data => {
+          this.setState({
+            imageUrl: data.body.data,
+            uploading: false,
+            data: {
+              ...this.state.data,
+              logo: data.body.response.path_display,
+            },
+          });
+          this.register();
+        })
+        .catch(err => this.props.dispatch(showError('Error Uploading Image')));
     }
   }
 
   register() {
-    const { username, password } = this.state.data;
-    if ((username, password)) {
+    const { username, password, logo } = this.state.data;
+    if ((username, password, logo)) {
       callApi('/auth/createSchool', { ...this.state.data }, 'POST')
         .then(data => {
           this.setState({
@@ -171,6 +201,7 @@ class InstitutionDetails extends Component {
               submit={() => this.check()}
               onImageDrop={files => this.onImageDrop(files)}
               image={this.state.imageUrl}
+              changeImage={() => this.changeImage()}
               uploading={this.state.uploading}
             />
           </CardBlock>

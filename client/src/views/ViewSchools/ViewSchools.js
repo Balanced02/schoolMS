@@ -30,6 +30,14 @@ class SchoolList extends Component {
       .catch(err => this.props.dispatch(showError('Error Loading TeacherList')));
   }
 
+  changeImage() {
+    this.setState({
+      uploadFile: '',
+      uploading: false,
+      imageUrl: '',
+    });
+  }
+
   toggle() {
     this.setState({
       modal: !this.state.modal,
@@ -173,6 +181,7 @@ class SchoolList extends Component {
                   data={school}
                   edit={e => this.edit(e)}
                   submit={() => this.check()}
+                  changeImage={() => this.changeImage()}
                   onImageDrop={files => this.onImageDrop(files)}
                   image={imageUrl}
                   uploading={uploading}
