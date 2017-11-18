@@ -23,7 +23,7 @@ const schoolSchema = new Schema({
     required: true,
   },
   logo: {
-    type: 'String',
+    type: String,
     required: true,
   },
   shortCode: {

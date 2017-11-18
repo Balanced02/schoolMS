@@ -15,8 +15,10 @@
   },
   "scripts": {
     "prestart": "npm run -s build",
-    "start": "concurrently \"node dist/index.js --exec babael-node\" \"cd client && npm run build\" ",
-    "dev": "concurrently \"nodemon server/index.js --exec babel-node\" \"cd client && npm run dev\"",
+    "start":
+      "concurrently \"node dist/index.js --exec babael-node\" \"cd client && npm run build\" ",
+    "dev":
+      "concurrently \"nodemon server/index.js --exec babel-node\" \"cd client && npm run dev\"",
     "clean": "rimraf dist",
     "build": "npm run clean && mkdir -p dist && babel server -s -D -d dist",
     "test": "jest --watch",
@@ -68,7 +70,6 @@
     "react": "^15.6.2",
     "react-day-picker": "^6.1.1",
     "react-dropzone": "^4.2.1",
-    "react-full-screen": "0.0.2",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
@@ -101,10 +102,7 @@
     ]
   },
   "eslintConfig": {
-    "plugins": [
-      "import",
-      "jest"
-    ],
+    "plugins": ["import", "jest"],
     "parserOptions": {
       "ecmaVersion": 2017,
       "sourceType": "module"
@@ -113,9 +111,7 @@
       "node": true,
       "jest": true
     },
-    "extends": [
-      "eslint:recommended"
-    ],
+    "extends": ["eslint:recommended"],
     "rules": {
       "jest/no-focused-tests": 2,
       "jest/no-identical-title": 2

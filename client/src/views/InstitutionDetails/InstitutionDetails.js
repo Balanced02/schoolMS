@@ -3,7 +3,6 @@ import { Bar, Line } from 'react-chartjs-2';
 import { Row, Card, CardBlock } from 'reactstrap';
 import { connect } from 'react-redux';
 import Dropbox from 'dropbox';
-import upload from 'superagent';
 
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
@@ -92,7 +91,6 @@ class InstitutionDetails extends Component {
   }
 
   viewfile(file) {
-    var img = document.createElement('img');
     var reader = new FileReader();
     reader.onloadend = () => {
       this.setState({

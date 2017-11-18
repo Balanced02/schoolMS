@@ -30,6 +30,7 @@ import SDashboard from '../../views/SDashboard';
 import InstitutionDetails from '../../views/InstitutionDetails';
 import LibraryCategory from '../../views/LibraryCategory';
 import ViewSchools from '../../views/ViewSchools';
+import Profile from '../../views/Profile';
 
 class Full extends Component {
   constructor(props) {
@@ -86,6 +87,7 @@ class Full extends Component {
                   <Route path="/leaveCategory" name="Leave Category" component={LeaveCategory} />
                   <Route path="/addDesignation" name="Add Designation" component={AddDesignation} />
                   <Route path="/payHead" name="Pay Head" component={payHead} />
+                  <Route path="/profile" name="Profile" component={Profile} />
                   <Route
                     path="/libraryCategory"
                     name="Library Category"
@@ -114,6 +116,7 @@ class Full extends Component {
               <Container fluid>
                 <Switch>
                   <Route path="/dashboard" name="Dashboard" component={TeacherDashboard} />
+                  <Route path="/profile" name="Profile" component={Profile} />
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route
                     path="/leaveApplication"
@@ -140,6 +143,7 @@ class Full extends Component {
                   <Route path="/dashboard" name="Dashboard" component={SDashboard} />
                   <Route path="/addSchool" name="Add School" component={InstitutionDetails} />
                   <Route path="/viewSchools" name="School Lists" component={ViewSchools} />
+                  <Route path="/profile" name="Profile" component={Profile} />
                   <Redirect from="/" to="/dashboard" />
                 </Switch>
               </Container>

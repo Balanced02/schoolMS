@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardBlock, CardHeader } from 'reactstrap';
 import { connect } from 'react-redux';
+import upload from 'superagent';
 
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
@@ -25,7 +26,19 @@ class SchoolList extends Component {
   getSchools() {
     callApi('/getSchools')
       .then(data =>
-        this.setState({ searchResults: data.schools, count: data.count, searching: false })
+        this.setState({
+          searchResults: data.schools,
+          count: data.count,
+          searching: false,
+          schoolDetail: false,
+          school: {
+            logo: '',
+          },
+          count: '',
+          imageUrl: '',
+          uploadFile: '',
+          uploading: false,
+        })
       )
       .catch(err => this.props.dispatch(showError('Error Loading TeacherList')));
   }
@@ -35,6 +48,10 @@ class SchoolList extends Component {
       uploadFile: '',
       uploading: false,
       imageUrl: '',
+      school: {
+        ...this.state.school,
+        logo: '',
+      },
     });
   }
 
@@ -44,6 +61,30 @@ class SchoolList extends Component {
     });
   }
   check() {
+    this.state.school.logo
+      ? this.checkDetails()
+      : this.state.uploadFile
+        ? this.upload(this.state.uploadFile)
+            .then(data => {
+              this.setState({
+                imageUrl: data.body.data,
+                uploading: false,
+                school: {
+                  ...this.state.school,
+                  logo: data.body.response.path_display,
+                },
+              });
+              this.checkDetails();
+              this.props.dispatch(showInfo('Creating School'));
+            })
+            .catch(err => {
+              console.log(err);
+              this.props.dispatch(showError('Error Uploading Image'));
+            })
+        : this.props.dispatch(showError('Please Upload a logo'));
+  }
+
+  checkDetails() {
     let {
       schoolName,
       shortCode,
@@ -74,7 +115,6 @@ class SchoolList extends Component {
     if (!check) {
       this.props.dispatch(showError('Fields with * are compulsory'));
     } else {
-      this.props.dispatch(showInfo('Creating School'));
       this.updateSchool();
     }
   }
@@ -102,6 +142,7 @@ class SchoolList extends Component {
           schoolDetail: false,
           imageUrl: '',
         });
+        this.getSchools();
         this.props.dispatch(showInfo('Updated Successfully'));
       })
       .catch(err => this.props.dispatch(showError('Error Updating school')));
@@ -121,8 +162,43 @@ class SchoolList extends Component {
     this.setState({
       uploadFile: files[0],
       uploading: true,
+      school: {
+        ...this.state.school,
+        logo: '',
+      },
     });
-    this.upload(files[0]);
+    this.viewFile(files[0]);
+  }
+
+  viewFile(file) {
+    var reader = new FileReader();
+    reader.onloadend = () => {
+      this.setState({
+        data: {
+          ...this.state.data,
+          file: file,
+        },
+        uploading: false,
+        imageUrl: reader.result,
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  upload(file) {
+    return new Promise((resolve, reject) => {
+      var photo = new FormData();
+      photo.append('logos', file);
+      upload
+        .post('/api/uploadFile')
+        .send(photo)
+        .end((err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
+        });
+    });
   }
 
   select(data) {
@@ -143,6 +219,7 @@ class SchoolList extends Component {
   }
 
   getImageUrl(path) {
+    console.log(path);
     callApi('/getImageUrl', { logo: path }, 'POST')
       .then(link =>
         this.setState({

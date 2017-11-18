@@ -12,6 +12,7 @@ import Users from '../models/Users';
 import Course from '../models/Course';
 import Visitor from '../models/Visitor';
 import Teacher from '../models/Teacher';
+import Admin from '../models/Admin';
 import ClassDetails from '../models/ClassDetails';
 import Leave from '../models/Leave';
 import Department from '../models/Department';
@@ -76,7 +77,6 @@ export const GetSchools = async (req, res) => {
       schools,
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       message: 'Error Loading Schools',
       error: err.message,
@@ -85,7 +85,6 @@ export const GetSchools = async (req, res) => {
 };
 
 export const SummaryData = async (req, res) => {
-  console.log(req.user);
   try {
     let [totalStudents, pendingReg, totalStaff, noticeBoard] = await Promise.all([
       Student.find({ schoolId: req.user.schoolId }).count(),
@@ -294,14 +293,11 @@ export const UpdateClass = (req, res) => {
 };
 
 export const LeaveApplication = (req, res) => {
-  console.log(req.user.sid);
   Leave.create({ ...req.body, schoolId: req.user.schoolId, teacherId: req.user.sid })
     .then(leave => {
-      // console.log(leave);
       res.json(leave);
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({
         message: 'Error creating leave',
         error: err.message,
@@ -311,7 +307,7 @@ export const LeaveApplication = (req, res) => {
 
 export const GetLeave = async (req, res) => {
   let id = req.params.id;
-  console.log(id);
+
   let searchQuery = { schoolId: req.user.schoolId };
   if (id !== 'admin') {
     searchQuery = {
@@ -323,7 +319,7 @@ export const GetLeave = async (req, res) => {
       Leave.find(searchQuery).sort('-status'),
       Leave.find(searchQuery).count(),
     ]);
-    console.log(leaves);
+
     let data = await Teacher.find({ schoolId: req.user.schoolId }, 'sid fullName');
     leaves = leaves.map(leave => {
       let teacherName = data.filter(d => leave.teacherId === d.sid)[0];
@@ -332,7 +328,6 @@ export const GetLeave = async (req, res) => {
     });
     res.json(leaves);
   } catch (error) {
-    // console.log(error);
     res.status(500).json({
       message: 'Error getting leaves',
       error: error.message,
@@ -359,7 +354,6 @@ export const LeaveUpdate = (req, res) => {
       res.json(leave);
     })
     .catch(err => {
-      // console.log(err);
       res.status(500).json({
         message: 'Error Updating Leave',
         error: err.message,
@@ -385,7 +379,6 @@ export const NewDepartment = (req, res) => {
         res.json(dept);
       })
       .catch(err => {
-        // console.log(err);
         res.status(500).json({
           message: 'Error updating dept',
           error: err.message,
@@ -420,7 +413,6 @@ export const FetchDepartment = (req, res) => {
 };
 
 export const CategoryUpdate = (req, res) => {
-  console.log(req.body);
   let { _id } = req.body;
   if (_id) {
     LeaveCategory.findOneAndUpdate(
@@ -438,7 +430,6 @@ export const CategoryUpdate = (req, res) => {
         res.json(leave);
       })
       .catch(err => {
-        // console.log(err);
         res.status(500).json({
           message: 'Error updating leave',
           error: err.message,
@@ -453,7 +444,6 @@ export const CategoryUpdate = (req, res) => {
         res.json(leave);
       })
       .catch(err => {
-        console.log(err);
         res.status(500).json({
           message: 'Error Creating Leave',
           error: err.message,
@@ -466,7 +456,6 @@ export const GetLeaveCategory = (req, res) => {
   LeaveCategory.find({ schoolId: req.user.schoolId })
     .then(leave => res.json(leave))
     .catch(err => {
-      // console.log(err);
       res.status(500).json({
         message: 'Error Fetching Department',
         error: err.message,
@@ -475,7 +464,6 @@ export const GetLeaveCategory = (req, res) => {
 };
 
 export const AddUserCategory = (req, res) => {
-  // console.log(req.body);
   let { _id } = req.body;
   if (_id) {
     UserCategory.findOneAndUpdate(
@@ -493,7 +481,6 @@ export const AddUserCategory = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        // console.log(err);
         res.status(500).json({
           message: 'Error updating leave',
           error: err.message,
@@ -508,7 +495,6 @@ export const AddUserCategory = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        // console.log(err);
         res.status(500).json({
           message: 'Error Creating Leave',
           error: err.message,
@@ -522,7 +508,6 @@ export const GetUserCategory = (req, res) => {
     .sort('userType')
     .then(data => res.json(data))
     .catch(err => {
-      // console.log(err);
       res.status(500).json({
         message: 'Error Fetching Department',
         error: err.message,
@@ -531,7 +516,6 @@ export const GetUserCategory = (req, res) => {
 };
 
 export const AddPayHead = (req, res) => {
-  // console.log(req.body);
   let { _id } = req.body;
   if (_id) {
     PayHead.findOneAndUpdate(
@@ -549,7 +533,6 @@ export const AddPayHead = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        // console.log(err);
         res.status(500).json({
           message: 'Error updating PayHead',
           error: err.message,
@@ -564,7 +547,6 @@ export const AddPayHead = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        // console.log(err);
         res.status(500).json({
           message: 'Error Creating Pay Head',
           error: err.message,
@@ -577,7 +559,6 @@ export const GetPayHead = (req, res) => {
   PayHead.find({ schoolId: req.user.schoolId })
     .then(data => res.json(data))
     .catch(err => {
-      // console.log(err);
       res.status(500).json({
         message: 'Error Fetching Pay Roll Details',
         error: err.message,
@@ -586,7 +567,6 @@ export const GetPayHead = (req, res) => {
 };
 
 export const EditSchool = (req, res) => {
-  // console.log(req.body);
   let { _id } = req.body;
   if (_id) {
     School.findOneAndUpdate(
@@ -604,7 +584,6 @@ export const EditSchool = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        // console.log(err);
         res.status(500).json({
           message: 'Error updating School',
           error: err.message,
@@ -620,17 +599,13 @@ export const EditSchool = (req, res) => {
 
 export const UploadFile = async (req, res) => {
   if (!req.file) {
-    console.log('No file received');
     return res.send({
       success: false,
     });
   } else {
-    console.log(req.file);
     return fs.readFile(
       req.file.path,
       await function(err, data) {
-        if (err) console.log(err);
-        console.log('reading!!!');
         http
           .createServer(function(req, res) {
             res.writeHead(200, { 'Content-Type': 'image/*' });
@@ -639,14 +614,11 @@ export const UploadFile = async (req, res) => {
           .listen(8124);
         upload(data, req.file.filename)
           .then(response => {
-            console.log(response.path_display);
             getImg(response.path_display)
               .then(data => {
-                console.log(data);
                 res.json({ response, data });
               })
               .catch(err => {
-                console.log(err);
                 res.status(500).json({
                   message: 'Error Uploading Logo',
                   error: err.message,
@@ -654,7 +626,6 @@ export const UploadFile = async (req, res) => {
               });
           })
           .catch(err => {
-            console.log(err);
             res.status(500).json({
               message: 'Error Uploading Logo',
               error: err.message,
@@ -670,7 +641,6 @@ const dbx = new Dropbox({
 });
 
 const upload = (data, path) => {
-  console.log('Uploading!!!');
   return new Promise((resolve, reject) => {
     dbx
       .filesUpload({ autorename: true, path: '/logos/' + path + '.jpeg', contents: data })
@@ -688,7 +658,6 @@ export const getImg = path => {
     dbx
       .filesGetTemporaryLink({ path })
       .then(response => {
-        // console.log(response.link);
         resolve(response.link);
       })
       .catch(error => {
@@ -698,7 +667,6 @@ export const getImg = path => {
 };
 
 export const LibraryCategoryUpdate = (req, res) => {
-  console.log(req.body);
   let { _id } = req.body;
   if (_id) {
     LibraryCategory.findOneAndUpdate(
@@ -716,7 +684,6 @@ export const LibraryCategoryUpdate = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        // console.log(err);
         res.status(500).json({
           message: 'Error updating',
           error: err.message,
@@ -731,7 +698,6 @@ export const LibraryCategoryUpdate = (req, res) => {
         res.json(data);
       })
       .catch(err => {
-        console.log(err);
         res.status(500).json({
           message: 'Error Creating',
           error: err.message,
@@ -744,7 +710,6 @@ export const GetLibraryCategory = (req, res) => {
   LibraryCategory.find({ schoolId: req.user.schoolId })
     .then(data => res.json(data))
     .catch(err => {
-      // console.log(err);
       res.status(500).json({
         message: 'Error Fetching Department',
         error: err.message,
@@ -774,4 +739,74 @@ export const UpdateSchool = (req, res) => {
         error: err.message,
       });
     });
+};
+
+export const GetUserDetails = async (req, res) => {
+  let userType = req.body.userType;
+  let id = req.body.sid;
+
+  try {
+    console.log('Getting User details of ' + userType + id);
+    let User =
+      userType === 'teacher'
+        ? Teacher
+        : userType === 'student' ? Student : userType === 'admin' ? Admin : Teacher;
+    let [userData, schoolData] = await Promise.all([
+      User.findOne({
+        sid: id,
+      }),
+      School.findOne({
+        schoolId: req.user.schoolId,
+      }),
+    ]);
+    return res.json({
+      userData,
+      schoolData,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error fetching details',
+      error: err.message,
+    });
+  }
+};
+
+export const UploadUserDetails = async (req, res) => {
+  let userType = req.body.userType;
+  let id = req.body.sid;
+
+  try {
+    console.log('Getting User details of ' + userType + id);
+    let User =
+      userType === 'teacher'
+        ? Teacher
+        : userType === 'student' ? Student : userType === 'admin' ? Admin : Teacher;
+    let [userData, schoolData] = await Promise.all([
+      User.findOneAndUpdate(
+        {
+          sid: id,
+        },
+        {
+          $set: {
+            ...req.body,
+          },
+        },
+        {
+          new: true,
+        }
+      ),
+      School.findOne({
+        schoolId: req.user.schoolId,
+      }),
+    ]);
+    return res.json({
+      userData,
+      schoolData,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error Updating User details',
+      error: err.message,
+    });
+  }
 };

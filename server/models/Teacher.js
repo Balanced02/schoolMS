@@ -38,7 +38,9 @@ const teacherSchema = new Schema({
     trim: true,
     required: true,
   },
-  designation: {},
+  designation: {
+    type: String,
+  },
   dob: {
     type: Date,
   },
@@ -88,6 +90,18 @@ const teacherSchema = new Schema({
   pAddress: {
     type: String,
     required: true,
+  },
+  accountNo: {
+    type: String,
+  },
+  sortCode: {
+    type: String,
+  },
+  bankName: {
+    type: String,
+  },
+  accountType: {
+    type: String,
   },
 });
 

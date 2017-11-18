@@ -84,7 +84,9 @@ class Header extends Component {
                   <strong>Account</strong>
                 </DropdownItem>
                 <DropdownItem>
-                  <i className="fa fa-user" /> Profile
+                  <NavLink href="/#/profile">
+                    <i className="fa fa-user" /> Profile
+                  </NavLink>
                 </DropdownItem>
                 <DropdownItem>
                   <i className="fa fa-wrench" /> Settings

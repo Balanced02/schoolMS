@@ -25,14 +25,23 @@ export default ({ data, edit, submit, onImageDrop, image, uploading, changeImage
               className="thumbnail image"
               style={{ width: 'auto', height: 150 }}
             />
-            <div className="overlay" onClick={() => changeImage()}>
-              <div className="text">Change Image</div>
-            </div>
+            {changeImage ? (
+              <div className="overlay" onClick={() => changeImage()}>
+                <div className="text">Change Image</div>
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         </div>
       ) : (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Dropzone multiple={false} accept="image/*" onDrop={onImageDrop} name="logos">
+          <Dropzone
+            multiple={false}
+            accept="image/*"
+            onDrop={onImageDrop ? onImageDrop : ''}
+            name="logos"
+          >
             <p style={{ justifyContent: 'center', textAlign: 'center', margin: 10, marginTop: 60 }}>
               Drop an image or click to select a file to upload.
             </p>
@@ -159,10 +168,13 @@ export default ({ data, edit, submit, onImageDrop, image, uploading, changeImage
           </FormGroup>
         </Col>
       </Row>
-
-      <Button color="primary" onClick={submit}>
-        Save
-      </Button>
+      {submit ? (
+        <Button color="primary" onClick={submit}>
+          Save
+        </Button>
+      ) : (
+        ''
+      )}
     </Form>
   );
 };

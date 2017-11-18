@@ -41,6 +41,8 @@ import {
   getImg,
   GetLibraryCategory,
   UpdateSchool,
+  GetUserDetails,
+  UploadUserDetails,
 } from './controllers/api';
 
 const app = express();
@@ -101,6 +103,7 @@ api.get('/getUserCategory', GetUserCategory);
 api.get('/getPayRollDetails', GetPayHead);
 api.get('/getSchools', GetSchools);
 api.get('/getLibraryCategory', GetLibraryCategory);
+api.post('/getUserDetails', GetUserDetails);
 
 //actions
 api.post('/getImageUrl', (req, res) => {
@@ -130,5 +133,6 @@ api.post('/editSchool', EditSchool);
 api.post('/addLibraryCategory', LibraryCategoryUpdate);
 api.post('/updateSchool', UpdateSchool);
 api.post('/uploadFile', upload.single('logos'), UploadFile);
+api.post('/updateUserDetails', UploadUserDetails);
 
 export default router;

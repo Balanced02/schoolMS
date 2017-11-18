@@ -21,7 +21,6 @@ export const Register = (req, res) => {
               });
             })
             .catch(err => {
-              console.log(err);
               return res.status(400).json({
                 message: err.message,
               });
@@ -29,7 +28,6 @@ export const Register = (req, res) => {
         }
       })
       .catch(err => {
-        console.log(err);
         return res.status(400).json({
           message: err.message,
         });
@@ -43,7 +41,6 @@ export const Register = (req, res) => {
         });
       })
       .catch(err => {
-        console.log(err);
         return res.status(400).json({
           message: err.message,
         });
@@ -54,7 +51,7 @@ export const Register = (req, res) => {
 const userRegister = (body, user) => {
   let type = body.userType;
   let id = user ? user.schoolId : 'super';
-  console.log('Details: ' + id + 'type: ' + type);
+
   let newUser = new Users({
     ...body,
     userType: body.userType === 'school' ? 'admin' : body.userType,
@@ -64,7 +61,6 @@ const userRegister = (body, user) => {
   return new Promise((resolve, reject) => {
     Users.register(newUser, body.password, (err, user) => {
       if (err) {
-        console.log(err);
         reject(err);
       }
       resolve(user);
@@ -74,13 +70,12 @@ const userRegister = (body, user) => {
 
 export const CreateSchool = (req, res) => {
   let schoolId = req.body.shortCode + Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
-  console.log('School Id: ' + schoolId);
+
   School.create({
     ...req.body,
     schoolId,
   })
     .then(async data => {
-      console.log(data);
       let adminObj = {
         userType: 'admin',
         email: data.email,
@@ -101,7 +96,6 @@ export const CreateSchool = (req, res) => {
           authn,
         });
       } catch (err) {
-        console.log(err);
         res.status(500).json({
           message: 'Error Registering User',
           error: err.message,
@@ -109,7 +103,6 @@ export const CreateSchool = (req, res) => {
       }
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({
         message: 'Error Registering School',
         error: err.message,
@@ -118,7 +111,6 @@ export const CreateSchool = (req, res) => {
 };
 
 const createUser = (userType, body, id) => {
-  console.log('Creating: ' + id);
   let User =
     userType === 'teacher'
       ? Teacher
@@ -126,11 +118,9 @@ const createUser = (userType, body, id) => {
   return new Promise((resolve, reject) => {
     User.create({ ...body, sid: id })
       .then(user => {
-        console.log(user);
         resolve(user);
       })
       .catch(err => {
-        console.log(err);
         reject(err);
       });
   });
