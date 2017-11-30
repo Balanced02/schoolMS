@@ -13,7 +13,7 @@ app.disable('x-powered-by');
 //mongodb://schoolms:schoolms@ds051630.mlab.com:51630/schoolms
 //mongodb://localhost/schoolMSdev
 
-mongoose.connect('mongodb://localhost/schoolMSdev', err => {
+mongoose.connect('mongodb://samie820:Agboworin_9254@ds117316.mlab.com:17316/schoolms', err => {
   if (err) {
     console.error(err);
     process.exit(1);
@@ -30,7 +30,11 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
-app.use(express.static(path.join(__dirname, '../public')));
+
+app.use(express.static(path.join(__dirname, '/public')));
+
+// app.engine('html', require('ejs').renderFile)
+// app.set('view engine', 'ejs')
 
 // Routes
 app.use('/', routes);
@@ -41,6 +45,7 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 });
+
 
 // Error handler
 app.use((err, req, res, next) => {

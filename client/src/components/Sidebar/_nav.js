@@ -49,6 +49,18 @@ export default {
               name: 'Course Materials',
               url: '/courseMaterials',
             },
+            {
+              name: 'Attendance',
+              url: '/attendance'
+            },
+            {
+              name: 'Guardian List',
+              url: '/guardianList'
+            },
+            {
+              name: 'Student List',
+              url: '/studentList'
+            },
           ],
         },
       ],

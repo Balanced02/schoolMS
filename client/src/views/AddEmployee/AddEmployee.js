@@ -56,16 +56,21 @@ class Employee extends Component {
         this.props.dispatch(showError('Passwords do not match'));
         return;
       } else {
-        callApi('/auth/register', { ...this.state }, 'POST')
+        callApi('/auth/register', { ...this.state.data }, 'POST')
           .then(staff => {
             this.props.dispatch(showInfo('Created Successfully'));
             this.setState(this.initialState);
           })
-          .catch(err => this.props.dispatch(showError(err)));
+          .catch(err => 
+          {
+            console.log(err)
+            this.props.dispatch(showError(err));
+            
+          })
       }
     }
     filled
-      ? this.props.dispatch(showInfo('Good to go'))
+      ? this.props.dispatch(showInfo('Creating Employee...'))
       : this.props.dispatch(showError('Kindly Fill correctly'));
   }
 

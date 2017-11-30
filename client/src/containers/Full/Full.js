@@ -16,6 +16,7 @@ import { login, logout } from '../../actions/auth';
 import Dashboard from '../../views/Dashboard';
 import TeacherDashboard from '../../views/TeacherDashboard';
 import EmployeeList from '../../views/EmployeeList';
+import StudentList from '../../views/StudentList';
 import Department from '../../views/Department';
 import Course from '../../views/Course';
 import Visitor from '../../views/Visitors';
@@ -31,7 +32,7 @@ import InstitutionDetails from '../../views/InstitutionDetails';
 import LibraryCategory from '../../views/LibraryCategory';
 import ViewSchools from '../../views/ViewSchools';
 import Profile from '../../views/Profile';
-
+import CourseMaterial from '../../components/CourseMaterial.js';
 class Full extends Component {
   constructor(props) {
     super(props);
@@ -78,10 +79,12 @@ class Full extends Component {
                 <Switch>
                   <Route path="/dashboard" name="Dashboard" component={Dashboard} />
                   <Route path="/employeeList" name="EmployeeList" component={EmployeeList} />
+                  <Route path="/studentList" name="StudentList" component={StudentList} />
                   <Route path="/department" name="Department" component={Department} />
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route path="/addCourse" name="Course" component={Course} />
                   <Route path="/addEmployee" name="Add Employee" component={AddEmployee} />
+                  <Route path="/courseMaterials" name="Course Materials" component={CourseMaterial}/>
                   <Route path="/newIntake" name="New Intake" component={NewIntake} />
                   <Route path="/leaveApprovals" name="Leave Approvals" component={Leave} />
                   <Route path="/leaveCategory" name="Leave Category" component={LeaveCategory} />
@@ -116,6 +119,7 @@ class Full extends Component {
               <Container fluid>
                 <Switch>
                   <Route path="/dashboard" name="Dashboard" component={TeacherDashboard} />
+                  <Route path="/studentList" name="StudentList" component={StudentList} />
                   <Route path="/profile" name="Profile" component={Profile} />
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route

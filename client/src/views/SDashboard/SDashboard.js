@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { Row, Card } from 'reactstrap';
 import { connect } from 'react-redux';
-
+import Chart from '../../components/Chart/Chart';
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
 
@@ -16,7 +16,9 @@ class SDashboard extends Component {
     return (
       <div className="animated fadeIn container">
         <Card style={{ padding: 15 }}>
+          <Chart/>
           <Row />
+          
         </Card>
       </div>
     );

@@ -138,7 +138,11 @@ class InstitutionDetails extends Component {
     if (!check) {
       this.props.dispatch(showError('Fields with * are compulsory'));
     } else {
-      this.props.dispatch(showInfo('Creating School'));
+      console.log("The data went through");
+      
+    this.props.dispatch(showInfo('Creating School'));
+      
+      
       this.upload(this.state.uploadFile)
         .then(data => {
           this.setState({
@@ -149,9 +153,10 @@ class InstitutionDetails extends Component {
               logo: data.body.response.path_display,
             },
           });
-          this.register();
+          
         })
         .catch(err => this.props.dispatch(showError('Error Uploading Image')));
+      this.register();
     }
   }
 

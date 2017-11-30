@@ -15,7 +15,7 @@ export const showError = error => {
     });
     setTimeout(() => {
       dispatch(clearError(id));
-    }, 10000);
+    }, 5000);
   };
 };
 

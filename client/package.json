@@ -48,7 +48,7 @@
   },
   "scripts": {
     "dev": "webpack-dev-server -d --hot",
-    "start": "webpack-dev-server --progress --colors --inline --env.dev",
+    "start": "webpack-dev-server --progress --hot --colors --inline --env.dev",
     "build": "webpack -p --progress",
     "clean": "rimraf ./build"
   },
