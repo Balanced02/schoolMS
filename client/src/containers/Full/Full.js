@@ -79,7 +79,7 @@ class Full extends Component {
                 <Switch>
                   <Route path="/dashboard" name="Dashboard" component={Dashboard} />
                   <Route path="/employeeList" name="EmployeeList" component={EmployeeList} />
-                  <Route path="/studentList" name="StudentList" component={StudentList} />
+                  <Route path="/studentList" name="Student List" component={StudentList} />
                   <Route path="/department" name="Department" component={Department} />
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route path="/addCourse" name="Course" component={Course} />
@@ -119,7 +119,7 @@ class Full extends Component {
               <Container fluid>
                 <Switch>
                   <Route path="/dashboard" name="Dashboard" component={TeacherDashboard} />
-                  <Route path="/studentList" name="StudentList" component={StudentList} />
+                  <Route path="/studentList" name="Student List" component={StudentList} />
                   <Route path="/profile" name="Profile" component={Profile} />
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route

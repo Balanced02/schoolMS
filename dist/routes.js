@@ -95,6 +95,7 @@ api.use(_auth.RedirectNoAuth);
 
 //Queries
 api.get('/getSummary', _api.SummaryData);
+api.get('/getNotes', _api.GetNotes);
 api.get('/allCourse', _api.AllCourse);
 api.get('/allVisitors', _api.GetVisitors);
 api.get('/allTeachers', _api.GetTeachers);
@@ -123,6 +124,7 @@ api.post('/getImageUrl', function (req, res) {
 });
 api.post('/newVisitor', _api.VisitorData);
 api.post('/createNotice', _api.CreateNotice);
+api.post('/createNote', _api.CreateNote);
 api.post('/createCourse', _api.CreateCourse);
 api.post('/updateCourse', _api.UpdateCourse);
 api.post('/addClass', _api.AddClass);

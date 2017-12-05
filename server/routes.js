@@ -14,6 +14,8 @@ import { Register, Login, Logout, RedirectNoAuth, AuthMe, CreateSchool } from '.
 import {
   SummaryData,
   CreateNotice,
+  CreateNote,
+  GetNotes,
   CreateCourse,
   AllCourse,
   UpdateCourse,
@@ -92,6 +94,7 @@ api.use(RedirectNoAuth);
 
 //Queries
 api.get('/getSummary', SummaryData);
+api.get('/getNotes', GetNotes);
 api.get('/allCourse', AllCourse);
 api.get('/allVisitors', GetVisitors);
 api.get('/allTeachers', GetTeachers);
@@ -119,6 +122,7 @@ api.post('/getImageUrl', (req, res) => {
 });
 api.post('/newVisitor', VisitorData);
 api.post('/createNotice', CreateNotice);
+api.post('/createNote', CreateNote);
 api.post('/createCourse', CreateCourse);
 api.post('/updateCourse', UpdateCourse);
 api.post('/addClass', AddClass);

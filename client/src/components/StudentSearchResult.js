@@ -34,17 +34,17 @@ export default ({ data, searching }) => {
                 </td>
               </tr>
             ) : !searching && !data.length ? (
-              <h4 style={{ textAlign: 'center', marginTop: 20 }}>No Teachers</h4>
+              <h4 style={{ textAlign: 'center', marginTop: 20 }}>No Students</h4>
             ) : (
-              data.map((staff, i) => (
+              data.map((student, i) => (
                 <tr style={{ cursor: 'pointer' }}>
                   <td> {i + 1} </td>
-                  <td> {staff.fullName} </td>
-                  <td> {staff.classInfo} </td>
-                  <td> {staff.gender === 'M' ? 'Male' : staff.gender === 'F' ? 'Female' : ''} </td>
-                  <td> {moment(staff.dob).format('MMM Do')} </td>
-                  <td> {staff.phoneNumber} </td>
-                  <td> {staff.email} </td>
+                  <td> {student.fullName} </td>
+                  <td> {student.classInfo} </td>
+                  <td> {student.gender === 'M' ? 'Male' : student.gender === 'F' ? 'Female' : ''} </td>
+                  <td> {moment(student.dob).format('MMM Do')} </td>
+                  <td> {student.phoneNumber} </td>
+                  <td> {student.email} </td>
                 </tr>
               ))
             )}

@@ -7,6 +7,7 @@ import fs from 'fs';
 import http from 'http';
 
 import Notice from '../models/Notice';
+import Note from '../models/Note';
 import Student from '../models/Student';
 import Users from '../models/Users';
 import Course from '../models/Course';
@@ -42,6 +43,25 @@ export const CreateNotice = (req, res) => {
     });
 };
 
+// For creating the notes component
+export const CreateNote = (req, res) => {
+  let {date , body} = req.body;
+  Note.create({
+    body,
+    schoolId: req.user.schoolId,
+  })
+  .then(note => {
+    res.json(note);
+  })
+  .catch(err => {
+    res.status(500).json({
+    message: 'Error loading clients',
+    error: err.message,
+    });
+  });
+};
+
+
 export const AllCourse = async (req, res) => {
   try {
     let [courses, count] = await Promise.all([
@@ -63,6 +83,32 @@ export const AllCourse = async (req, res) => {
     });
   }
 };
+
+
+export const GetNotes = async (req, res) => {
+  try {
+    let [notes,count] = await Promise.all([
+      Note.find({
+        schoolId: req.user.schoolId,
+      }).sort('created'),
+      Note.find({
+        schoolId: req.user.schoolId,
+      }).count(),
+    ]);
+    return res.json({
+      notes,
+      count,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Error fetching Notes',
+      error: err.message,
+    });
+  }
+};
+
+
 
 export const GetSchools = async (req, res) => {
   try {
@@ -86,17 +132,19 @@ export const GetSchools = async (req, res) => {
 
 export const SummaryData = async (req, res) => {
   try {
-    let [totalStudents, pendingReg, totalStaff, noticeBoard] = await Promise.all([
+    let [totalStudents, pendingReg, totalStaff, noticeBoard, notes] = await Promise.all([
       Student.find({ schoolId: req.user.schoolId }).count(),
       Student.find({ accepted: true, schoolId: req.user.schoolId }).count(),
       Users.find({ schoolId: req.user.schoolId }).count(),
       Notice.find({ schoolId: req.user.schoolId }).sort('-created'),
+      Note.find({schoolId: req.user.schoolId}).sort('-created'),  
     ]);
     return res.json({
       totalStudents,
       pendingReg,
       totalStaff,
       noticeBoard,
+      notes,
     });
   } catch (err) {
     res.status(400).json({

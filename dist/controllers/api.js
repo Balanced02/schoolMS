@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UploadUserDetails = exports.GetUserDetails = exports.UpdateSchool = exports.GetLibraryCategory = exports.LibraryCategoryUpdate = exports.getImg = exports.UploadFile = exports.EditSchool = exports.GetPayHead = exports.AddPayHead = exports.GetUserCategory = exports.AddUserCategory = exports.GetLeaveCategory = exports.CategoryUpdate = exports.FetchDepartment = exports.NewDepartment = exports.LeaveUpdate = exports.GetLeave = exports.LeaveApplication = exports.UpdateClass = exports.AddClass = exports.AllClass = exports.GetTeachers = exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.GetSchools = exports.AllCourse = exports.CreateNotice = undefined;
+exports.UploadUserDetails = exports.GetUserDetails = exports.UpdateSchool = exports.GetLibraryCategory = exports.LibraryCategoryUpdate = exports.getImg = exports.UploadFile = exports.EditSchool = exports.GetPayHead = exports.AddPayHead = exports.GetUserCategory = exports.AddUserCategory = exports.GetLeaveCategory = exports.CategoryUpdate = exports.FetchDepartment = exports.NewDepartment = exports.LeaveUpdate = exports.GetLeave = exports.LeaveApplication = exports.UpdateClass = exports.AddClass = exports.AllClass = exports.GetTeachers = exports.GetVisitors = exports.VisitorData = exports.UpdateCourse = exports.CreateCourse = exports.SummaryData = exports.GetSchools = exports.GetNotes = exports.AllCourse = exports.CreateNote = exports.CreateNotice = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -36,6 +36,10 @@ var _http2 = _interopRequireDefault(_http);
 var _Notice = require('../models/Notice');
 
 var _Notice2 = _interopRequireDefault(_Notice);
+
+var _Note = require('../models/Note');
+
+var _Note2 = _interopRequireDefault(_Note);
 
 var _Student = require('../models/Student');
 
@@ -118,6 +122,25 @@ var CreateNotice = exports.CreateNotice = function CreateNotice(req, res) {
   });
 };
 
+// For creating the notes component
+var CreateNote = exports.CreateNote = function CreateNote(req, res) {
+  var _req$body2 = req.body,
+      date = _req$body2.date,
+      body = _req$body2.body;
+
+  _Note2.default.create({
+    body: body,
+    schoolId: req.user.schoolId
+  }).then(function (note) {
+    res.json(note);
+  }).catch(function (err) {
+    res.status(500).json({
+      message: 'Error loading clients',
+      error: err.message
+    });
+  });
+};
+
 var AllCourse = exports.AllCourse = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee(req, res) {
     var _ref2, _ref3, courses, count;
@@ -166,9 +189,9 @@ var AllCourse = exports.AllCourse = function () {
   };
 }();
 
-var GetSchools = exports.GetSchools = function () {
+var GetNotes = exports.GetNotes = function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee2(req, res) {
-    var _ref5, _ref6, count, schools;
+    var _ref5, _ref6, notes, count;
 
     return _regeneratorRuntime2.default.wrap(function _callee2$(_context2) {
       while (1) {
@@ -176,28 +199,33 @@ var GetSchools = exports.GetSchools = function () {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return Promise.all([_School2.default.find().count(), _School2.default.find().sort('-created').limit(25)]);
+            return Promise.all([_Note2.default.find({
+              schoolId: req.user.schoolId
+            }).sort('created'), _Note2.default.find({
+              schoolId: req.user.schoolId
+            }).count()]);
 
           case 3:
             _ref5 = _context2.sent;
             _ref6 = _slicedToArray(_ref5, 2);
-            count = _ref6[0];
-            schools = _ref6[1];
+            notes = _ref6[0];
+            count = _ref6[1];
             return _context2.abrupt('return', res.json({
-              count: count,
-              schools: schools
+              notes: notes,
+              count: count
             }));
 
           case 10:
             _context2.prev = 10;
             _context2.t0 = _context2['catch'](0);
 
+            console.log(_context2.t0);
             res.status(500).json({
-              message: 'Error Loading Schools',
+              message: 'Error fetching Notes',
               error: _context2.t0.message
             });
 
-          case 13:
+          case 14:
           case 'end':
             return _context2.stop();
         }
@@ -205,14 +233,14 @@ var GetSchools = exports.GetSchools = function () {
     }, _callee2, undefined, [[0, 10]]);
   }));
 
-  return function GetSchools(_x3, _x4) {
+  return function GetNotes(_x3, _x4) {
     return _ref4.apply(this, arguments);
   };
 }();
 
-var SummaryData = exports.SummaryData = function () {
+var GetSchools = exports.GetSchools = function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee3(req, res) {
-    var _ref8, _ref9, totalStudents, pendingReg, totalStaff, noticeBoard;
+    var _ref8, _ref9, count, schools;
 
     return _regeneratorRuntime2.default.wrap(function _callee3$(_context3) {
       while (1) {
@@ -220,50 +248,96 @@ var SummaryData = exports.SummaryData = function () {
           case 0:
             _context3.prev = 0;
             _context3.next = 3;
-            return Promise.all([_Student2.default.find({ schoolId: req.user.schoolId }).count(), _Student2.default.find({ accepted: true, schoolId: req.user.schoolId }).count(), _Users2.default.find({ schoolId: req.user.schoolId }).count(), _Notice2.default.find({ schoolId: req.user.schoolId }).sort('-created')]);
+            return Promise.all([_School2.default.find().count(), _School2.default.find().sort('-created').limit(25)]);
 
           case 3:
             _ref8 = _context3.sent;
-            _ref9 = _slicedToArray(_ref8, 4);
-            totalStudents = _ref9[0];
-            pendingReg = _ref9[1];
-            totalStaff = _ref9[2];
-            noticeBoard = _ref9[3];
+            _ref9 = _slicedToArray(_ref8, 2);
+            count = _ref9[0];
+            schools = _ref9[1];
             return _context3.abrupt('return', res.json({
-              totalStudents: totalStudents,
-              pendingReg: pendingReg,
-              totalStaff: totalStaff,
-              noticeBoard: noticeBoard
+              count: count,
+              schools: schools
             }));
 
-          case 12:
-            _context3.prev = 12;
+          case 10:
+            _context3.prev = 10;
             _context3.t0 = _context3['catch'](0);
 
-            res.status(400).json({
-              message: 'Error Loading Clients',
+            res.status(500).json({
+              message: 'Error Loading Schools',
               error: _context3.t0.message
             });
 
-          case 15:
+          case 13:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _callee3, undefined, [[0, 12]]);
+    }, _callee3, undefined, [[0, 10]]);
   }));
 
-  return function SummaryData(_x5, _x6) {
+  return function GetSchools(_x5, _x6) {
     return _ref7.apply(this, arguments);
   };
 }();
 
+var SummaryData = exports.SummaryData = function () {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee4(req, res) {
+    var _ref11, _ref12, totalStudents, pendingReg, totalStaff, noticeBoard, notes;
+
+    return _regeneratorRuntime2.default.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            _context4.next = 3;
+            return Promise.all([_Student2.default.find({ schoolId: req.user.schoolId }).count(), _Student2.default.find({ accepted: true, schoolId: req.user.schoolId }).count(), _Users2.default.find({ schoolId: req.user.schoolId }).count(), _Notice2.default.find({ schoolId: req.user.schoolId }).sort('-created'), _Note2.default.find({ schoolId: req.user.schoolId }).sort('-created')]);
+
+          case 3:
+            _ref11 = _context4.sent;
+            _ref12 = _slicedToArray(_ref11, 5);
+            totalStudents = _ref12[0];
+            pendingReg = _ref12[1];
+            totalStaff = _ref12[2];
+            noticeBoard = _ref12[3];
+            notes = _ref12[4];
+            return _context4.abrupt('return', res.json({
+              totalStudents: totalStudents,
+              pendingReg: pendingReg,
+              totalStaff: totalStaff,
+              noticeBoard: noticeBoard,
+              notes: notes
+            }));
+
+          case 13:
+            _context4.prev = 13;
+            _context4.t0 = _context4['catch'](0);
+
+            res.status(400).json({
+              message: 'Error Loading Clients',
+              error: _context4.t0.message
+            });
+
+          case 16:
+          case 'end':
+            return _context4.stop();
+        }
+      }
+    }, _callee4, undefined, [[0, 13]]);
+  }));
+
+  return function SummaryData(_x7, _x8) {
+    return _ref10.apply(this, arguments);
+  };
+}();
+
 var CreateCourse = exports.CreateCourse = function CreateCourse(req, res) {
-  var _req$body2 = req.body,
-      courseName = _req$body2.courseName,
-      courseCode = _req$body2.courseCode,
-      minAttendance = _req$body2.minAttendance,
-      description = _req$body2.description;
+  var _req$body3 = req.body,
+      courseName = _req$body3.courseName,
+      courseCode = _req$body3.courseCode,
+      minAttendance = _req$body3.minAttendance,
+      description = _req$body3.description;
 
   _Course2.default.create({ courseName: courseName, courseCode: courseCode, minAttendance: minAttendance, description: description, schoolId: req.user.schoolId }).then(function (course) {
     res.json(course);
@@ -276,12 +350,12 @@ var CreateCourse = exports.CreateCourse = function CreateCourse(req, res) {
 };
 
 var UpdateCourse = exports.UpdateCourse = function UpdateCourse(req, res) {
-  var _req$body3 = req.body,
-      _id = _req$body3._id,
-      courseName = _req$body3.courseName,
-      courseCode = _req$body3.courseCode,
-      minAttendance = _req$body3.minAttendance,
-      description = _req$body3.description;
+  var _req$body4 = req.body,
+      _id = _req$body4._id,
+      courseName = _req$body4.courseName,
+      courseCode = _req$body4.courseCode,
+      minAttendance = _req$body4.minAttendance,
+      description = _req$body4.description;
 
   _Course2.default.findOneAndUpdate({ _id: _id }, {
     $set: _extends({}, req.body)
@@ -341,30 +415,30 @@ var updateVisitor = function updateVisitor(data) {
 };
 
 var GetVisitors = exports.GetVisitors = function () {
-  var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee4(req, res) {
-    var _ref11, _ref12, visitors, count;
+  var _ref13 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee5(req, res) {
+    var _ref14, _ref15, visitors, count;
 
-    return _regeneratorRuntime2.default.wrap(function _callee4$(_context4) {
+    return _regeneratorRuntime2.default.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context4.prev = 0;
-            _context4.next = 3;
+            _context5.prev = 0;
+            _context5.next = 3;
             return Promise.all([_Visitor2.default.find({ schoolId: req.user.schoolId }).sort('-timeIn').limit(50), _Visitor2.default.find({ schoolId: req.user.schoolId }).count()]);
 
           case 3:
-            _ref11 = _context4.sent;
-            _ref12 = _slicedToArray(_ref11, 2);
-            visitors = _ref12[0];
-            count = _ref12[1];
-            return _context4.abrupt('return', res.json({
+            _ref14 = _context5.sent;
+            _ref15 = _slicedToArray(_ref14, 2);
+            visitors = _ref15[0];
+            count = _ref15[1];
+            return _context5.abrupt('return', res.json({
               visitors: visitors,
               count: count
             }));
 
           case 10:
-            _context4.prev = 10;
-            _context4.t0 = _context4['catch'](0);
+            _context5.prev = 10;
+            _context5.t0 = _context5['catch'](0);
 
             res.status(500).json({
               message: 'Error fetching courses',
@@ -373,39 +447,39 @@ var GetVisitors = exports.GetVisitors = function () {
 
           case 13:
           case 'end':
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4, undefined, [[0, 10]]);
+    }, _callee5, undefined, [[0, 10]]);
   }));
 
-  return function GetVisitors(_x7, _x8) {
-    return _ref10.apply(this, arguments);
+  return function GetVisitors(_x9, _x10) {
+    return _ref13.apply(this, arguments);
   };
 }();
 
 var GetTeachers = exports.GetTeachers = function () {
-  var _ref13 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee5(req, res) {
-    var _ref14, _ref15, teachers, count, data;
+  var _ref16 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee6(req, res) {
+    var _ref17, _ref18, teachers, count, data;
 
-    return _regeneratorRuntime2.default.wrap(function _callee5$(_context5) {
+    return _regeneratorRuntime2.default.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
-            _context5.prev = 0;
-            _context5.next = 3;
+            _context6.prev = 0;
+            _context6.next = 3;
             return Promise.all([_Teacher2.default.find({ schoolId: req.user.schoolId }), _Teacher2.default.find({ schoolId: req.user.schoolId }).count()]);
 
           case 3:
-            _ref14 = _context5.sent;
-            _ref15 = _slicedToArray(_ref14, 2);
-            teachers = _ref15[0];
-            count = _ref15[1];
-            _context5.next = 9;
+            _ref17 = _context6.sent;
+            _ref18 = _slicedToArray(_ref17, 2);
+            teachers = _ref18[0];
+            count = _ref18[1];
+            _context6.next = 9;
             return _ClassDetails2.default.find({ schoolId: req.user.schoolId }, 'teacher classTitle');
 
           case 9:
-            data = _context5.sent;
+            data = _context6.sent;
 
             teachers = teachers.map(function (teacher) {
               var assignedClass = data.filter(function (d) {
@@ -417,28 +491,28 @@ var GetTeachers = exports.GetTeachers = function () {
               return teacher;
             });
             res.json({ teachers: teachers });
-            _context5.next = 17;
+            _context6.next = 17;
             break;
 
           case 14:
-            _context5.prev = 14;
-            _context5.t0 = _context5['catch'](0);
+            _context6.prev = 14;
+            _context6.t0 = _context6['catch'](0);
 
             res.status(500).json({
               message: 'Error Loading Teacher Details',
-              error: _context5.t0.message
+              error: _context6.t0.message
             });
 
           case 17:
           case 'end':
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5, undefined, [[0, 14]]);
+    }, _callee6, undefined, [[0, 14]]);
   }));
 
-  return function GetTeachers(_x9, _x10) {
-    return _ref13.apply(this, arguments);
+  return function GetTeachers(_x11, _x12) {
+    return _ref16.apply(this, arguments);
   };
 }();
 
@@ -495,12 +569,12 @@ var LeaveApplication = exports.LeaveApplication = function LeaveApplication(req,
 };
 
 var GetLeave = exports.GetLeave = function () {
-  var _ref16 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee6(req, res) {
-    var id, searchQuery, _ref17, _ref18, leaves, count, data;
+  var _ref19 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee7(req, res) {
+    var id, searchQuery, _ref20, _ref21, leaves, count, data;
 
-    return _regeneratorRuntime2.default.wrap(function _callee6$(_context6) {
+    return _regeneratorRuntime2.default.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
             id = req.params.id;
             searchQuery = { schoolId: req.user.schoolId };
@@ -510,20 +584,20 @@ var GetLeave = exports.GetLeave = function () {
                 teacherId: id
               };
             }
-            _context6.prev = 3;
-            _context6.next = 6;
+            _context7.prev = 3;
+            _context7.next = 6;
             return Promise.all([_Leave2.default.find(searchQuery).sort('-status'), _Leave2.default.find(searchQuery).count()]);
 
           case 6:
-            _ref17 = _context6.sent;
-            _ref18 = _slicedToArray(_ref17, 2);
-            leaves = _ref18[0];
-            count = _ref18[1];
-            _context6.next = 12;
+            _ref20 = _context7.sent;
+            _ref21 = _slicedToArray(_ref20, 2);
+            leaves = _ref21[0];
+            count = _ref21[1];
+            _context7.next = 12;
             return _Teacher2.default.find({ schoolId: req.user.schoolId }, 'sid fullName');
 
           case 12:
-            data = _context6.sent;
+            data = _context7.sent;
 
             leaves = leaves.map(function (leave) {
               var teacherName = data.filter(function (d) {
@@ -533,28 +607,28 @@ var GetLeave = exports.GetLeave = function () {
               return leave;
             });
             res.json(leaves);
-            _context6.next = 20;
+            _context7.next = 20;
             break;
 
           case 17:
-            _context6.prev = 17;
-            _context6.t0 = _context6['catch'](3);
+            _context7.prev = 17;
+            _context7.t0 = _context7['catch'](3);
 
             res.status(500).json({
               message: 'Error getting leaves',
-              error: _context6.t0.message
+              error: _context7.t0.message
             });
 
           case 20:
           case 'end':
-            return _context6.stop();
+            return _context7.stop();
         }
       }
-    }, _callee6, undefined, [[3, 17]]);
+    }, _callee7, undefined, [[3, 17]]);
   }));
 
-  return function GetLeave(_x11, _x12) {
-    return _ref16.apply(this, arguments);
+  return function GetLeave(_x13, _x14) {
+    return _ref19.apply(this, arguments);
   };
 }();
 
@@ -767,24 +841,24 @@ var EditSchool = exports.EditSchool = function EditSchool(req, res) {
 };
 
 var UploadFile = exports.UploadFile = function () {
-  var _ref19 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee7(req, res) {
-    return _regeneratorRuntime2.default.wrap(function _callee7$(_context7) {
+  var _ref22 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee8(req, res) {
+    return _regeneratorRuntime2.default.wrap(function _callee8$(_context8) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
             if (req.file) {
-              _context7.next = 4;
+              _context8.next = 4;
               break;
             }
 
-            return _context7.abrupt('return', res.send({
+            return _context8.abrupt('return', res.send({
               success: false
             }));
 
           case 4:
-            _context7.t0 = _fs2.default;
-            _context7.t1 = req.file.path;
-            _context7.next = 8;
+            _context8.t0 = _fs2.default;
+            _context8.t1 = req.file.path;
+            _context8.next = 8;
             return function (err, data) {
               _http2.default.createServer(function (req, res) {
                 res.writeHead(200, { 'Content-Type': 'image/*' });
@@ -808,19 +882,19 @@ var UploadFile = exports.UploadFile = function () {
             };
 
           case 8:
-            _context7.t2 = _context7.sent;
-            return _context7.abrupt('return', _context7.t0.readFile.call(_context7.t0, _context7.t1, _context7.t2));
+            _context8.t2 = _context8.sent;
+            return _context8.abrupt('return', _context8.t0.readFile.call(_context8.t0, _context8.t1, _context8.t2));
 
           case 10:
           case 'end':
-            return _context7.stop();
+            return _context8.stop();
         }
       }
-    }, _callee7, undefined);
+    }, _callee8, undefined);
   }));
 
-  return function UploadFile(_x13, _x14) {
-    return _ref19.apply(this, arguments);
+  return function UploadFile(_x15, _x16) {
+    return _ref22.apply(this, arguments);
   };
 }();
 
@@ -907,59 +981,6 @@ var UpdateSchool = exports.UpdateSchool = function UpdateSchool(req, res) {
 };
 
 var GetUserDetails = exports.GetUserDetails = function () {
-  var _ref20 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee8(req, res) {
-    var userType, id, User, _ref21, _ref22, userData, schoolData;
-
-    return _regeneratorRuntime2.default.wrap(function _callee8$(_context8) {
-      while (1) {
-        switch (_context8.prev = _context8.next) {
-          case 0:
-            userType = req.body.userType;
-            id = req.body.sid;
-            _context8.prev = 2;
-
-            console.log('Getting User details of ' + userType + id);
-            User = userType === 'teacher' ? _Teacher2.default : userType === 'student' ? _Student2.default : userType === 'admin' ? _Admin2.default : _Teacher2.default;
-            _context8.next = 7;
-            return Promise.all([User.findOne({
-              sid: id
-            }), _School2.default.findOne({
-              schoolId: req.user.schoolId
-            })]);
-
-          case 7:
-            _ref21 = _context8.sent;
-            _ref22 = _slicedToArray(_ref21, 2);
-            userData = _ref22[0];
-            schoolData = _ref22[1];
-            return _context8.abrupt('return', res.json({
-              userData: userData,
-              schoolData: schoolData
-            }));
-
-          case 14:
-            _context8.prev = 14;
-            _context8.t0 = _context8['catch'](2);
-
-            res.status(500).json({
-              message: 'Error fetching details',
-              error: _context8.t0.message
-            });
-
-          case 17:
-          case 'end':
-            return _context8.stop();
-        }
-      }
-    }, _callee8, undefined, [[2, 14]]);
-  }));
-
-  return function GetUserDetails(_x15, _x16) {
-    return _ref20.apply(this, arguments);
-  };
-}();
-
-var UploadUserDetails = exports.UploadUserDetails = function () {
   var _ref23 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee9(req, res) {
     var userType, id, User, _ref24, _ref25, userData, schoolData;
 
@@ -974,12 +995,8 @@ var UploadUserDetails = exports.UploadUserDetails = function () {
             console.log('Getting User details of ' + userType + id);
             User = userType === 'teacher' ? _Teacher2.default : userType === 'student' ? _Student2.default : userType === 'admin' ? _Admin2.default : _Teacher2.default;
             _context9.next = 7;
-            return Promise.all([User.findOneAndUpdate({
+            return Promise.all([User.findOne({
               sid: id
-            }, {
-              $set: _extends({}, req.body)
-            }, {
-              new: true
             }), _School2.default.findOne({
               schoolId: req.user.schoolId
             })]);
@@ -999,7 +1016,7 @@ var UploadUserDetails = exports.UploadUserDetails = function () {
             _context9.t0 = _context9['catch'](2);
 
             res.status(500).json({
-              message: 'Error Updating User details',
+              message: 'Error fetching details',
               error: _context9.t0.message
             });
 
@@ -1011,8 +1028,65 @@ var UploadUserDetails = exports.UploadUserDetails = function () {
     }, _callee9, undefined, [[2, 14]]);
   }));
 
-  return function UploadUserDetails(_x17, _x18) {
+  return function GetUserDetails(_x17, _x18) {
     return _ref23.apply(this, arguments);
+  };
+}();
+
+var UploadUserDetails = exports.UploadUserDetails = function () {
+  var _ref26 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime2.default.mark(function _callee10(req, res) {
+    var userType, id, User, _ref27, _ref28, userData, schoolData;
+
+    return _regeneratorRuntime2.default.wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            userType = req.body.userType;
+            id = req.body.sid;
+            _context10.prev = 2;
+
+            console.log('Getting User details of ' + userType + id);
+            User = userType === 'teacher' ? _Teacher2.default : userType === 'student' ? _Student2.default : userType === 'admin' ? _Admin2.default : _Teacher2.default;
+            _context10.next = 7;
+            return Promise.all([User.findOneAndUpdate({
+              sid: id
+            }, {
+              $set: _extends({}, req.body)
+            }, {
+              new: true
+            }), _School2.default.findOne({
+              schoolId: req.user.schoolId
+            })]);
+
+          case 7:
+            _ref27 = _context10.sent;
+            _ref28 = _slicedToArray(_ref27, 2);
+            userData = _ref28[0];
+            schoolData = _ref28[1];
+            return _context10.abrupt('return', res.json({
+              userData: userData,
+              schoolData: schoolData
+            }));
+
+          case 14:
+            _context10.prev = 14;
+            _context10.t0 = _context10['catch'](2);
+
+            res.status(500).json({
+              message: 'Error Updating User details',
+              error: _context10.t0.message
+            });
+
+          case 17:
+          case 'end':
+            return _context10.stop();
+        }
+      }
+    }, _callee10, undefined, [[2, 14]]);
+  }));
+
+  return function UploadUserDetails(_x19, _x20) {
+    return _ref26.apply(this, arguments);
   };
 }();
 //# sourceMappingURL=api.js.map

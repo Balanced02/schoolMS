@@ -61,6 +61,18 @@ export default {
               name: 'Student List',
               url: '/studentList'
             },
+             {
+              name: 'Roll Number',
+              url: '/rollNumber'
+            },
+             {
+              name: 'Student Attendance Import',
+              url: '/studentAttendanceImport'
+            },
+             {
+              name: 'Student Gate Pass',
+              url: '/studentGatePass'
+            },
           ],
         },
       ],
