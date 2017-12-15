@@ -17,12 +17,14 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 
 import NoticeBoard from '../../components/NoticeBoard';
+import Notepad from '../../components/Notepad';
 import TimeTable from '../../components/TimeTable';
 import Calendar from '../../components/Calendar';
 import TeacherDashboardSummary from '../../components/TeacherDashboardSummary';
 import NoticeBoardModal from '../../components/NoticeBoardModal';
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
+import NoteList from '../../components/NoteList.js';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -30,13 +32,22 @@ class Dashboard extends Component {
     this.state = {
       selectedDays: [],
       modal: false,
+      searching:true,
       notice: {
+        date: '',
+        body: '',
+      },
+       note: {
         date: '',
         body: '',
       },
       notices: {
         searching: true,
         notices: [],
+      },
+       noteList: {
+        searching: true,
+        notes: [],
       },
       summary: {
         searching: true,
@@ -55,7 +66,7 @@ class Dashboard extends Component {
         ...this.state.notice,
         date: day,
       },
-    });
+    }); 
   }
 
   tabToggle(tab) {
@@ -80,8 +91,41 @@ class Dashboard extends Component {
       },
     });
   }
+  
+  
+  editNote(e) {
+    
+    this.setState({
+      note: {
+        ...this.state.note,
+        body: e.target.value,
+      },
+    });
+    console.log(this.state.note.body);
+  }
 
-  getSummary() {
+
+    
+    // for creating Notes
+  createNote() {
+     let check = this.state.note.body;
+    if (check === '') {
+      this.props.dispatch(showError('The field must be filled'));
+    } else {
+      callApi('/createNote', this.state.note, 'POST')
+        .then(data => this.props.dispatch(showInfo('New Note Added')))
+        .catch(err => this.props.dispatch(showError('Error Creating Note')));
+         this.setState({
+        note: {
+        ...this.state.note,
+        body:'',
+      },
+    });
+        this.getSummary();
+    }
+  }
+
+ getSummary() {
     callApi('/getSummary')
       .then(summary => {
         this.setState({
@@ -96,12 +140,33 @@ class Dashboard extends Component {
             searching: false,
             notices: summary.noticeBoard,
           },
+          noteList: {
+            searching: false,
+            notes: summary.notes,
+          },
           selectedDays: summary.noticeBoard.map(notice => notice.date),
         });
       })
       .catch(err => console.log(err));
   }
+  
+  
+  getNotes() {
+    callApi('/getNotes')
+      .then(data =>
+        this.setState({
+          noteList: {
+            ...this.state.noteList,
+            notes: data.notes,
+            searching: false,
+            count: data.count,
+          },
+        })
+      )
+      .catch(err => console.log(err));
+  }
 
+  
   createNotice() {
     let { date, body } = this.state.notice;
     let check = [date, body].every(data => data !== '');
@@ -116,12 +181,16 @@ class Dashboard extends Component {
     }
   }
 
+
   componentWillMount() {
     this.getSummary();
+    //this.getNotes();
   }
+  
+
 
   render() {
-    const { summary, notice, notices, selectedDays, modal, activeTab } = this.state;
+    const { summary, notice, notices, noteList, note, selectedDays, modal, activeTab } = this.state;
     return (
       <div className="animated fadeIn container">
         <TeacherDashboardSummary data={summary} />
@@ -177,7 +246,17 @@ class Dashboard extends Component {
               />
             </TabPane>
             <TabPane tabId="2">
-              <TimeTable />
+            <Row>
+            <Col>
+              <Notepad
+              
+              edit = {e => this.editNote(e)}
+              note = {note}
+              submit = {() => this.createNote()}
+              />
+              </Col>
+              </Row>
+              <NoteList data={noteList}/>
             </TabPane>
           </TabContent>
         </Card>

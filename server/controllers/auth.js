@@ -21,16 +21,15 @@ export const Register = (req, res) => {
               });
             })
             .catch(err => {
-              return res.status(400).json({
-                message: err.message,
-              });
+              
+              return console.log(err),res.status(400).json({ message: err.message,}); 
+              
             });
         }
       })
       .catch(err => {
-        return res.status(400).json({
-          message: err.message,
-        });
+       
+        return console.log(err),res.status(400).json({ message: err.message,});
       });
   } else {
     userRegister(req.body)

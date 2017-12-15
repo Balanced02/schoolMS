@@ -21,6 +21,7 @@ import AddCourse from '../../components/AddCourse';
 import CourseList from '../../components/CourseList';
 import ViewCourseModal from '../../components/ViewCourseModal';
 import AddClass from '../../components/AddClass';
+import CourseMaterial from '../../components/CourseMaterial'
 import ViewClasses from '../../components/ViewClasses';
 
 class Course extends Component {
@@ -272,6 +273,17 @@ class Course extends Component {
                 Class
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink
+                style={{ cursor: 'pointer' }}
+                className={classnames({ active: activeTab === '3' })}
+                onClick={() => {
+                  this.tabToggle('3');
+                }}
+              >
+                Materials
+              </NavLink>
+            </NavItem>
           </Nav>
 
           <TabContent activeTab={activeTab}>
@@ -308,6 +320,17 @@ class Course extends Component {
                     data={classes}
                     select={data => this.selectClass(data)}
                     toggleModal={data => this.toggleClassModal(data)}
+                  />
+                </Col>
+              </Row>
+            </TabPane>
+             <TabPane tabId="3">
+              <Row>
+                <Col xs="12" md="6">
+                  <CourseMaterial
+                    data={courseList}
+                    select={data => this.select(data)}
+                    toggleModal={course => this.toggleModal(course)}
                   />
                 </Col>
               </Row>

@@ -14,7 +14,7 @@ import {
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { startLogin } from '../../../actions/auth';
-import { showError, showInfo } from '../../../actions/feedback';
+import { showError, showInfo, startLoading, stopLoading } from '../../../actions/feedback';
 
 class Login extends Component {
   constructor() {
@@ -28,11 +28,11 @@ class Login extends Component {
   render() {
     let { username, password } = this.state;
     let { dispatch, loading, history } = this.props;
-
     const login = () => {
       if (username && password) {
         console.log('Logging in');
         dispatch(startLogin({ username, password }));
+        dispatch(showInfo('Logging you in...'))
       } else {
         dispatch(showError('Please provide your Username and Password'));
       }
@@ -105,7 +105,7 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    loading: state.feedback.loadin,
+    loading: state.feedback.loading,
   };
 };
 

@@ -1,7 +1,7 @@
-import React from 'react';
-import moment from 'moment';
+import React from "react";
+import moment from "moment";
 
-import { Row, Col, Table } from 'reactstrap';
+import { Row, Col, Table } from "reactstrap";
 
 export default ({ data, searching, select }) => {
   return (
@@ -28,22 +28,29 @@ export default ({ data, searching, select }) => {
                 <td>
                   <i
                     className="fa fa-spinner fa-spin fa-2x"
-                    style={{ flex: 1, textAlign: 'center', margin: 10, width: '100%' }}
+                    style={{
+                      flex: 1,
+                      textAlign: "center",
+                      margin: 10,
+                      width: "100%"
+                    }}
                   />
                 </td>
               </tr>
             ) : !searching && !data.length ? (
-              <h4 style={{ textAlign: 'center', marginTop: 20 }}>No Teachers</h4>
+              <h4 style={{ textAlign: "center", marginTop: 20 }}>
+                No Schools Added
+              </h4>
             ) : (
               data.map((schl, i) => (
-                <tr style={{ cursor: 'pointer' }} onClick={() => select(schl)}>
+                <tr style={{ cursor: "pointer" }} onClick={() => select(schl)}>
                   <td> {i + 1} </td>
                   <td> {schl.schoolId} </td>
                   <td> {schl.schoolName} </td>
                   <td> {schl.founded} </td>
                   <td> {schl.phoneNumber} </td>
                   <td> {schl.email} </td>
-                  <td> {moment(schl.created).format('MMM Do YY')} </td>
+                  <td> {moment(schl.created).format("MMM Do YY")} </td>
                 </tr>
               ))
             )}

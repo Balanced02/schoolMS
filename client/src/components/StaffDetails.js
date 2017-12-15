@@ -116,16 +116,16 @@ export default ({ data, edit, submit, headerText, editType }) => {
         <FormGroup row>
           {!data._id ? (
             <div>
-              <Label md={2}>User Type</Label>
-              <Col md={4}>
+              <Label md={3}>User Type</Label>
+              <Col xs={12} md={5} lg={5}>
                 <Input type="select" name="userType" onChange={e => (edit ? edit(e) : '')}>
                   <option selected disabled>
                     {' '}
                     Select one{' '}
                   </option>
-                  <option value="teacher"> Teaching Staff </option>
-                  <option value="non-teaching"> Non-Teaching Staff </option>
-                  <option value="admin"> Admin </option>
+                  <option value="teacher" selected={data.userType === 'teacher'}> Teaching Staff </option>
+                  <option value="non-teaching" selected={data.userType === 'non-teaching'}> Non-Teaching Staff </option>
+                  <option value="admin" selected={data.userType === 'admin'}> Admin </option>
                 </Input>
               </Col>
             </div>
@@ -133,7 +133,7 @@ export default ({ data, edit, submit, headerText, editType }) => {
             ''
           )}
           <Label md={2}>Gender</Label>
-          <Col md={4}>
+          <Col md={3}>
             <Input type="select" name="gender" onChange={e => (edit ? edit(e) : '')}>
               <option value="1" disabled selected>
                 Gender

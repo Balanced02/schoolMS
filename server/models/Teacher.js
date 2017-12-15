@@ -72,15 +72,15 @@ const teacherSchema = new Schema({
   },
   pName: {
     type: String,
-    required: true,
+    required: false,
   },
   pPhoneNumber: {
     type: String,
-    required: true,
+    required: false,
   },
   pOccupation: {
     type: String,
-    required: true,
+    required: false,
   },
   pEmail: {
     type: String,
@@ -89,7 +89,7 @@ const teacherSchema = new Schema({
   },
   pAddress: {
     type: String,
-    required: true,
+    required: false,
   },
   accountNo: {
     type: String,

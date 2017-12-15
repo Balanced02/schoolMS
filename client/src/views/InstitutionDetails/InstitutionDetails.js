@@ -1,51 +1,52 @@
-import React, { Component } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
-import { Row, Card, CardBlock } from 'reactstrap';
-import { connect } from 'react-redux';
-import Dropbox from 'dropbox';
+import React, { Component } from "react";
+import { Bar, Line } from "react-chartjs-2";
+import { Row, Card, CardBlock } from "reactstrap";
+import { connect } from "react-redux";
+import Dropbox from "dropbox";
+import upload from "superagent";
 
-import { callApi } from '../../utils';
-import { showError, showInfo } from '../../actions/feedback';
-import InstitutionDetail from '../../components/InstitutionDetail';
+import { callApi } from "../../utils";
+import { showError, showInfo } from "../../actions/feedback";
+import InstitutionDetail from "../../components/InstitutionDetail";
 
 class InstitutionDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: {
-        schoolName: '',
-        shortCode: '',
-        address: '',
-        phoneNumber: '',
-        country: '',
-        password: 'testschooladmin',
-        email: '',
-        founded: '',
-        fullName: '',
-        address: '',
-        userType: 'school',
-        username: '',
-        logo: '',
-        file: '',
+        schoolName: "",
+        shortCode: "",
+        address: "",
+        phoneNumber: "",
+        country: "",
+        password: "testschooladmin",
+        email: "",
+        founded: "",
+        fullName: "",
+        address: "",
+        userType: "school",
+        username: "",
+        logo: "",
+        file: ""
       },
-      uploadFile: '',
+      uploadFile: "",
       uploading: false,
-      imageUrl: '',
+      imageUrl: ""
     };
   }
 
   handleInputChange(e) {
     let { name, value } = e.target;
-    let shortCode = '';
-    name === 'shortCode'
+    let shortCode = "";
+    name === "shortCode"
       ? (shortCode = value)
-      : name === 'schoolName'
+      : name === "schoolName"
         ? (shortCode = this.state.data.schoolName
             ? this.state.data.schoolName
-                .split(' ')
+                .split(" ")
                 .map(a => a.substring(0, 1).toUpperCase())
-                .join('')
-            : '')
+                .join("")
+            : "")
         : (shortCode = this.state.data.shortCode);
     this.setState({
       data: {
@@ -53,17 +54,17 @@ class InstitutionDetails extends Component {
         [name]: value,
         shortCode,
         username: this.state.data.shortCode,
-        fullName: this.state.data.schoolName,
-      },
+        fullName: this.state.data.schoolName
+      }
     });
   }
 
   upload(file) {
     return new Promise((resolve, reject) => {
       var photo = new FormData();
-      photo.append('logos', file);
+      photo.append("logos", file);
       upload
-        .post('/api/uploadFile')
+        .post("/api/uploadFile")
         .send(photo)
         .end((err, res) => {
           if (err) {
@@ -76,16 +77,16 @@ class InstitutionDetails extends Component {
 
   changeImage() {
     this.setState({
-      uploadFile: '',
+      uploadFile: "",
       uploading: false,
-      imageUrl: '',
+      imageUrl: ""
     });
   }
 
   onImageDrop(files) {
     this.setState({
       uploadFile: files[0],
-      uploading: true,
+      uploading: true
     });
     this.viewfile(files[0]);
   }
@@ -96,10 +97,10 @@ class InstitutionDetails extends Component {
       this.setState({
         data: {
           ...this.state.data,
-          file: file,
+          file: file
         },
         uploading: false,
-        imageUrl: reader.result,
+        imageUrl: reader.result
       });
     };
     reader.readAsDataURL(file);
@@ -118,7 +119,7 @@ class InstitutionDetails extends Component {
       fullName,
       userType,
       username,
-      file,
+      file
     } = this.state.data;
     let check = [
       schoolName,
@@ -132,58 +133,62 @@ class InstitutionDetails extends Component {
       file,
       fullName,
       userType,
-      username,
+      username
     ];
-    check = check.every(data => data !== '');
+    check = check.every(data => data !== "");
     if (!check) {
-      this.props.dispatch(showError('Fields with * are compulsory'));
+      this.props.dispatch(showError("Fields with * are compulsory"));
     } else {
-      this.props.dispatch(showInfo('Creating School'));
+      console.log("The data went through");
+
+      this.props.dispatch(showInfo("Creating School"));
+
       this.upload(this.state.uploadFile)
         .then(data => {
+          console.log("data.body.response.path_display");
           this.setState({
             imageUrl: data.body.data,
             uploading: false,
             data: {
               ...this.state.data,
-              logo: data.body.response.path_display,
-            },
+              logo: data.body.response.path_display
+            }
           });
-          this.register();
         })
-        .catch(err => this.props.dispatch(showError('Error Uploading Image')));
+        .catch(err => this.props.dispatch(showError("Error Uploading Image")));
+      this.register();
     }
   }
 
   register() {
     const { username, password, logo } = this.state.data;
     if ((username, password, logo)) {
-      callApi('/auth/createSchool', { ...this.state.data }, 'POST')
+      callApi("/auth/createSchool", { ...this.state.data }, "POST")
         .then(data => {
           this.setState({
             data: {
-              schoolName: '',
-              shortCode: '',
-              address: '',
-              phoneNumber: '',
-              country: '',
-              email: '',
-              founded: '',
-              fax: '',
-              fullName: '',
-              address: '',
-              username: '',
-              logo: '',
+              schoolName: "",
+              shortCode: "",
+              address: "",
+              phoneNumber: "",
+              country: "",
+              email: "",
+              founded: "",
+              fax: "",
+              fullName: "",
+              address: "",
+              username: "",
+              logo: ""
             },
-            uploadFile: '',
+            uploadFile: "",
             uploading: false,
-            imageUrl: '',
+            imageUrl: ""
           });
-          this.props.dispatch(showInfo('Successfully Created'));
+          this.props.dispatch(showInfo("Successfully Created"));
         })
-        .catch(err => this.props.dispatch(showError('Error Creating school')));
+        .catch(err => this.props.dispatch(showError("Error Creating school")));
     } else {
-      this.props.dispatch(showError('Kindly provide value for all Inputs!'));
+      this.props.dispatch(showError("Kindly provide value for all Inputs!"));
     }
   }
 

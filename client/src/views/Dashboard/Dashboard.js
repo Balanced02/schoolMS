@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { Row, Col, Card } from 'reactstrap';
 import { connect } from 'react-redux';
-
+import Chart from '../../components/Chart/Chart';
 import NoticeBoard from '../../components/NoticeBoard';
 import Calendar from '../../components/Calendar';
 import DashboardSummary from '../../components/DashboardSummary';
@@ -122,7 +122,9 @@ class Dashboard extends Component {
             edit={e => this.editNotice(e)}
             submit={() => this.createNotice()}
           />
+           <Chart/>
         </Card>
+        
       </div>
     );
   }
