@@ -95,10 +95,12 @@ api.use(_auth.RedirectNoAuth);
 
 //Queries
 api.get('/getSummary', _api.SummaryData);
+api.get('/getStudentGatePass', _api.GetStudentGatePass);
 api.get('/getNotes', _api.GetNotes);
 api.get('/allCourse', _api.AllCourse);
 api.get('/allVisitors', _api.GetVisitors);
 api.get('/allTeachers', _api.GetTeachers);
+api.get('/GetStudentCategory', _api.GetStudentCategory);
 api.get('/allClass', _api.AllClass);
 api.get('/allLeave/:id', _api.GetLeave);
 api.get('/getLeaveCategory', _api.GetLeaveCategory);
@@ -108,6 +110,7 @@ api.get('/getPayRollDetails', _api.GetPayHead);
 api.get('/getSchools', _api.GetSchools);
 api.get('/getLibraryCategory', _api.GetLibraryCategory);
 api.post('/getUserDetails', _api.GetUserDetails);
+//api.post('/studentCategory', DeleteStudentGatePass);
 
 //actions
 api.post('/getImageUrl', function (req, res) {
@@ -123,6 +126,7 @@ api.post('/getImageUrl', function (req, res) {
   });
 });
 api.post('/newVisitor', _api.VisitorData);
+api.post('/createStudentGatePass', _api.CreateStudentGatePass);
 api.post('/createNotice', _api.CreateNotice);
 api.post('/createNote', _api.CreateNote);
 api.post('/createCourse', _api.CreateCourse);
@@ -130,6 +134,7 @@ api.post('/updateCourse', _api.UpdateCourse);
 api.post('/addClass', _api.AddClass);
 api.post('/updateClass', _api.UpdateClass);
 api.post('/leaveApplication', _api.LeaveApplication);
+api.post('/createStudentCategory', _api.CreateStudentCategory);
 api.post('/updateLeave', _api.LeaveUpdate);
 api.post('/newDepartment', _api.NewDepartment);
 api.post('/addLeaveCategory', _api.CategoryUpdate);

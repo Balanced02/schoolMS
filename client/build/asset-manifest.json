@@ -11,7 +11,7 @@
   "fonts/fontawesome-webfont.woff?v=4.7.0": "./fonts/fontawesome-webfont.fee66e712a8a08eef5805a46892932ad.woff",
   "img/logo.png": "./img/logo.19def320725abffb8e65d758abbc6b6d.png",
   "index.css": "index.styles.css",
-  "index.css.map": "index.styles.css.map",
+  "index.css.map": "index.fonts.css.map",
   "index.js": "index.bundle.js",
   "index.js.map": "index.bundle.js.map"
 }

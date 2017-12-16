@@ -22,6 +22,8 @@ import UserCategory from '../models/UserCategory';
 import PayHead from '../models/PayHead';
 import School from '../models/School';
 import LibraryCategory from '../models/LibraryCategory';
+import studentGatePass from '../models/studentGatePass';
+import StudentCategory from '../models/StudentCategory';
 
 import { resolve } from 'url';
 
@@ -108,6 +110,52 @@ export const GetNotes = async (req, res) => {
   }
 };
 
+// Get the list of all gate passes issued in a tabular format
+
+export const GetStudentGatePass = async (req, res) => {
+  try {
+    let [studentGatePasses,count] = await Promise.all([
+      studentGatePass.find({
+        schoolId: req.user.schoolId,
+      }).sort('created'),
+      studentGatePass.find({
+        schoolId: req.user.schoolId,
+      }).count(),
+    ]);
+    return res.json({
+      studentGatePasses,
+      count,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Error fetching Gate Pass',
+      error: err.message,
+    });
+  }
+};
+
+
+// Get a list of all the student Categories
+export const GetStudentCategory = async (req, res) => {
+  try{
+    let [count, categories] =  await Promise.all([
+      StudentCategory.find().count(),
+      StudentCategory.find()
+      .sort('created')
+      .limit(25),
+      ]);
+      return res.json({
+        count,
+        categories,
+      });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error getting categories',
+      error: err.message,
+    });
+  }
+};
 
 
 export const GetSchools = async (req, res) => {
@@ -315,6 +363,56 @@ export const AddClass = (req, res) => {
       });
     });
 };
+
+// Creating the gate pass function , mimicing the create course function
+
+export const CreateStudentGatePass = (req, res) => {
+  let { studentName, contactNumber, personName, issueDate, reason,  employeeName } = req.body;
+  studentGatePass.create({ studentName, contactNumber, personName, issueDate, reason, employeeName , schoolId: req.user.schoolId })
+    .then(studentGatePass => {
+      res.json(studentGatePass);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error Creating Gate Pass',
+        error: err.message,
+      });
+    });
+};
+
+//Create the Student Category
+
+export const CreateStudentCategory = (req, res) => {
+  let {category} = req.body;
+  StudentCategory.create({category , schoolId: req.user.schoolId})
+  .then(StudentCategory => {
+    res.json(StudentCategory);
+    
+  })
+  .catch(err => {
+    res.status(500).json({
+    
+    message: 'Error creating Student Catgory',
+    error:err.message,
+    
+    });
+    
+  });
+};
+
+// Function to delete the Students Gate Pass
+
+export const DeleteStudentGatePass = (req,res) => {
+  let { gatePassID } = req.body;
+  studentGatePass.findOneAndRemove({gatePassID})
+  .catch( err => {   //if there is any error deleting the data
+    res.status(500).json({
+      message: 'Unable to delete the Pass',
+      error: err.message,
+    });
+  });
+};
+
 
 export const UpdateClass = (req, res) => {
   let { _id } = req.body;
@@ -764,6 +862,9 @@ export const GetLibraryCategory = (req, res) => {
       });
     });
 };
+
+ 
+
 
 export const UpdateSchool = (req, res) => {
   let { _id } = req.body;

@@ -42,12 +42,20 @@ export default {
           icon: 'fa fa-folder-open fa-2x',
           children: [
             {
+              name: 'Student Category',
+              url: '/studentCategory',
+            },
+            {
               name: 'Class/Course',
               url: '/addCourse',
             },
             {
               name: 'Course Materials',
               url: '/courseMaterials',
+            },
+            {
+              name: 'Student List',
+              url: '/studentList'
             },
             {
               name: 'Attendance',
@@ -58,8 +66,8 @@ export default {
               url: '/guardianList'
             },
             {
-              name: 'Student List',
-              url: '/studentList'
+              name: 'Print List',
+              url: '/printList'
             },
              {
               name: 'Roll Number',

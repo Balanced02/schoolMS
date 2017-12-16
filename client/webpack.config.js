@@ -29,9 +29,9 @@ module.exports = {
   watch: true,
   devServer: {
     contentBase: BUILD_DIR,
-    //   port: 9001,
+    // port: 9001,
     compress: true,
-    hot: true,
+    hot: true, 
     open: true,
     proxy: { '/api': { target: 'http://localhost:5000/', secure: false } },
   },

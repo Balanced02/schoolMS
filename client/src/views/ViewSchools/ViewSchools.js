@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardBlock, CardHeader } from 'reactstrap';
 import { connect } from 'react-redux';
-import upload from 'superagent';
+import {upload} from 'superagent';
 
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';

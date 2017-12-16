@@ -43,8 +43,13 @@ import {
   getImg,
   GetLibraryCategory,
   UpdateSchool,
+  CreateStudentGatePass,
+  GetStudentGatePass,
+  DeleteStudentGatePass,
   GetUserDetails,
   UploadUserDetails,
+  CreateStudentCategory,
+  GetStudentCategory,
 } from './controllers/api';
 
 const app = express();
@@ -94,10 +99,12 @@ api.use(RedirectNoAuth);
 
 //Queries
 api.get('/getSummary', SummaryData);
+api.get('/getStudentGatePass', GetStudentGatePass);
 api.get('/getNotes', GetNotes);
 api.get('/allCourse', AllCourse);
 api.get('/allVisitors', GetVisitors);
 api.get('/allTeachers', GetTeachers);
+api.get('/GetStudentCategory', GetStudentCategory);
 api.get('/allClass', AllClass);
 api.get('/allLeave/:id', GetLeave);
 api.get('/getLeaveCategory', GetLeaveCategory);
@@ -107,6 +114,7 @@ api.get('/getPayRollDetails', GetPayHead);
 api.get('/getSchools', GetSchools);
 api.get('/getLibraryCategory', GetLibraryCategory);
 api.post('/getUserDetails', GetUserDetails);
+//api.post('/studentCategory', DeleteStudentGatePass);
 
 //actions
 api.post('/getImageUrl', (req, res) => {
@@ -121,6 +129,7 @@ api.post('/getImageUrl', (req, res) => {
     );
 });
 api.post('/newVisitor', VisitorData);
+api.post('/createStudentGatePass', CreateStudentGatePass);
 api.post('/createNotice', CreateNotice);
 api.post('/createNote', CreateNote);
 api.post('/createCourse', CreateCourse);
@@ -128,6 +137,7 @@ api.post('/updateCourse', UpdateCourse);
 api.post('/addClass', AddClass);
 api.post('/updateClass', UpdateClass);
 api.post('/leaveApplication', LeaveApplication);
+api.post('/createStudentCategory', CreateStudentCategory);
 api.post('/updateLeave', LeaveUpdate);
 api.post('/newDepartment', NewDepartment);
 api.post('/addLeaveCategory', CategoryUpdate);

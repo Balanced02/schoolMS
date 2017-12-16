@@ -27,12 +27,17 @@ import LeaveApplication from '../../views/LeaveAplication';
 import LeaveCategory from '../../views/LeaveCategory';
 import AddDesignation from '../../views/AddDesignation';
 import payHead from '../../views/PayHead';
+import studentGatePass from '../../views/StudentGatePass';
 import SDashboard from '../../views/SDashboard';
 import InstitutionDetails from '../../views/InstitutionDetails';
 import LibraryCategory from '../../views/LibraryCategory';
 import ViewSchools from '../../views/ViewSchools';
 import Profile from '../../views/Profile';
 import CourseMaterial from '../../components/CourseMaterial.js';
+import StudentCategory from '../../views/StudentCategory';
+
+
+
 class Full extends Component {
   constructor(props) {
     super(props);
@@ -80,6 +85,7 @@ class Full extends Component {
                   <Route path="/dashboard" name="Dashboard" component={Dashboard} />
                   <Route path="/employeeList" name="EmployeeList" component={EmployeeList} />
                   <Route path="/studentList" name="Student List" component={StudentList} />
+                  <Route path="/studentGatePass" name="Student List" component={studentGatePass} />
                   <Route path="/department" name="Department" component={Department} />
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route path="/addCourse" name="Course" component={Course} />
@@ -90,6 +96,7 @@ class Full extends Component {
                   <Route path="/leaveCategory" name="Leave Category" component={LeaveCategory} />
                   <Route path="/addDesignation" name="Add Designation" component={AddDesignation} />
                   <Route path="/payHead" name="Pay Head" component={payHead} />
+                  <Route path="/studentCategory" name="Student Category" component={StudentCategory}/>
                   <Route path="/profile" name="Profile" component={Profile} />
                   <Route
                     path="/libraryCategory"
