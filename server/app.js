@@ -13,14 +13,17 @@ app.disable("x-powered-by");
 //mongodb://schoolms:schoolms@ds051630.mlab.com:51630/schoolms
 //mongodb://localhost/schoolMSdev
 
-mongoose.connect("mongodb://localhost/schoolMSdev", err => {
-  if (err) {
-    console.error(err);
-    process.exit(1);
-    return;
+mongoose.connect(
+  "mongodb://schoolms:schoolms@ds051630.mlab.com:51630/schoolms",
+  err => {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+      return;
+    }
+    console.log("Database Connected Successfully!");
   }
-  console.log("Database Connected Successfully!");
-});
+);
 
 app.use(
   logger("dev", {
