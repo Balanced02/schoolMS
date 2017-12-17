@@ -35,9 +35,7 @@ import ViewSchools from '../../views/ViewSchools';
 import Profile from '../../views/Profile';
 import CourseMaterial from '../../components/CourseMaterial.js';
 import StudentCategory from '../../views/StudentCategory';
-
-
-
+import AcademicYear from '../../views/AcademicYear';
 class Full extends Component {
   constructor(props) {
     super(props);
@@ -90,13 +88,22 @@ class Full extends Component {
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route path="/addCourse" name="Course" component={Course} />
                   <Route path="/addEmployee" name="Add Employee" component={AddEmployee} />
-                  <Route path="/courseMaterials" name="Course Materials" component={CourseMaterial}/>
+                  <Route
+                    path="/courseMaterials"
+                    name="Course Materials"
+                    component={CourseMaterial}
+                  />
                   <Route path="/newIntake" name="New Intake" component={NewIntake} />
                   <Route path="/leaveApprovals" name="Leave Approvals" component={Leave} />
                   <Route path="/leaveCategory" name="Leave Category" component={LeaveCategory} />
                   <Route path="/addDesignation" name="Add Designation" component={AddDesignation} />
+                  <Route path="/academicYear" name="Academic Year" component={AcademicYear} />
                   <Route path="/payHead" name="Pay Head" component={payHead} />
-                  <Route path="/studentCategory" name="Student Category" component={StudentCategory}/>
+                  <Route
+                    path="/studentCategory"
+                    name="Student Category"
+                    component={StudentCategory}
+                  />
                   <Route path="/profile" name="Profile" component={Profile} />
                   <Route
                     path="/libraryCategory"

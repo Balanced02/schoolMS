@@ -95,6 +95,10 @@ export default {
           name: 'Pending Applications',
           url: '/applicants',
         },
+        {
+          name: 'Academic Year',
+          url: '/academicYear'
+        }
       ],
     },
     {

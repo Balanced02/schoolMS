@@ -24,6 +24,7 @@ import School from '../models/School';
 import LibraryCategory from '../models/LibraryCategory';
 import studentGatePass from '../models/studentGatePass';
 import StudentCategory from '../models/StudentCategory';
+import AcademicDetails from '../models/AcademicDetails';
 
 import { resolve } from 'url';
 
@@ -980,5 +981,57 @@ export const UploadUserDetails = async (req, res) => {
       message: 'Error Updating User details',
       error: err.message,
     });
+  }
+};
+
+export const GetAcademicDetails = (req, res) => {
+  AcademicDetails.find({ schoolId: req.user.schoolId })
+    .then(data => res.json(data))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error Fetching Department',
+        error: err.message,
+      });
+    });
+};
+
+export const AcademicDetailsUpdate = (req, res) => {
+  let { _id } = req.body;
+  if (_id) {
+    AcademicDetails.findOneAndUpdate(
+      { _id },
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      {
+        new: true,
+      }
+    )
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        res.status(500).json({
+          message: 'Error updating',
+          error: err.message,
+        });
+      });
+  } else {
+    AcademicDetails.create({
+      ...req.body,
+      schoolId: req.user.schoolId,
+    })
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        res.status(500).json({
+          message: 'Error Creating',
+          error: err.message,
+        });
+      });
   }
 };
