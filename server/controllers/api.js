@@ -22,6 +22,8 @@ import UserCategory from '../models/UserCategory';
 import PayHead from '../models/PayHead';
 import School from '../models/School';
 import LibraryCategory from '../models/LibraryCategory';
+import studentGatePass from '../models/studentGatePass';
+import StudentCategory from '../models/StudentCategory';
 
 import { resolve } from 'url';
 
@@ -45,22 +47,21 @@ export const CreateNotice = (req, res) => {
 
 // For creating the notes component
 export const CreateNote = (req, res) => {
-  let {date , body} = req.body;
+  let { date, body } = req.body;
   Note.create({
     body,
     schoolId: req.user.schoolId,
   })
-  .then(note => {
-    res.json(note);
-  })
-  .catch(err => {
-    res.status(500).json({
-    message: 'Error loading clients',
-    error: err.message,
+    .then(note => {
+      res.json(note);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error loading clients',
+        error: err.message,
+      });
     });
-  });
 };
-
 
 export const AllCourse = async (req, res) => {
   try {
@@ -84,10 +85,9 @@ export const AllCourse = async (req, res) => {
   }
 };
 
-
 export const GetNotes = async (req, res) => {
   try {
-    let [notes,count] = await Promise.all([
+    let [notes, count] = await Promise.all([
       Note.find({
         schoolId: req.user.schoolId,
       }).sort('created'),
@@ -108,7 +108,68 @@ export const GetNotes = async (req, res) => {
   }
 };
 
+// Get the list of all gate passes issued in a tabular format
 
+export const GetStudentGatePass = async (req, res) => {
+  try {
+    let [studentGatePasses, count] = await Promise.all([
+      studentGatePass
+        .find({
+          schoolId: req.user.schoolId,
+        })
+        .sort('created'),
+      studentGatePass
+        .find({
+          schoolId: req.user.schoolId,
+        })
+        .count(),
+    ]);
+    let staffNames = await Users.find(
+      {
+        sid: {
+          $in: studentGatePasses.map(s => s.staffId),
+        },
+      },
+      'username sid'
+    );
+    studentGatePasses = studentGatePasses.map(gatePass => {
+      let staffName = staffNames.filter(staff => staff.sid === gatePass.sid)[0];
+      gatePass._doc.employeeName = staffName ? staffName.username : 'Admin';
+      return gatePass;
+    });
+    return res.json({
+      studentGatePasses,
+      count,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Error fetching Gate Pass',
+      error: err.message,
+    });
+  }
+};
+
+// Get a list of all the student Categories
+export const GetStudentCategory = async (req, res) => {
+  try {
+    let [count, categories] = await Promise.all([
+      StudentCategory.find().count(),
+      StudentCategory.find()
+        .sort('created')
+        .limit(25),
+    ]);
+    return res.json({
+      count,
+      categories,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error getting categories',
+      error: err.message,
+    });
+  }
+};
 
 export const GetSchools = async (req, res) => {
   try {
@@ -137,7 +198,7 @@ export const SummaryData = async (req, res) => {
       Student.find({ accepted: true, schoolId: req.user.schoolId }).count(),
       Users.find({ schoolId: req.user.schoolId }).count(),
       Notice.find({ schoolId: req.user.schoolId }).sort('-created'),
-      Note.find({schoolId: req.user.schoolId}).sort('-created'),  
+      Note.find({ schoolId: req.user.schoolId }).sort('-created'),
     ]);
     return res.json({
       totalStudents,
@@ -156,7 +217,13 @@ export const SummaryData = async (req, res) => {
 
 export const CreateCourse = (req, res) => {
   let { courseName, courseCode, minAttendance, description } = req.body;
-  Course.create({ courseName, courseCode, minAttendance, description, schoolId: req.user.schoolId })
+  Course.create({
+    courseName,
+    courseCode,
+    minAttendance,
+    description,
+    schoolId: req.user.schoolId,
+  })
     .then(course => {
       res.json(course);
     })
@@ -316,6 +383,55 @@ export const AddClass = (req, res) => {
     });
 };
 
+// Creating the gate pass function , mimicing the create course function
+
+export const CreateStudentGatePass = (req, res) => {
+  console.log(req.user);
+  studentGatePass
+    .create({
+      ...req.body,
+      schoolId: req.user.schoolId,
+      staffId: req.user.sid,
+    })
+    .then(studentGatePass => {
+      res.json(studentGatePass);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error Creating Gate Pass',
+        error: err.message,
+      });
+    });
+};
+
+//Create the Student Category
+export const CreateStudentCategory = (req, res) => {
+  let { category } = req.body;
+  StudentCategory.create({ category, schoolId: req.user.schoolId })
+    .then(StudentCategory => {
+      res.json(StudentCategory);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error creating Student Catgory',
+        error: err.message,
+      });
+    });
+};
+
+// Function to delete the Students Gate Pass
+
+export const DeleteStudentGatePass = (req, res) => {
+  let { gatePassID } = req.body;
+  studentGatePass.findOneAndRemove({ gatePassID }).catch(err => {
+    //if there is any error deleting the data
+    res.status(500).json({
+      message: 'Unable to delete the Pass',
+      error: err.message,
+    });
+  });
+};
+
 export const UpdateClass = (req, res) => {
   let { _id } = req.body;
   ClassDetails.findOneAndUpdate(
@@ -341,7 +457,11 @@ export const UpdateClass = (req, res) => {
 };
 
 export const LeaveApplication = (req, res) => {
-  Leave.create({ ...req.body, schoolId: req.user.schoolId, teacherId: req.user.sid })
+  Leave.create({
+    ...req.body,
+    schoolId: req.user.schoolId,
+    teacherId: req.user.sid,
+  })
     .then(leave => {
       res.json(leave);
     })
@@ -691,7 +811,11 @@ const dbx = new Dropbox({
 const upload = (data, path) => {
   return new Promise((resolve, reject) => {
     dbx
-      .filesUpload({ autorename: true, path: '/logos/' + path + '.jpeg', contents: data })
+      .filesUpload({
+        autorename: true,
+        path: '/logos/' + path + '.jpeg',
+        contents: data,
+      })
       .then(response => {
         resolve(response);
       })
