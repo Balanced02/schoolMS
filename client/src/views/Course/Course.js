@@ -21,11 +21,7 @@ import AddCourse from '../../components/AddCourse';
 import CourseList from '../../components/CourseList';
 import ViewCourseModal from '../../components/ViewCourseModal';
 import AddClass from '../../components/AddClass';
-<<<<<<< HEAD
-import CourseMaterial from '../../components/CourseMaterial'
-=======
 import CourseMaterial from '../../components/CourseMaterial';
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 import ViewClasses from '../../components/ViewClasses';
 
 class Course extends Component {
@@ -337,11 +333,7 @@ class Course extends Component {
                 </Col>
               </Row>
             </TabPane>
-<<<<<<< HEAD
-             <TabPane tabId="3">
-=======
             <TabPane tabId="3">
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
               <Row>
                 <Col xs="12" md="6">
                   <CourseMaterial

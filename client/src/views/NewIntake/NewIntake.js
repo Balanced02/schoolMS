@@ -65,11 +65,7 @@ class NewIntake extends Component {
       this.props.dispatch(showError('All fields must be filled'));
     } else {
       this.props.dispatch(showInfo('Generating Admission Number...'));
-<<<<<<< HEAD
-      this.newIntake();
-=======
       // this.newIntake();
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
     }
   }
 

@@ -140,16 +140,9 @@ class InstitutionDetails extends Component {
       this.props.dispatch(showError("Fields with * are compulsory"));
     } else {
       console.log("The data went through");
-<<<<<<< HEAD
-      
-    this.props.dispatch(showInfo('Creating School'));
-      
-      
-=======
 
       this.props.dispatch(showInfo("Creating School"));
 
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
       this.upload(this.state.uploadFile)
         .then(data => {
           console.log("data.body.response.path_display");
@@ -161,14 +154,8 @@ class InstitutionDetails extends Component {
               logo: data.body.response.path_display
             }
           });
-<<<<<<< HEAD
-          
-        })
-        .catch(err => this.props.dispatch(showError('Error Uploading Image')));
-=======
         })
         .catch(err => this.props.dispatch(showError("Error Uploading Image")));
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
       this.register();
     }
   }

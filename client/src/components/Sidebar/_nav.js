@@ -61,34 +61,6 @@ export default {
               url: '/courseMaterials',
             },
             {
-<<<<<<< HEAD
-              name: 'Student List',
-              url: '/studentList'
-            },
-            {
-              name: 'Attendance',
-              url: '/attendance'
-            },
-            {
-              name: 'Guardian List',
-              url: '/guardianList'
-            },
-            {
-              name: 'Print List',
-              url: '/printList'
-            },
-             {
-              name: 'Roll Number',
-              url: '/rollNumber'
-            },
-             {
-              name: 'Student Attendance Import',
-              url: '/studentAttendanceImport'
-            },
-             {
-              name: 'Student Gate Pass',
-              url: '/studentGatePass'
-=======
               name: 'Attendance',
               url: '/attendance',
             },
@@ -111,7 +83,6 @@ export default {
             {
               name: 'Student Gate Pass',
               url: '/studentGatePass',
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
             },
           ],
         },
