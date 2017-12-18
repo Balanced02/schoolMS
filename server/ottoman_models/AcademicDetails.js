@@ -1,7 +1,7 @@
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
-import mongoose from 'mongoose';
 
-let academicDetailsSchema = new mongoose.Schema({
+let academicDetailsModel = Ottoman.model('AcademicDetails',{
   sid: {
     type: String,
     required: true,
@@ -30,4 +30,8 @@ let academicDetailsSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('AcademicDetails', academicDetailsSchema);
+export default academicDetailsModel;
+
+
+
+

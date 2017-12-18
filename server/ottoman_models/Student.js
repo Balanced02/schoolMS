@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
 
-let studentSchema = new mongoose.Schema({
+let studentModel = Ottoman.model('Student',{
   sid: {
     type: String,
     unique: true,
@@ -90,4 +90,4 @@ let studentSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('Student', studentSchema);
+export default studentModel;

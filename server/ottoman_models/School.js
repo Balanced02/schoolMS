@@ -1,9 +1,8 @@
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
 
-const Schema = mongoose.Schema;
 
-const schoolSchema = new Schema({
+const schoolModel = Ottoman.model('School',{
   sid: {
     type: String,
     unique: true,
@@ -72,4 +71,4 @@ const schoolSchema = new Schema({
   },
 });
 
-export default mongoose.model('School', schoolSchema);
+export default schoolModel;

@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
 
-let visitorSchema = new mongoose.Schema({
+let visitorModel = Ottoman.model('Visitor',{
   sid: {
     type: String,
     unique: true,

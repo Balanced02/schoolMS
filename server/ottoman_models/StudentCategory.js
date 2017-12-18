@@ -1,9 +1,7 @@
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
 
-const Schema = mongoose.Schema;
-
-const StudentCategorySchema = new Schema({
+const StudentCategoryModel = Ottoman.model('StudentCategory',{
   sid: {
     type: String,
     unique: true,
@@ -24,4 +22,4 @@ const StudentCategorySchema = new Schema({
   },
 });
 
-export default mongoose.model('StudentCategory', StudentCategorySchema);
+export default StudentCategoryModel;

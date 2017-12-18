@@ -24,12 +24,21 @@ import School from '../models/School';
 import LibraryCategory from '../models/LibraryCategory';
 import studentGatePass from '../models/studentGatePass';
 import StudentCategory from '../models/StudentCategory';
-<<<<<<< HEAD
-=======
 import AcademicDetails from '../models/AcademicDetails';
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
+import noteModel from '../../ottoman_models/Note';
+
 
 import { resolve } from 'url';
+
+export const GetOtNotes = async (request, response) => {
+  noteModel.find({}, {load: ["body"]}, function(error, result) {
+            if(error) {
+                return response.status(401).send({ "success": false, "message": error});
+            }
+            response.send(result);
+        });
+};
+
 
 export const CreateNotice = (req, res) => {
   let { date, body } = req.body;
@@ -51,29 +60,11 @@ export const CreateNotice = (req, res) => {
 
 // For creating the notes component
 export const CreateNote = (req, res) => {
-<<<<<<< HEAD
-  let {date , body} = req.body;
-=======
   let { date, body } = req.body;
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
   Note.create({
     body,
     schoolId: req.user.schoolId,
   })
-<<<<<<< HEAD
-  .then(note => {
-    res.json(note);
-  })
-  .catch(err => {
-    res.status(500).json({
-    message: 'Error loading clients',
-    error: err.message,
-    });
-  });
-};
-
-
-=======
     .then(note => {
       res.json(note);
     })
@@ -85,7 +76,6 @@ export const CreateNote = (req, res) => {
     });
 };
 
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 export const AllCourse = async (req, res) => {
   try {
     let [courses, count] = await Promise.all([
@@ -108,16 +98,9 @@ export const AllCourse = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-
-export const GetNotes = async (req, res) => {
-  try {
-    let [notes,count] = await Promise.all([
-=======
 export const GetNotes = async (req, res) => {
   try {
     let [notes, count] = await Promise.all([
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
       Note.find({
         schoolId: req.user.schoolId,
       }).sort('created'),
@@ -142,16 +125,6 @@ export const GetNotes = async (req, res) => {
 
 export const GetStudentGatePass = async (req, res) => {
   try {
-<<<<<<< HEAD
-    let [studentGatePasses,count] = await Promise.all([
-      studentGatePass.find({
-        schoolId: req.user.schoolId,
-      }).sort('created'),
-      studentGatePass.find({
-        schoolId: req.user.schoolId,
-      }).count(),
-    ]);
-=======
     let [studentGatePasses, count] = await Promise.all([
       studentGatePass
         .find({
@@ -177,7 +150,6 @@ export const GetStudentGatePass = async (req, res) => {
       gatePass._doc.employeeName = staffName ? staffName.username : 'Admin';
       return gatePass;
     });
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
     return res.json({
       studentGatePasses,
       count,
@@ -191,22 +163,6 @@ export const GetStudentGatePass = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-
-// Get a list of all the student Categories
-export const GetStudentCategory = async (req, res) => {
-  try{
-    let [count, categories] =  await Promise.all([
-      StudentCategory.find().count(),
-      StudentCategory.find()
-      .sort('created')
-      .limit(25),
-      ]);
-      return res.json({
-        count,
-        categories,
-      });
-=======
 // Get a list of all the student Categories
 export const GetStudentCategory = async (req, res) => {
   try {
@@ -220,7 +176,6 @@ export const GetStudentCategory = async (req, res) => {
       count,
       categories,
     });
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
   } catch (err) {
     res.status(500).json({
       message: 'Error getting categories',
@@ -229,10 +184,7 @@ export const GetStudentCategory = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 export const GetSchools = async (req, res) => {
   try {
     let [count, schools] = await Promise.all([
@@ -276,11 +228,7 @@ export const SummaryData = async (req, res) => {
       Student.find({ accepted: true, schoolId: req.user.schoolId }).count(),
       Users.find({ schoolId: req.user.schoolId }).count(),
       Notice.find({ schoolId: req.user.schoolId }).sort('-created'),
-<<<<<<< HEAD
-      Note.find({schoolId: req.user.schoolId}).sort('-created'),  
-=======
       Note.find({ schoolId: req.user.schoolId }).sort('-created'),
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
     ]);
     return res.json({
       totalStudents,
@@ -468,10 +416,6 @@ export const AddClass = (req, res) => {
 // Creating the gate pass function , mimicing the create course function
 
 export const CreateStudentGatePass = (req, res) => {
-<<<<<<< HEAD
-  let { studentName, contactNumber, personName, issueDate, reason,  employeeName } = req.body;
-  studentGatePass.create({ studentName, contactNumber, personName, issueDate, reason, employeeName , schoolId: req.user.schoolId })
-=======
   console.log(req.user);
   studentGatePass
     .create({
@@ -479,7 +423,6 @@ export const CreateStudentGatePass = (req, res) => {
       schoolId: req.user.schoolId,
       staffId: req.user.sid,
     })
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
     .then(studentGatePass => {
       res.json(studentGatePass);
     })
@@ -492,25 +435,6 @@ export const CreateStudentGatePass = (req, res) => {
 };
 
 //Create the Student Category
-<<<<<<< HEAD
-
-export const CreateStudentCategory = (req, res) => {
-  let {category} = req.body;
-  StudentCategory.create({category , schoolId: req.user.schoolId})
-  .then(StudentCategory => {
-    res.json(StudentCategory);
-    
-  })
-  .catch(err => {
-    res.status(500).json({
-    
-    message: 'Error creating Student Catgory',
-    error:err.message,
-    
-    });
-    
-  });
-=======
 export const CreateStudentCategory = (req, res) => {
   let { category } = req.body;
   StudentCategory.create({ category, schoolId: req.user.schoolId })
@@ -519,26 +443,18 @@ export const CreateStudentCategory = (req, res) => {
     })
     .catch(err => {
       res.status(500).json({
-        message: 'Error creating Student Catgory',
+        message: 'Error creating Student Category',
         error: err.message,
       });
     });
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 };
 
 // Function to delete the Students Gate Pass
 
-<<<<<<< HEAD
-export const DeleteStudentGatePass = (req,res) => {
-  let { gatePassID } = req.body;
-  studentGatePass.findOneAndRemove({gatePassID})
-  .catch( err => {   //if there is any error deleting the data
-=======
 export const DeleteStudentGatePass = (req, res) => {
   let { gatePassID } = req.body;
   studentGatePass.findOneAndRemove({ gatePassID }).catch(err => {
     //if there is any error deleting the data
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
     res.status(500).json({
       message: 'Unable to delete the Pass',
       error: err.message,
@@ -546,10 +462,7 @@ export const DeleteStudentGatePass = (req, res) => {
   });
 };
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 export const UpdateClass = (req, res) => {
   let { _id } = req.body;
   ClassDetails.findOneAndUpdate(

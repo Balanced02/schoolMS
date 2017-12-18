@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
 
-let classSchema = new mongoose.Schema({
-  sid: {
+let classModel = Ottoman.model('Class',{
+   sid: {
     type: String,
     required: true,
     default: uuid,
@@ -35,4 +35,4 @@ let classSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('ClassDetails', classSchema);
+export default classModel;

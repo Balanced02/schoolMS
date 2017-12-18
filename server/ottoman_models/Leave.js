@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
 
-let leaveSchema = new mongoose.Schema({
-  sid: {
+let leaveModel = Ottoman.model('Leave',{
+   sid: {
     type: String,
     required: true,
     default: uuid,
@@ -45,4 +45,4 @@ let leaveSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('Leave', leaveSchema);
+export default leaveModel;

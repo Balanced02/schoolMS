@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
 
-let payHeadSchema = new mongoose.Schema({
+let payHeadModel = Ottoman.model({
   sid: {
     type: String,
     unique: true,
@@ -32,4 +32,4 @@ let payHeadSchema = new mongoose.Schema({
     required: true,
   },
 });
-export default mongoose.model('PayHead', payHeadSchema);
+export default payHeadModel;

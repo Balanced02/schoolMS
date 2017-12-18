@@ -2,10 +2,9 @@ import mongoose from 'mongoose';
 import LocalMongoose from 'passport-local-mongoose';
 import { request } from 'http';
 import uuid from 'uuid/v4';
+import Ottoman from 'ottoman';
 
-const Schema = mongoose.Schema;
-
-const usersSchema = new Schema({
+const usersModel = ({
   sid: {
     type: String,
     required: true,
@@ -33,6 +32,6 @@ const usersSchema = new Schema({
   },
 });
 
-usersSchema.plugin(LocalMongoose);
+usersModel.plugin(LocalMongoose);
 
-export default mongoose.model('Users', usersSchema);
+export default usersModel;

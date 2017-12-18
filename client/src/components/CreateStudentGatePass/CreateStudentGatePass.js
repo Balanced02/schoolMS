@@ -23,11 +23,7 @@ export default ({ data, edit, submit }) => {
       <FormGroup>
         <Label for="studentName">
           Student Name
-<<<<<<< HEAD
-          <span style={{ color: 'red' }}> *</span>
-=======
           <span style={{ color: "red" }}> *</span>
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
         </Label>
         <Input
           type="text"
@@ -39,51 +35,6 @@ export default ({ data, edit, submit }) => {
       </FormGroup>
 
       <FormGroup>
-<<<<<<< HEAD
-      <Col xs={12} sm={4}>
-        <Label for="personName">
-          Person Name
-          <span style={{ color: 'red' }}> *</span>
-        </Label>
-        <Input
-          type="text"
-          name="personName"
-          placeholder="Person's Name"
-          value={data.personName}
-          onChange={edit}
-        />
-        </Col>
-        <Col xs={12} sm={4}>
-         <Label for="contactNumbers">
-          Contact Number
-          <span style={{ color: 'red' }}> *</span>
-        </Label>
-        <Input
-          type="text"
-          name="contactNumber"
-          placeholder="08036171715"
-          value={data.contactNumber}
-          onChange={edit}
-        />
-        </Col>
-        <Col xs={12} sm={4}>
-          <Label for="issueDate">
-          Date
-          <span style={{color: 'red'}}> *</span>
-          </Label>
-          <Input
-          type="date"
-          name="issueDate"
-          value={data.issueDate}
-          onChange={edit}
-          />
-        </Col>
-      </FormGroup>
-       <FormGroup>
-        <Label for="reason">
-          Reason
-          <span style={{ color: 'red' }}> *</span>
-=======
         <Row>
           <Col xs={12} sm={4}>
             <Label for="personName">
@@ -129,7 +80,6 @@ export default ({ data, edit, submit }) => {
         <Label for="reason">
           Reason
           <span style={{ color: "red" }}> *</span>
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
         </Label>
         <Input
           type="textarea"
@@ -139,22 +89,7 @@ export default ({ data, edit, submit }) => {
           onChange={edit}
         />
       </FormGroup>
-<<<<<<< HEAD
-       <FormGroup>
-        <Label for="employeeName">
-          Employee Name
-          <span style={{ color: 'red' }}> *</span>
-        </Label>
-        <Input
-          type="text"
-          name="employeeName"
-          placeholder="Employee Name"
-          value={data.employeeName}
-          onChange={edit}
-        />
-      </FormGroup>
-=======
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
+
       <Button color="primary" onClick={submit}>
         Save
       </Button>

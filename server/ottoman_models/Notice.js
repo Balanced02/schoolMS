@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
 
-let noticeSchema = new mongoose.Schema({
-  sid: {
+let noticeModel = Ottoman.model('Notice',{
+ sid: {
     type: String,
     unique: true,
     default: uuid,
@@ -28,4 +28,4 @@ let noticeSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('Notice', noticeSchema);
+export default noticeModel;

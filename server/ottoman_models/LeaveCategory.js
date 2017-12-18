@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 
-let leaveCategorySchema = new mongoose.Schema({
+let leaveCategoryModel = Ottoman.model('LeaveCategory',{
   sid: {
     type: String,
     required: true,
@@ -22,4 +22,4 @@ let leaveCategorySchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('LeaveCategory', leaveCategorySchema);
+export default leaveCategoryModel;

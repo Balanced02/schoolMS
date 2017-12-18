@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
 
-const Schema = mongoose.Schema;
 
-const adminSchema = new Schema({
-  sid: {
+const adminModel = Ottoman.model('Admin',{
+    sid: {
     type: String,
     required: true,
   },
@@ -44,4 +44,4 @@ const adminSchema = new Schema({
   },
 });
 
-export default mongoose.model('Admin', adminSchema);
+export default adminModel;

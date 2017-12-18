@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 
-let libraryCategorySchema = new mongoose.Schema({
+let libraryCategoryModel = Ottoman.model('LibraryCategory',{
   sid: {
     type: String,
     required: true,
@@ -26,4 +26,4 @@ let libraryCategorySchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('LibraryCategory', libraryCategorySchema);
+export default libraryCategoryModel;

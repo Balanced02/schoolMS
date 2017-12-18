@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
 
-let departmentSchema = new mongoose.Schema({
-  sid: {
+let departmentModel = Ottoman.model('Department',{
+    sid: {
     type: String,
     required: true,
     default: uuid,
@@ -18,4 +18,4 @@ let departmentSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('Department', departmentSchema);
+export default departmentModel;

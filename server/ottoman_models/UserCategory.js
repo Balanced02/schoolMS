@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import Ottoman from 'ottoman';
 import uuid from 'uuid/v4';
 
-let userCategorySchema = new mongoose.Schema({
+let userCategoryModel = Ottoman.model({
   sid: {
     type: String,
     unique: true,
@@ -30,4 +30,4 @@ let userCategorySchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('UserCategory', userCategorySchema);
+export default userCategoryModel;

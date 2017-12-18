@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 import multer from 'multer';
 
+
 import Users from './models/Users';
 
 import { Register, Login, Logout, RedirectNoAuth, AuthMe, CreateSchool } from './controllers/auth';
@@ -16,6 +17,7 @@ import {
   CreateNotice,
   CreateNote,
   GetNotes,
+  GetOtNotes,
   CreateCourse,
   AllCourse,
   UpdateCourse,
@@ -50,12 +52,9 @@ import {
   UploadUserDetails,
   CreateStudentCategory,
   GetStudentCategory,
-<<<<<<< HEAD
-=======
   GetAcademicDetails,
   AcademicDetailsUpdate,
   UpdateUserModule,
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 } from './controllers/api';
 
 const app = express();
@@ -104,6 +103,7 @@ api.get('/auth/logout', Logout);
 api.use(RedirectNoAuth);
 
 //Queries
+api.get('/getOtnote', GetOtNotes)
 api.get('/getSummary', SummaryData);
 api.get('/getStudentGatePass', GetStudentGatePass);
 api.get('/getNotes', GetNotes);
@@ -120,10 +120,7 @@ api.get('/getPayRollDetails', GetPayHead);
 api.get('/getSchools', GetSchools);
 api.get('/getLibraryCategory', GetLibraryCategory);
 api.post('/getUserDetails', GetUserDetails);
-<<<<<<< HEAD
-=======
 api.get('/getAcademicDetails', GetAcademicDetails);
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 //api.post('/studentCategory', DeleteStudentGatePass);
 
 //actions

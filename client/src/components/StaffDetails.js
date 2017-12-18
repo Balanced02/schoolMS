@@ -114,33 +114,10 @@ export default ({ data, edit, submit, headerText, editType }) => {
           </Col>
         </FormGroup>
         <FormGroup row>
-<<<<<<< HEAD
-          {!data._id ? (
-            <div>
-              <Label md={3}>User Type</Label>
-              <Col xs={12} md={5} lg={5}>
-                <Input type="select" name="userType" onChange={e => (edit ? edit(e) : '')}>
-                  <option selected disabled>
-                    {' '}
-                    Select one{' '}
-                  </option>
-                  <option value="teacher" selected={data.userType === 'teacher'}> Teaching Staff </option>
-                  <option value="non-teaching" selected={data.userType === 'non-teaching'}> Non-Teaching Staff </option>
-                  <option value="admin" selected={data.userType === 'admin'}> Admin </option>
-                </Input>
-              </Col>
-            </div>
-          ) : (
-            ''
-          )}
-          <Label md={2}>Gender</Label>
-          <Col md={3}>
-=======
           <Label xs={12} md={2}>
             Gender
           </Label>
           <Col md={4}>
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
             <Input type="select" name="gender" onChange={e => (edit ? edit(e) : '')}>
               <option value="1" disabled selected>
                 Gender

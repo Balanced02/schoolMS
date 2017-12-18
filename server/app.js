@@ -4,8 +4,9 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import Ottoman from 'ottoman';
 import dotenv from 'dotenv';
-
+import Couchbase from 'couchbase';
 import routes from './routes';
 
 const app = express();
