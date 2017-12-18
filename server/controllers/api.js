@@ -24,6 +24,10 @@ import School from '../models/School';
 import LibraryCategory from '../models/LibraryCategory';
 import studentGatePass from '../models/studentGatePass';
 import StudentCategory from '../models/StudentCategory';
+<<<<<<< HEAD
+=======
+import AcademicDetails from '../models/AcademicDetails';
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 
 import { resolve } from 'url';
 
@@ -47,11 +51,16 @@ export const CreateNotice = (req, res) => {
 
 // For creating the notes component
 export const CreateNote = (req, res) => {
+<<<<<<< HEAD
   let {date , body} = req.body;
+=======
+  let { date, body } = req.body;
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
   Note.create({
     body,
     schoolId: req.user.schoolId,
   })
+<<<<<<< HEAD
   .then(note => {
     res.json(note);
   })
@@ -64,6 +73,19 @@ export const CreateNote = (req, res) => {
 };
 
 
+=======
+    .then(note => {
+      res.json(note);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error loading clients',
+        error: err.message,
+      });
+    });
+};
+
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 export const AllCourse = async (req, res) => {
   try {
     let [courses, count] = await Promise.all([
@@ -86,10 +108,16 @@ export const AllCourse = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 
 export const GetNotes = async (req, res) => {
   try {
     let [notes,count] = await Promise.all([
+=======
+export const GetNotes = async (req, res) => {
+  try {
+    let [notes, count] = await Promise.all([
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
       Note.find({
         schoolId: req.user.schoolId,
       }).sort('created'),
@@ -114,6 +142,7 @@ export const GetNotes = async (req, res) => {
 
 export const GetStudentGatePass = async (req, res) => {
   try {
+<<<<<<< HEAD
     let [studentGatePasses,count] = await Promise.all([
       studentGatePass.find({
         schoolId: req.user.schoolId,
@@ -122,6 +151,33 @@ export const GetStudentGatePass = async (req, res) => {
         schoolId: req.user.schoolId,
       }).count(),
     ]);
+=======
+    let [studentGatePasses, count] = await Promise.all([
+      studentGatePass
+        .find({
+          schoolId: req.user.schoolId,
+        })
+        .sort('created'),
+      studentGatePass
+        .find({
+          schoolId: req.user.schoolId,
+        })
+        .count(),
+    ]);
+    let staffNames = await Users.find(
+      {
+        sid: {
+          $in: studentGatePasses.map(s => s.staffId),
+        },
+      },
+      'username sid'
+    );
+    studentGatePasses = studentGatePasses.map(gatePass => {
+      let staffName = staffNames.filter(staff => staff.sid === gatePass.sid)[0];
+      gatePass._doc.employeeName = staffName ? staffName.username : 'Admin';
+      return gatePass;
+    });
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
     return res.json({
       studentGatePasses,
       count,
@@ -135,6 +191,7 @@ export const GetStudentGatePass = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 
 // Get a list of all the student Categories
 export const GetStudentCategory = async (req, res) => {
@@ -149,6 +206,21 @@ export const GetStudentCategory = async (req, res) => {
         count,
         categories,
       });
+=======
+// Get a list of all the student Categories
+export const GetStudentCategory = async (req, res) => {
+  try {
+    let [count, categories] = await Promise.all([
+      StudentCategory.find().count(),
+      StudentCategory.find()
+        .sort('created')
+        .limit(25),
+    ]);
+    return res.json({
+      count,
+      categories,
+    });
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
   } catch (err) {
     res.status(500).json({
       message: 'Error getting categories',
@@ -157,7 +229,10 @@ export const GetStudentCategory = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 export const GetSchools = async (req, res) => {
   try {
     let [count, schools] = await Promise.all([
@@ -166,6 +241,22 @@ export const GetSchools = async (req, res) => {
         .sort('-created')
         .limit(25),
     ]);
+
+    let userModules = await Users.find(
+      {
+        schoolId: {
+          $in: schools.map(s => s.schoolId),
+        },
+      },
+      'schoolId module'
+    );
+
+    schools = schools.map(school => {
+      let uModule = userModules.filter(user => user.schoolId === school.schoolId)[0];
+      school._doc.module = uModule ? uModule.module : '';
+      return school;
+    });
+
     return res.json({
       count,
       schools,
@@ -185,7 +276,11 @@ export const SummaryData = async (req, res) => {
       Student.find({ accepted: true, schoolId: req.user.schoolId }).count(),
       Users.find({ schoolId: req.user.schoolId }).count(),
       Notice.find({ schoolId: req.user.schoolId }).sort('-created'),
+<<<<<<< HEAD
       Note.find({schoolId: req.user.schoolId}).sort('-created'),  
+=======
+      Note.find({ schoolId: req.user.schoolId }).sort('-created'),
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
     ]);
     return res.json({
       totalStudents,
@@ -204,7 +299,13 @@ export const SummaryData = async (req, res) => {
 
 export const CreateCourse = (req, res) => {
   let { courseName, courseCode, minAttendance, description } = req.body;
-  Course.create({ courseName, courseCode, minAttendance, description, schoolId: req.user.schoolId })
+  Course.create({
+    courseName,
+    courseCode,
+    minAttendance,
+    description,
+    schoolId: req.user.schoolId,
+  })
     .then(course => {
       res.json(course);
     })
@@ -367,8 +468,18 @@ export const AddClass = (req, res) => {
 // Creating the gate pass function , mimicing the create course function
 
 export const CreateStudentGatePass = (req, res) => {
+<<<<<<< HEAD
   let { studentName, contactNumber, personName, issueDate, reason,  employeeName } = req.body;
   studentGatePass.create({ studentName, contactNumber, personName, issueDate, reason, employeeName , schoolId: req.user.schoolId })
+=======
+  console.log(req.user);
+  studentGatePass
+    .create({
+      ...req.body,
+      schoolId: req.user.schoolId,
+      staffId: req.user.sid,
+    })
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
     .then(studentGatePass => {
       res.json(studentGatePass);
     })
@@ -381,6 +492,7 @@ export const CreateStudentGatePass = (req, res) => {
 };
 
 //Create the Student Category
+<<<<<<< HEAD
 
 export const CreateStudentCategory = (req, res) => {
   let {category} = req.body;
@@ -398,14 +510,35 @@ export const CreateStudentCategory = (req, res) => {
     });
     
   });
+=======
+export const CreateStudentCategory = (req, res) => {
+  let { category } = req.body;
+  StudentCategory.create({ category, schoolId: req.user.schoolId })
+    .then(StudentCategory => {
+      res.json(StudentCategory);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error creating Student Catgory',
+        error: err.message,
+      });
+    });
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 };
 
 // Function to delete the Students Gate Pass
 
+<<<<<<< HEAD
 export const DeleteStudentGatePass = (req,res) => {
   let { gatePassID } = req.body;
   studentGatePass.findOneAndRemove({gatePassID})
   .catch( err => {   //if there is any error deleting the data
+=======
+export const DeleteStudentGatePass = (req, res) => {
+  let { gatePassID } = req.body;
+  studentGatePass.findOneAndRemove({ gatePassID }).catch(err => {
+    //if there is any error deleting the data
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
     res.status(500).json({
       message: 'Unable to delete the Pass',
       error: err.message,
@@ -413,7 +546,10 @@ export const DeleteStudentGatePass = (req,res) => {
   });
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 export const UpdateClass = (req, res) => {
   let { _id } = req.body;
   ClassDetails.findOneAndUpdate(
@@ -439,7 +575,11 @@ export const UpdateClass = (req, res) => {
 };
 
 export const LeaveApplication = (req, res) => {
-  Leave.create({ ...req.body, schoolId: req.user.schoolId, teacherId: req.user.sid })
+  Leave.create({
+    ...req.body,
+    schoolId: req.user.schoolId,
+    teacherId: req.user.sid,
+  })
     .then(leave => {
       res.json(leave);
     })
@@ -789,7 +929,11 @@ const dbx = new Dropbox({
 const upload = (data, path) => {
   return new Promise((resolve, reject) => {
     dbx
-      .filesUpload({ autorename: true, path: '/logos/' + path + '.jpeg', contents: data })
+      .filesUpload({
+        autorename: true,
+        path: '/logos/' + path + '.jpeg',
+        contents: data,
+      })
       .then(response => {
         resolve(response);
       })
@@ -958,4 +1102,79 @@ export const UploadUserDetails = async (req, res) => {
       error: err.message,
     });
   }
+};
+
+export const GetAcademicDetails = (req, res) => {
+  AcademicDetails.find({ schoolId: req.user.schoolId })
+    .then(data => res.json(data))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Error Fetching Department',
+        error: err.message,
+      });
+    });
+};
+
+export const AcademicDetailsUpdate = (req, res) => {
+  let { _id } = req.body;
+  if (_id) {
+    AcademicDetails.findOneAndUpdate(
+      { _id },
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      {
+        new: true,
+      }
+    )
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        res.status(500).json({
+          message: 'Error updating',
+          error: err.message,
+        });
+      });
+  } else {
+    AcademicDetails.create({
+      ...req.body,
+      schoolId: req.user.schoolId,
+    })
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        res.status(500).json({
+          message: 'Error Creating',
+          error: err.message,
+        });
+      });
+  }
+};
+
+export const UpdateUserModule = (req, res) => {
+  let { schoolId, module } = req.body;
+  Users.updateMany(
+    {
+      schoolId: schoolId,
+    },
+    {
+      $set: {
+        module: module,
+      },
+    }
+  )
+    .then(course => {
+      res.json(course);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error Updating Course',
+        error: err.message,
+      });
+    });
 };

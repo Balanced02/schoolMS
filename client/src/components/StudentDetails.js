@@ -73,9 +73,18 @@ export default ({ data, submit, edit, classes }) => {
                     {' '}
                     Select one{' '}
                   </option>
-                  {classes.map(c => {
-                    <option value={c.className}>{c.className}</option>;
-                  })}
+                  {classes.searching ? (
+                    <option>
+                      {' '}
+                      <i className="fa fa-spinner fa-spin" />{' '}
+                    </option>
+                  ) : !classes.searching && !classes.searchResults ? (
+                    <i />
+                  ) : (
+                    classes.searchResults.map(data => (
+                      <option value={data.sid}>{data.classTitle}</option>
+                    ))
+                  )}
                 </Input>
               </Col>
               <Label md={2}>Gender</Label>
@@ -224,7 +233,7 @@ export default ({ data, submit, edit, classes }) => {
             <Col md={10}>
               <Input
                 type="textarea"
-                value={data.address}
+                value={data.pAddress}
                 name="pAddress"
                 placeholder="Address"
                 onChange={e => edit(e)}

@@ -1,8 +1,16 @@
 import React from 'react';
+<<<<<<< HEAD
 
 import { CardHeader, Table, Card, CardBlock } from 'reactstrap';
 
 export default ({ data}) => {
+=======
+import moment from 'moment';
+
+import { CardHeader, Table, Card, CardBlock } from 'reactstrap';
+
+export default ({ data }) => {
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
   return (
     <div className="container-fluid" style={{ paddingTop: 15 }}>
       <Card>
@@ -28,6 +36,7 @@ export default ({ data}) => {
                 </tr>
               </thead>
               <tbody>
+<<<<<<< HEAD
               {data.studentGatePasses.map(function(gatePass,i){
                         return (
                          <tr key={gatePass._id}>
@@ -41,6 +50,21 @@ export default ({ data}) => {
                   </tr>
                         )
                       })}
+=======
+                {data.studentGatePasses.map(function(gatePass, i) {
+                  return (
+                    <tr key={gatePass._id}>
+                      <td> {i + 1} </td>
+                      <td> {gatePass.studentName} </td>
+                      <td> {gatePass.contactNumber} </td>
+                      <td> {gatePass.personName} </td>
+                      <td> {gatePass.employeeName} </td>
+                      <td> {gatePass.reason} </td>
+                      <td> {moment(gatePass.issueDate).format('MMM Do YY')} </td>
+                    </tr>
+                  );
+                })}
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
               </tbody>
             </Table>
           )}

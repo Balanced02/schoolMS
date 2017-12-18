@@ -35,9 +35,8 @@ import ViewSchools from '../../views/ViewSchools';
 import Profile from '../../views/Profile';
 import CourseMaterial from '../../components/CourseMaterial.js';
 import StudentCategory from '../../views/StudentCategory';
-
-
-
+import AcademicYear from '../../views/AcademicYear';
+import ModuleSelection from '../../views/ModuleSelection/ModuleSelection';
 class Full extends Component {
   constructor(props) {
     super(props);
@@ -85,7 +84,7 @@ class Full extends Component {
                   <Route path="/dashboard" name="Dashboard" component={Dashboard} />
                   <Route path="/employeeList" name="EmployeeList" component={EmployeeList} />
                   <Route path="/studentList" name="Student List" component={StudentList} />
-                  <Route path="/studentGatePass" name="Student List" component={studentGatePass} />
+                  <Route path="/studentGatePass" name="Student Pass" component={studentGatePass} />
                   <Route path="/department" name="Department" component={Department} />
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route path="/addCourse" name="Course" component={Course} />
@@ -95,8 +94,13 @@ class Full extends Component {
                   <Route path="/leaveApprovals" name="Leave Approvals" component={Leave} />
                   <Route path="/leaveCategory" name="Leave Category" component={LeaveCategory} />
                   <Route path="/addDesignation" name="Add Designation" component={AddDesignation} />
+                  <Route path="/academicYear" name="Academic Year" component={AcademicYear} />
                   <Route path="/payHead" name="Pay Head" component={payHead} />
-                  <Route path="/studentCategory" name="Student Category" component={StudentCategory}/>
+                  <Route
+                    path="/studentCategory"
+                    name="Student Category"
+                    component={StudentCategory}
+                  />
                   <Route path="/profile" name="Profile" component={Profile} />
                   <Route
                     path="/libraryCategory"
@@ -155,6 +159,11 @@ class Full extends Component {
                   <Route path="/addSchool" name="Add School" component={InstitutionDetails} />
                   <Route path="/viewSchools" name="School Lists" component={ViewSchools} />
                   <Route path="/profile" name="Profile" component={Profile} />
+                  <Route
+                    path="/moduleSelection"
+                    name="Module Selection"
+                    component={ModuleSelection}
+                  />
                   <Redirect from="/" to="/dashboard" />
                 </Switch>
               </Container>

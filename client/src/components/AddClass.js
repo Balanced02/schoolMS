@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Form, FormGroup, Label, Input, Button, Badge } from 'reactstrap';
 
-export default ({ data, edit, submit, teachers }) => {
+export default ({ data, edit, submit, teachers, loading }) => {
   return (
     <Form>
       <FormGroup>
@@ -54,7 +54,7 @@ export default ({ data, edit, submit, teachers }) => {
         </Input>
       </FormGroup>
       <Button color="primary" onClick={submit}>
-        Save
+        Save {loading ? <i className="fa fa-2x fa-spinner fa-spin" /> : <i />}
       </Button>
     </Form>
   );

@@ -50,6 +50,12 @@ import {
   UploadUserDetails,
   CreateStudentCategory,
   GetStudentCategory,
+<<<<<<< HEAD
+=======
+  GetAcademicDetails,
+  AcademicDetailsUpdate,
+  UpdateUserModule,
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 } from './controllers/api';
 
 const app = express();
@@ -114,6 +120,10 @@ api.get('/getPayRollDetails', GetPayHead);
 api.get('/getSchools', GetSchools);
 api.get('/getLibraryCategory', GetLibraryCategory);
 api.post('/getUserDetails', GetUserDetails);
+<<<<<<< HEAD
+=======
+api.get('/getAcademicDetails', GetAcademicDetails);
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 //api.post('/studentCategory', DeleteStudentGatePass);
 
 //actions
@@ -148,5 +158,7 @@ api.post('/addLibraryCategory', LibraryCategoryUpdate);
 api.post('/updateSchool', UpdateSchool);
 api.post('/uploadFile', upload.single('logos'), UploadFile);
 api.post('/updateUserDetails', UploadUserDetails);
+api.post('/newAcademicYear', AcademicDetailsUpdate);
+api.post('/updateUserModule', UpdateUserModule);
 
 export default router;

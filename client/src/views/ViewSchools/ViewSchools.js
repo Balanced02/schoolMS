@@ -40,7 +40,7 @@ class SchoolList extends Component {
           uploading: false,
         })
       )
-      .catch(err => this.props.dispatch(showError('Error Loading TeacherList')));
+      .catch(err => this.props.dispatch(showError('Error Loading School List')));
   }
 
   changeImage() {

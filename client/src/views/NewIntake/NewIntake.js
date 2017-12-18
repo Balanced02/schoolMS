@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardBlock,
 } from 'reactstrap';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
@@ -19,13 +20,31 @@ class NewIntake extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      studentInfo: {},
-      classes: [],
+      academicYear: {
+        searching: true,
+        searchResults: [],
+      },
+      studentInfo: {
+        username: '',
+        className: '',
+        surName: '',
+        otherNames: '',
+        dob: '',
+        gender: '',
+        bloodGroup: '',
+        address: '',
+        phone: '',
+        pName: '',
+        pOccupation: '',
+        pPhoneNumber: '',
+        pOfficeAddress: '',
+        pAddress: '',
+      },
+      classes: {
+        searchResults: [],
+        searching: true,
+      },
     };
-  }
-
-  componentWillMount() {
-    this.initialState = this.state;
   }
 
   edit(e) {
@@ -46,7 +65,11 @@ class NewIntake extends Component {
       this.props.dispatch(showError('All fields must be filled'));
     } else {
       this.props.dispatch(showInfo('Generating Admission Number...'));
+<<<<<<< HEAD
       this.newIntake();
+=======
+      // this.newIntake();
+>>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
     }
   }
 
@@ -59,8 +82,40 @@ class NewIntake extends Component {
       .catch(err => this.props.dispatch(showError(err)));
   }
 
+  getAcademicYear() {
+    callApi('/getAcademicDetails')
+      .then(data => {
+        this.setState({
+          academicYear: {
+            searchResults: data,
+            searching: false,
+          },
+        });
+      })
+      .catch(err => this.props.dispatch(showError('Error fetching Academic Details')));
+  }
+
+  getClassList() {
+    callApi('/allClass')
+      .then(data =>
+        this.setState({
+          classes: {
+            searchResults: data.data,
+            searching: false,
+          },
+        })
+      )
+      .catch(err => this.props.dispatch(showError('Error Loading Class List')));
+  }
+
+  componentWillMount() {
+    this.getAcademicYear();
+    this.getClassList();
+    this.initialState = this.state;
+  }
+
   render() {
-    const { classes } = this.state;
+    const { classes, studentInfo } = this.state;
     return (
       <div className="container">
         <Card className="container" style={{ padding: 10 }}>
@@ -70,11 +125,28 @@ class NewIntake extends Component {
               <FormGroup row>
                 <Label md={2}>Academic Year</Label>
                 <Col md={4}>
-                  <Input type="select" name="gender" onChange={e => this.edit(e)}>
+                  <Input type="select" name="academicYear" onChange={e => this.edit(e)}>
                     <option value="1" disabled selected>
                       Select Academic Year
                     </option>
-                    <option value="Male">2016-2017</option>
+                    {this.state.academicYear.searching ? (
+                      <option>
+                        {' '}
+                        <i className="fa fa-spinner fa-spin" />{' '}
+                      </option>
+                    ) : !this.state.academicYear.searching &&
+                    !this.state.academicYear.searchResults ? (
+                      <i />
+                    ) : (
+                      this.state.academicYear.searchResults.map(data => (
+                        <option value={data.sid}>
+                          {' '}
+                          {moment(data.startYear).format('MMM YYYY') +
+                            '/' +
+                            moment(data.endYear).format('MMM YYYY')}{' '}
+                        </option>
+                      ))
+                    )}
                   </Input>
                 </Col>
                 <Label md={2}>Joining Date</Label>
@@ -84,8 +156,8 @@ class NewIntake extends Component {
               </FormGroup>
             </CardBlock>
             <StudentDetails
-              data={this.state.studentInfo}
-              classes={this.state.classes}
+              data={studentInfo}
+              classes={classes}
               edit={e => this.edit(e)}
               submit={() => this.submit()}
             />
