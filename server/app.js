@@ -13,7 +13,7 @@ app.disable('x-powered-by');
 //mongodb://schoolms:schoolms@ds051630.mlab.com:51630/schoolms
 //mongodb://localhost/schoolMSdev
 
-mongoose.connect('', err => {
+mongoose.connect('mongodb://samie820:Agboworin_9254@ds117316.mlab.com:17316/schoolms', err => {
   if (err) {
     console.error(err);
     process.exit(1);
