@@ -53,7 +53,8 @@ class ModuleSelection extends Component {
   select(data) {
     this.setState({
       school: {
-        ...data,
+        schoolId: data.schoolId,
+        module: data.module,
       },
     });
   }

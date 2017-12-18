@@ -46,7 +46,7 @@ var usersSchema = new Schema({
   module: {
     type: String,
     lowercase: true,
-    default: 'gold'
+    default: 'bronze'
   }
 });
 
