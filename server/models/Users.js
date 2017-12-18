@@ -26,6 +26,11 @@ const usersSchema = new Schema({
     trim: true,
     required: true,
   },
+  module: {
+    type: String,
+    lowercase: true,
+    default: 'gold',
+  },
 });
 
 usersSchema.plugin(LocalMongoose);

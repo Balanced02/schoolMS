@@ -52,6 +52,7 @@ import {
   GetStudentCategory,
   GetAcademicDetails,
   AcademicDetailsUpdate,
+  UpdateUserModule,
 } from './controllers/api';
 
 const app = express();
@@ -152,5 +153,6 @@ api.post('/updateSchool', UpdateSchool);
 api.post('/uploadFile', upload.single('logos'), UploadFile);
 api.post('/updateUserDetails', UploadUserDetails);
 api.post('/newAcademicYear', AcademicDetailsUpdate);
+api.post('/updateUserModule', UpdateUserModule);
 
 export default router;

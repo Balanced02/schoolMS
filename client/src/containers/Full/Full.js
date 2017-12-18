@@ -36,6 +36,7 @@ import Profile from '../../views/Profile';
 import CourseMaterial from '../../components/CourseMaterial.js';
 import StudentCategory from '../../views/StudentCategory';
 import AcademicYear from '../../views/AcademicYear';
+import ModuleSelection from '../../views/ModuleSelection/ModuleSelection';
 class Full extends Component {
   constructor(props) {
     super(props);
@@ -88,11 +89,6 @@ class Full extends Component {
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route path="/addCourse" name="Course" component={Course} />
                   <Route path="/addEmployee" name="Add Employee" component={AddEmployee} />
-                  <Route
-                    path="/courseMaterials"
-                    name="Course Materials"
-                    component={CourseMaterial}
-                  />
                   <Route path="/newIntake" name="New Intake" component={NewIntake} />
                   <Route path="/leaveApprovals" name="Leave Approvals" component={Leave} />
                   <Route path="/leaveCategory" name="Leave Category" component={LeaveCategory} />
@@ -162,6 +158,11 @@ class Full extends Component {
                   <Route path="/addSchool" name="Add School" component={InstitutionDetails} />
                   <Route path="/viewSchools" name="School Lists" component={ViewSchools} />
                   <Route path="/profile" name="Profile" component={Profile} />
+                  <Route
+                    path="/moduleSelection"
+                    name="Module Selection"
+                    component={ModuleSelection}
+                  />
                   <Redirect from="/" to="/dashboard" />
                 </Switch>
               </Container>

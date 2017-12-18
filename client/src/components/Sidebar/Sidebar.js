@@ -133,7 +133,13 @@ class Sidebar extends Component {
         <SidebarForm />
         <nav className="sidebar-nav">
           <Nav>
-            {navList(this.state.nav.filter(nav => nav.category.includes(this.state.user.userType)))}
+            {navList(
+              this.state.nav.filter(
+                nav =>
+                  nav.category.includes(this.state.user.userType) &&
+                  nav.module.includes(this.state.user.module)
+              )
+            )}
           </Nav>
         </nav>
         <SidebarFooter />

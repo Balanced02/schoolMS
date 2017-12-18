@@ -5,6 +5,7 @@ export default {
       url: '/dashboard',
       icon: 'fa fa-line-chart fa-2x',
       category: 'admin teacher super',
+      module: 'bronze, silver, gold',
       badge: {
         variant: 'info',
         text: 'NEW',
@@ -15,6 +16,7 @@ export default {
       url: '/schoolManagement',
       icon: 'fa fa-users fa-2x',
       category: 'super',
+      module: 'bronze, silver, gold',
       badge: {
         variant: 'info',
         text: 'NEW',
@@ -28,6 +30,10 @@ export default {
           name: 'View Schools',
           url: '/viewSchools',
         },
+        {
+          name: 'Module Selection',
+          url: '/moduleSelection',
+        },
       ],
     },
     {
@@ -35,6 +41,7 @@ export default {
       url: '/academic',
       icon: 'fa fa-graduation-cap fa-2x',
       category: 'admin',
+      module: 'bronze, silver, gold',
       children: [
         {
           name: 'Student',
@@ -51,27 +58,27 @@ export default {
             },
             {
               name: 'Attendance',
-              url: '/attendance'
+              url: '/attendance',
             },
             {
               name: 'Guardian List',
-              url: '/guardianList'
+              url: '/guardianList',
             },
             {
               name: 'Student List',
-              url: '/studentList'
+              url: '/studentList',
             },
-             {
+            {
               name: 'Roll Number',
-              url: '/rollNumber'
+              url: '/rollNumber',
             },
-             {
+            {
               name: 'Student Attendance Import',
-              url: '/studentAttendanceImport'
+              url: '/studentAttendanceImport',
             },
-             {
+            {
               name: 'Student Gate Pass',
-              url: '/studentGatePass'
+              url: '/studentGatePass',
             },
           ],
         },
@@ -82,6 +89,7 @@ export default {
       url: '/admission',
       icon: 'fa fa-lock fa-2x',
       category: 'admin',
+      module: 'bronze, silver, gold',
       children: [
         {
           name: 'New Intake',
@@ -97,8 +105,8 @@ export default {
         },
         {
           name: 'Academic Year',
-          url: '/academicYear'
-        }
+          url: '/academicYear',
+        },
       ],
     },
     {
@@ -106,6 +114,7 @@ export default {
       url: '/academics',
       icon: 'fa fa-book fa-2x',
       category: 'teacher',
+      module: 'bronze, silver, gold',
       children: [
         {
           name: 'Assignment/Test',
@@ -125,6 +134,7 @@ export default {
       name: 'Leave Application',
       url: '/leaveApplication',
       icon: 'fa fa-bathtub fa-2x',
+      module: 'bronze, silver, gold',
       category: 'teacher',
     },
     {
@@ -132,6 +142,7 @@ export default {
       url: '/academic',
       icon: 'fa fa-eye fa-2x',
       category: 'admin',
+      module: 'bronze, silver, gold',
       children: [
         {
           name: 'Employee Management',
@@ -193,6 +204,7 @@ export default {
       name: 'Library',
       url: '/library',
       category: 'admin',
+      module: 'silver, gold',
       icon: 'fa fa-sliders fa-2x',
       children: [
         {
@@ -221,6 +233,7 @@ export default {
       name: 'Transport',
       url: '/transport',
       category: 'admin',
+      module: 'silver, gold',
       icon: 'fa fa-bus fa-2x',
       children: [
         {
@@ -244,6 +257,7 @@ export default {
     {
       name: 'Store Management',
       url: '/storeManagement',
+      module: 'silver, gold',
       category: 'admin',
       icon: 'fa fa-sliders fa-2x',
       children: [
@@ -256,6 +270,7 @@ export default {
     {
       name: 'Reports',
       url: '/reports',
+      module: 'gold',
       category: 'admin',
       icon: 'fa fa-sliders fa-2x',
       children: [
@@ -273,6 +288,7 @@ export default {
       name: 'Settings',
       url: '/adminSettings',
       category: 'admin',
+      module: 'silver, gold',
       icon: 'fa fa-sliders fa-2x',
       children: [
         {
@@ -295,6 +311,7 @@ export default {
     },
     {
       name: 'Visitors',
+      module: 'bronze, silver, gold',
       url: '/visitors',
       category: 'admin teacher',
       icon: 'fa fa-male fa-2x',

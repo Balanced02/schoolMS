@@ -180,6 +180,22 @@ export const GetSchools = async (req, res) => {
         .sort('-created')
         .limit(25),
     ]);
+
+    let userModules = await Users.find(
+      {
+        schoolId: {
+          $in: schools.map(s => s.schoolId),
+        },
+      },
+      'schoolId module'
+    );
+
+    schools = schools.map(school => {
+      let uModule = userModules.filter(user => user.schoolId === school.schoolId)[0];
+      school._doc.module = uModule ? uModule.module : '';
+      return school;
+    });
+
     return res.json({
       count,
       schools,
@@ -1034,4 +1050,27 @@ export const AcademicDetailsUpdate = (req, res) => {
         });
       });
   }
+};
+
+export const UpdateUserModule = (req, res) => {
+  let { schoolId, module } = req.body;
+  Users.updateMany(
+    {
+      schoolId: schoolId,
+    },
+    {
+      $set: {
+        module: module,
+      },
+    }
+  )
+    .then(course => {
+      res.json(course);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Error Updating Course',
+        error: err.message,
+      });
+    });
 };
