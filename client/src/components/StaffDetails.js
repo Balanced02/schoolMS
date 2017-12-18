@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardHeader, CardBlock, FormGroup, Label, Col, Input, Button } from 'reactstrap';
+import { Card, CardHeader, CardBlock, FormGroup, Label, Col, Input, Button, Row } from 'reactstrap';
 
 export default ({ data, edit, submit, headerText, editType }) => {
   return (
@@ -114,26 +114,10 @@ export default ({ data, edit, submit, headerText, editType }) => {
           </Col>
         </FormGroup>
         <FormGroup row>
-          {!data._id ? (
-            <div>
-              <Label md={3}>User Type</Label>
-              <Col xs={12} md={5} lg={5}>
-                <Input type="select" name="userType" onChange={e => (edit ? edit(e) : '')}>
-                  <option selected disabled>
-                    {' '}
-                    Select one{' '}
-                  </option>
-                  <option value="teacher" selected={data.userType === 'teacher'}> Teaching Staff </option>
-                  <option value="non-teaching" selected={data.userType === 'non-teaching'}> Non-Teaching Staff </option>
-                  <option value="admin" selected={data.userType === 'admin'}> Admin </option>
-                </Input>
-              </Col>
-            </div>
-          ) : (
-            ''
-          )}
-          <Label md={2}>Gender</Label>
-          <Col md={3}>
+          <Label xs={12} md={2}>
+            Gender
+          </Label>
+          <Col md={4}>
             <Input type="select" name="gender" onChange={e => (edit ? edit(e) : '')}>
               <option value="1" disabled selected>
                 Gender
@@ -146,6 +130,35 @@ export default ({ data, edit, submit, headerText, editType }) => {
               </option>
             </Input>
           </Col>
+          {!data._id ? (
+            <Row>
+              <Label xs={12} md={6}>
+                User Type
+              </Label>
+              <Col xs={12} md={6}>
+                <Input type="select" name="userType" onChange={e => (edit ? edit(e) : '')}>
+                  <option selected disabled>
+                    {' '}
+                    Select one{' '}
+                  </option>
+                  <option value="teacher" selected={data.userType === 'teacher'}>
+                    {' '}
+                    Teaching Staff{' '}
+                  </option>
+                  <option value="non-teaching" selected={data.userType === 'non-teaching'}>
+                    {' '}
+                    Non-Teaching Staff{' '}
+                  </option>
+                  <option value="admin" selected={data.userType === 'admin'}>
+                    {' '}
+                    Admin{' '}
+                  </option>
+                </Input>
+              </Col>
+            </Row>
+          ) : (
+            ''
+          )}
         </FormGroup>
         <FormGroup row>
           <Label md={2}>Address</Label>

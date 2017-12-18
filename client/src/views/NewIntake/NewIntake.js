@@ -10,11 +10,11 @@ import {
   CardHeader,
   CardBlock,
 } from 'reactstrap';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
 import StudentDetails from '../../components/StudentDetails';
-import moment from 'moment';
 
 class NewIntake extends Component {
   constructor(props) {
@@ -24,13 +24,27 @@ class NewIntake extends Component {
         searching: true,
         searchResults: [],
       },
-      studentInfo: {},
-      classes: [],
+      studentInfo: {
+        username: '',
+        className: '',
+        surName: '',
+        otherNames: '',
+        dob: '',
+        gender: '',
+        bloodGroup: '',
+        address: '',
+        phone: '',
+        pName: '',
+        pOccupation: '',
+        pPhoneNumber: '',
+        pOfficeAddress: '',
+        pAddress: '',
+      },
+      classes: {
+        searchResults: [],
+        searching: true,
+      },
     };
-  }
-
-  componentWillMount() {
-    this.initialState = this.state;
   }
 
   edit(e) {
@@ -51,7 +65,7 @@ class NewIntake extends Component {
       this.props.dispatch(showError('All fields must be filled'));
     } else {
       this.props.dispatch(showInfo('Generating Admission Number...'));
-      this.newIntake();
+      // this.newIntake();
     }
   }
 
@@ -67,7 +81,6 @@ class NewIntake extends Component {
   getAcademicYear() {
     callApi('/getAcademicDetails')
       .then(data => {
-        console.log(data);
         this.setState({
           academicYear: {
             searchResults: data,
@@ -78,12 +91,27 @@ class NewIntake extends Component {
       .catch(err => this.props.dispatch(showError('Error fetching Academic Details')));
   }
 
+  getClassList() {
+    callApi('/allClass')
+      .then(data =>
+        this.setState({
+          classes: {
+            searchResults: data.data,
+            searching: false,
+          },
+        })
+      )
+      .catch(err => this.props.dispatch(showError('Error Loading Class List')));
+  }
+
   componentWillMount() {
     this.getAcademicYear();
+    this.getClassList();
+    this.initialState = this.state;
   }
 
   render() {
-    const { classes } = this.state;
+    const { classes, studentInfo } = this.state;
     return (
       <div className="container">
         <Card className="container" style={{ padding: 10 }}>
@@ -98,7 +126,7 @@ class NewIntake extends Component {
                       Select Academic Year
                     </option>
                     {this.state.academicYear.searching ? (
-                      <option value="Male">
+                      <option>
                         {' '}
                         <i className="fa fa-spinner fa-spin" />{' '}
                       </option>
@@ -124,8 +152,8 @@ class NewIntake extends Component {
               </FormGroup>
             </CardBlock>
             <StudentDetails
-              data={this.state.studentInfo}
-              classes={this.state.classes}
+              data={studentInfo}
+              classes={classes}
               edit={e => this.edit(e)}
               submit={() => this.submit()}
             />

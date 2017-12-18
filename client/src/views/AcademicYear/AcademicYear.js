@@ -47,7 +47,6 @@ class AcademicYear extends Component {
   getAcademicYear() {
     callApi('/getAcademicDetails')
       .then(data => {
-        console.log(data);
         this.setState({
           data: {
             searchResults: data,

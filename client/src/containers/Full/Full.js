@@ -83,7 +83,7 @@ class Full extends Component {
                   <Route path="/dashboard" name="Dashboard" component={Dashboard} />
                   <Route path="/employeeList" name="EmployeeList" component={EmployeeList} />
                   <Route path="/studentList" name="Student List" component={StudentList} />
-                  <Route path="/studentGatePass" name="Student List" component={studentGatePass} />
+                  <Route path="/studentGatePass" name="Student Pass" component={studentGatePass} />
                   <Route path="/department" name="Department" component={Department} />
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route path="/addCourse" name="Course" component={Course} />
