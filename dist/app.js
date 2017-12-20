@@ -24,13 +24,25 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _ottoman = require('ottoman');
+
+var _ottoman2 = _interopRequireDefault(_ottoman);
+
 var _dotenv = require('dotenv');
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
 
+var _couchbase = require('couchbase');
+
+var _couchbase2 = _interopRequireDefault(_couchbase);
+
 var _routes = require('./routes');
 
 var _routes2 = _interopRequireDefault(_routes);
+
+var _ottoman_routes = require('./ottoman_routes');
+
+var _ottoman_routes2 = _interopRequireDefault(_ottoman_routes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38,6 +50,10 @@ var app = (0, _express2.default)();
 app.disable('x-powered-by');
 //mongodb://schoolms:schoolms@ds051630.mlab.com:51630/schoolms
 //mongodb://localhost/schoolMSdev
+
+// var bucket = (new Couchbase.Cluster("couchbase://localhost")).openBucket("example");
+// Ottoman.store = new Ottoman.CbStoreAdapter(bucket, Couchbase);
+
 
 _mongoose2.default.connect('mongodb://samie820:Agboworin_9254@ds117316.mlab.com:17316/schoolms', function (err) {
   if (err) {

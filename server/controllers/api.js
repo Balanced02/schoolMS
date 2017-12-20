@@ -25,7 +25,7 @@ import LibraryCategory from '../models/LibraryCategory';
 import studentGatePass from '../models/studentGatePass';
 import StudentCategory from '../models/StudentCategory';
 import AcademicDetails from '../models/AcademicDetails';
-import noteModel from '../../ottoman_models/Note';
+// import noteModel from '../../ottoman_models/Note';
 
 
 import { resolve } from 'url';

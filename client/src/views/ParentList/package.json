@@ -1,0 +1,6 @@
+{
+  "name": "ParentList",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./ParentList.js"
+}

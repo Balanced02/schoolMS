@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { callApi } from '../../utils';
 import { showError, showInfo } from '../../actions/feedback';
 import AddStudentCategory from '../../components/AddStudentCategory';
-import studentCategoryList from '../../components/studentCategoryList';
+import StudentCategoryList from '../../components/StudentCategoryList';
 
 
 class StudentCategory extends Component {
@@ -15,10 +15,7 @@ class StudentCategory extends Component {
             studentCategory: {
                category: '',
             },
-            studentCategoryList:{
-              searching: true,
-              studentCategories:[],
-            },
+            studentCategories:[],
         };
     }
     
@@ -36,11 +33,8 @@ class StudentCategory extends Component {
         callApi('/getStudentCategory')
         .then(data => 
             this.setState({
-              studentCategoryList:{
-                  ...this.state.studentCategoryList,
                   searching: false,
-                  studentCategoryList: data.categories,
-              },  
+                  studentCategories: data.categories,
             })
         )
         .catch(err => this.props.dispatch(showError('Unable to fetch Categories')))
@@ -71,27 +65,31 @@ class StudentCategory extends Component {
     
     
     render(){
-        const {studentCategory, studentCategoryList} = this.state
+        const {studentCategory, studentCategories, searching} = this.state
         return(
             <div className="animated fadeIn container">
-            <h1>It just worked</h1>
             <Card className="cotainer" style={{padding:10}}>
                 <Row>
-                    <Col>
-                        <AddStudentCategory
-                        data = {studentCategory}
-                        edit = {e => this.editCategory(e)}
-                        submit = {() => this.createCategory()}
+                    <div>
+                        <Col>
+                            <AddStudentCategory
+                                data = {studentCategory}
+                                edit = {e => this.editCategory(e)}
+                                submit = {() => this.createCategory()}
+                            />
+                        </Col>
+                    </div>
+                <Col>
+                    <div style={{ alignSelf: 'stretch', flex: 1 }}>
+                        <StudentCategoryList
+                        data = {studentCategories}
+                        searching = {searching}
                         />
-                    </Col>
-                    <Col>
-                        <studentCategoryList
-                        data = {studentCategoryList}
-                        />
-                    </Col>
-                </Row>
-            </Card>
-            </div>
+                    </div>
+                </Col>
+            </Row>
+        </Card>
+        </div>
             
             
             );

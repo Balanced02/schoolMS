@@ -5,6 +5,7 @@ import Teacher from '../models/Teacher';
 import Student from '../models/Student';
 import Admin from '../models/Admin';
 import School from '../models/School';
+import Parent from '../models/Parent';
 import { resolve } from 'path';
 
 export const Register = (req, res) => {
@@ -109,13 +110,16 @@ export const CreateSchool = (req, res) => {
     });
 };
 
+
 const createUser = (userType, body, id) => {
   let User =
     userType === 'teacher'
       ? Teacher
       : userType === 'student' ? Student : userType === 'admin' ? Admin : Teacher;
+  let Parent = User === 'Student' 
   return new Promise((resolve, reject) => {
     User.create({ ...body, sid: id })
+    Parent.create({})
       .then(user => {
         resolve(user);
       })
@@ -153,7 +157,7 @@ export const AuthMe = (req, res) => {
 // Auth Middleware
 export const RedirectNoAuth = (req, res, next) => {
   if (!req.user) {
-    return res.redirect('/whatever');
+    return res.redirect('/GetOtNotes');
   }
   return next();
 };

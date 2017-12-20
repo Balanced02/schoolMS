@@ -37,6 +37,9 @@ import CourseMaterial from '../../components/CourseMaterial.js';
 import StudentCategory from '../../views/StudentCategory';
 import AcademicYear from '../../views/AcademicYear';
 import ModuleSelection from '../../views/ModuleSelection/ModuleSelection';
+import ParentList from '../../views/ParentList';
+
+
 class Full extends Component {
   constructor(props) {
     super(props);
@@ -85,6 +88,7 @@ class Full extends Component {
                   <Route path="/employeeList" name="EmployeeList" component={EmployeeList} />
                   <Route path="/studentList" name="Student List" component={StudentList} />
                   <Route path="/studentGatePass" name="Student Pass" component={studentGatePass} />
+                  <Route path="/guardianList" name="Guardian List" component={ParentList} />
                   <Route path="/department" name="Department" component={Department} />
                   <Route path="/visitors" name="Department" component={Visitor} />
                   <Route path="/addCourse" name="Course" component={Course} />

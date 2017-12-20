@@ -8,11 +8,15 @@ import Ottoman from 'ottoman';
 import dotenv from 'dotenv';
 import Couchbase from 'couchbase';
 import routes from './routes';
-
+import routess from './ottoman_routes';
 const app = express();
 app.disable('x-powered-by');
 //mongodb://schoolms:schoolms@ds051630.mlab.com:51630/schoolms
 //mongodb://localhost/schoolMSdev
+
+// var bucket = (new Couchbase.Cluster("couchbase://localhost")).openBucket("example");
+// Ottoman.store = new Ottoman.CbStoreAdapter(bucket, Couchbase);
+
 
 mongoose.connect('mongodb://samie820:Agboworin_9254@ds117316.mlab.com:17316/schoolms', err => {
   if (err) {

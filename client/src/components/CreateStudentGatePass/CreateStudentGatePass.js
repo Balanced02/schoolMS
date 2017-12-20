@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-
-import { Form, FormGroup, Label, Input, Button, Badge, Col } from 'reactstrap';
-=======
 import React from "react";
 
 import {
@@ -15,7 +10,6 @@ import {
   Col,
   Row
 } from "reactstrap";
->>>>>>> 01ba8c60c39f7a915a54fbd7a8feeff51929de31
 
 export default ({ data, edit, submit }) => {
   return (
@@ -38,7 +32,7 @@ export default ({ data, edit, submit }) => {
         <Row>
           <Col xs={12} sm={4}>
             <Label for="personName">
-              Person Name
+              Guardian Name
               <span style={{ color: "red" }}> *</span>
             </Label>
             <Input
