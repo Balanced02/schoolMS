@@ -8,7 +8,6 @@ import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 import multer from 'multer';
 
-
 import Users from './models/Users';
 
 import { Register, Login, Logout, RedirectNoAuth, AuthMe, CreateSchool } from './controllers/auth';
@@ -103,7 +102,7 @@ api.get('/auth/logout', Logout);
 api.use(RedirectNoAuth);
 
 //Queries
-api.get('/getOtnote', GetOtNotes)
+api.get('/getOtnote', GetOtNotes);
 api.get('/getSummary', SummaryData);
 api.get('/getStudentGatePass', GetStudentGatePass);
 api.get('/getNotes', GetNotes);
